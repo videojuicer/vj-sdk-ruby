@@ -9,7 +9,9 @@ begin
     gem.email = "dan@videojuicer.com"
     gem.homepage = "http://github.com/danski/vj-sdk"
     gem.authors = ["danski", "thejohnny", "knowtheory", "sixones"]
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    
+    # Declare dependencies
+    gem.add_dependency "oauth", ">= 0.3.3"
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
