@@ -6,21 +6,21 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "vj-sdk"
     gem.summary = %Q{TODO}
-    gem.email = "dan@angryamoeba.co.uk"
+    gem.email = "dan@videojuicer.com"
     gem.homepage = "http://github.com/danski/vj-sdk"
-    gem.authors = ["danski"]
+    gem.authors = ["danski", "thejohnny", "knowtheory", "sixones"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/*_test.rb'
-  test.verbose = true
+require 'spec/rake/spectask'
+Spec::Rake::SpecTask.new do |t|
+  t.spec_opts = ['--options', 'spec/spec.opts']
+  t.spec_files = FileList['spec/**/*_spec.rb']
 end
+task :default => :spec
 
 begin
   require 'rcov/rcovtask'
@@ -34,9 +34,6 @@ rescue LoadError
     abort "RCov is not available. In order to run rcov, you must: sudo gem install spicycode-rcov"
   end
 end
-
-
-task :default => :test
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
