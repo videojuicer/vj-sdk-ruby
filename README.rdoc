@@ -1,0 +1,7 @@
+= vj-sdk
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 danski. See LICENSE for details.
