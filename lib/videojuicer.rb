@@ -1,5 +1,7 @@
 require 'rubygems'
-require 'hmac'
+require 'hmac/sha1'
+require 'cgi'
+require 'net/http'
 require 'videojuicer/session'
 
 module Videojuicer
@@ -36,4 +38,4 @@ session = Videojuicer::Session.new(
   :seed_name => "splendidness", :token_key => token_key, :token_secret => token_secret
 )
 
-session.authorize!
+puts session.authorize!
