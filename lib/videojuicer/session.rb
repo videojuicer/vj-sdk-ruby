@@ -1,5 +1,11 @@
 module Videojuicer
   class Session
+    
+    def initialize(h={})
+      return ArgumentError, "Options is not a hash" unless h.is_a?(Hash)
+      @default_options = h
+    end
+    
     def self.get_request_token(options)
       # GET tokens.js
       consumer_key = Videojuicer.default_options[:consumer_key]
@@ -37,10 +43,7 @@ module Videojuicer
       response.body
     end
     
-    def initialize(h={})
-      return ArgumentError, "Options is not a hash" unless h.is_a?(Hash)
-      @default_options = h
-    end
+
     
     def authorize!
       # GET tokens.js with magic params
