@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rake'
+require 'tasks/vj-core'
 
 begin
   require 'jeweler'
@@ -22,6 +23,7 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', 'spec/spec.opts']
   t.spec_files = FileList['spec/**/*_spec.rb']
 end
+task :spec => :setup_vj_core
 task :default => :spec
 
 begin
