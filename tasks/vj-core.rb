@@ -4,12 +4,53 @@
 
 =end
 
-task :setup_vj_core do
+class SDKTestController
+  class << self
 
-  puts "VJ-CORE: SETUP"
+    attr_accessor :server_thread
 
+    def core_directory
+      File.join(File.dirname(__FILE__), "..", "..", "vj-core")
+    end    
+    
+  end
 end
 
-task :cleanup_vj_core do
-  
+
+namespace :videojuicer do
+  namespace :core do
+    
+    task :setup do
+      Rake::Task['videojuicer:core:start'].invoke
+    end
+    
+    task :cleanup do
+      
+    end
+    
+    task :start do
+      require 'mongrel'
+      SDKTestController.server_thread = Thread.new do
+        Dir.chdir(SDKTestController.core_directory) do
+          puts "Starting vj-core from #{Dir.pwd}"
+          Merb.start :merb_root=>Dir.pwd, :port=>5555, :reload_classes=>true, :name=>"vj-sdk-test", :verbose=>false, :adapter=>"mongrel", :testing=>false
+        end
+      end
+    end
+    
+    task :status do
+      p = Merb::Config.log_stream
+      p.rewind;
+      
+      puts p.inspect
+      puts `ps aux | grep merb`
+      puts `curl -I 0.0.0.0:5555`
+    end
+    
+    task :stop do
+      
+    end
+    
+  end
 end
+
