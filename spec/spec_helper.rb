@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spec'
+require 'mash'
 require File.join(File.dirname(__FILE__), *%w(.. lib videojuicer))
 
 module SpecHelper
@@ -12,6 +13,10 @@ module SpecHelper
       :host             => "http://localhost",
       :port             => 5000
     )
+  end
+  
+  def fixtures
+    @fixtures ||= Mash.new(::SDKTestHarness.fixtures)
   end
   
 end

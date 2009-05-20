@@ -6,7 +6,7 @@
 
 require 'net/http'
 
-class SDKTestHarness
+class ::SDKTestHarness
   class << self
 
     attr_accessor :server_thread
@@ -53,7 +53,7 @@ class SDKTestHarness
     def load_fixtures
       require 'yaml'
       Dir.chdir(core_directory) do
-        out = `rake videojuicer:sdk:setup`
+        out = `rake videojuicer:sdk:setup MERB_ENV=test`
         out = out.match(/!!!([^!]+)!!!/m)
         self.fixtures = YAML.load(out[1])
       end
