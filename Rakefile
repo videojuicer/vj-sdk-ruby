@@ -24,8 +24,15 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', 'spec/spec.opts']
   t.spec_files = FileList['spec/**/*_spec.rb']
 end
-task :spec => :"videojuicer:core:setup"
-task :default => :spec
+
+namespace :spec do
+  task :sdk do
+    Rake::Task["videojuicer:core:setup"].invoke
+    Rake::Task["spec"].invoke
+    Rake::Task["videojuicer:core:cleanup"].invoke
+  end
+end
+task :default => :"spec:sdk"
 
 begin
   require 'rcov/rcovtask'

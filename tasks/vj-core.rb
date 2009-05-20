@@ -10,6 +10,7 @@ class SDKTestHarness
   class << self
 
     attr_accessor :server_thread
+    attr_accessor :fixtures
 
     def core_directory
       File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "vj-core"))
@@ -49,6 +50,15 @@ class SDKTestHarness
       end
     end
     
+    def load_fixtures
+      require 'yaml'
+      Dir.chdir(core_directory) do
+        out = `rake videojuicer:sdk:setup`
+        out = out.match(/!!!([^!]+)!!!/m)
+        self.fixtures = YAML.load(out[1])
+      end
+    end
+    
     def port
       5555
     end
@@ -57,15 +67,22 @@ class SDKTestHarness
 end
 
 
-namespace :videojuicer do
+namespace :videojuicer do  
   namespace :core do
     
     task :setup do
+      Rake::Task['videojuicer:core:load_fixtures'].invoke
       Rake::Task['videojuicer:core:start'].invoke
     end
     
     task :cleanup do
-      Rake::Task['videojuicer:core:stop'].invoke
+      #Rake::Task['videojuicer:core:stop'].invoke
+    end
+    
+    task :load_fixtures do
+      SDKTestHarness.load_fixtures
+      puts "Loading fixtures from vj-core..."
+      puts SDKTestHarness.fixtures.inspect
     end
     
     task :start do
