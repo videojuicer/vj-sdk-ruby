@@ -16,7 +16,8 @@ module SpecHelper
   end
   
   def fixtures
-    @fixtures ||= Mash.new(::SDKTestHarness.fixtures)
+    raise RuntimeError, ::FOO.inspect
+    @fixtures ||= Mash.new(SDKTestHarness.fixtures)
   end
   
 end
