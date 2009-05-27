@@ -11,8 +11,9 @@ module SpecHelper
       :consumer_key     => nil,
       :consumer_secret  => nil,
       :api_version      => 1,
-      :host             => "http://localhost",
-      :port             => 5000
+      :protocol         => "http",
+      :host             => "localhost",
+      :port             => 5555
     )
   end
   

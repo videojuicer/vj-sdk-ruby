@@ -28,30 +28,27 @@ module Videojuicer
       
       # Makes a GET request given path and params.
       # The host will be ascertained from the configuration options.
-      def get(path, params); make_request(:get, host, port, path, params); end
+      def get(path, params={}); make_request(:get, host, port, path, params); end
       
       # Makes a POST request given path and params.
       # The host will be ascertained from the configuration options.
-      def post(path, params); make_request(:post, host, port, path, params); end
+      def post(path, params={}); make_request(:post, host, port, path, params); end
       
       # Makes a PUT request given path and params.
       # The host will be ascertained from the configuration options.
-      def put(path, params); make_request(:put, host, port, path, params); end
+      def put(path, params={}); make_request(:put, host, port, path, params); end
       
       # Makes a DELETE request given path and params.
       # The host will be ascertained from the configuration options.
-      def delete(path, params); make_request(:delete, host, port, path, params); end
-      
-
-      
+      def delete(path, params={}); make_request(:delete, host, port, path, params); end
       
       # Does the actual work of making a request. Returns a Net::HTTPResponse object.
       def make_request(method, host, port, path, params)
-        klass = request_class_for_method(method)
-        request = method_klass.new(path + ("?#{authified_query_string(method, path, params)}"))
+        method_klass = request_class_for_method(method)
+        req = method_klass.new(path + ("?#{authified_query_string(method, path, params)}"))
         begin
           response =  Net::HTTP.start(host, port) do |http|
-                        block.call(http, request)
+                        http.request req
                       end
         rescue Errno::ECONNREFUSED => e
           raise "Could not connect to #{uri.inspect}"
@@ -62,7 +59,7 @@ module Videojuicer
       # Authifies the given parameters and converts them into a query string.
       def authified_query_string(method, path, params)
         p = authify_params(method, path, params)
-        p.collect {|k,v| "#{CGI.escape k}=#{CGI.escape v}"}.join("&")
+        p.collect {|k,v| "#{CGI.escape k.to_s}=#{CGI.escape v.to_s}"}.join("&")
       end
       
       # Takes a set of business parameters you want sent to the provider, and merges them
@@ -87,7 +84,6 @@ module Videojuicer
         base = signature_base_string(method, path, params)
         signature_octet = HMAC::SHA1.digest(signature_secret, base)
         signature_base64 = [signature_octet].pack('m').chomp.gsub(/\n/, '')
-        CGI.escape(signature_base64)
       end
       
       # Calculates and returns the signature secret to be used for this proxy object.
@@ -98,7 +94,7 @@ module Videojuicer
       # Returns the unencrypted signature base string for this proxy object and the 
       # given request properties.
       def signature_base_string(method, path, params)
-        [method.to_s.upcase, "#{host}#{path}", normalize_params(params)].collect {|e| CGI.escape(e)}.join("&")
+        [method.to_s.upcase, "#{protocol}://#{host}#{path}", normalize_params(params)].collect {|e| CGI.escape(e)}.join("&")
       end
       
       # Returns a string representing a normalised parameter hash. Supports nesting for
@@ -148,6 +144,8 @@ module Videojuicer
       def token_secret; config[:token_secret]; end
       # Retrieves the api_version from the configuration options.
       def api_version; config[:api_version]; end
+      # Retrieves the protocol from the configuration options.
+      def protocol; config[:protocol]; end
       
     end
   end

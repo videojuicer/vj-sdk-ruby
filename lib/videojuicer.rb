@@ -15,7 +15,8 @@ module Videojuicer
     :consumer_key     => nil,
     :consumer_secret  => nil,
     :api_version      => nil,
-    :host             => "http://api.videojuicer.com",
+    :protocol         => "http",
+    :host             => "api.videojuicer.com",
     :port             => 80
   }.freeze
   

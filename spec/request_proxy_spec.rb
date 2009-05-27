@@ -83,7 +83,17 @@ describe Videojuicer::OAuth::RequestProxy do
   end
       
   describe "request factory" do
+    before(:all) do
+      @seed = fixtures.seed
+      @fixtures = fixtures["read-user"]
+      @proxy = Videojuicer::OAuth::RequestProxy.new(:consumer_key=>@fixtures.consumer.consumer_key, :consumer_secret=>@fixtures.consumer.consumer_secret, :token=>nil, :token_secret=>nil)
+    end
     
+    it "can successfully retrieve a request token (indicating a successful signature verification)" do
+      @proxy.consumer_key.should == @fixtures.consumer.consumer_key
+      response = @proxy.get("/oauth/tokens", :seed_name=>@seed.name)
+      response.body.should =~ /oauth_token=[a-zA-Z0-9]+&oauth_token_secret=[a-zA-Z0-9]+/
+    end
   end
   
 end
