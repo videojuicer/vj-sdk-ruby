@@ -5,6 +5,7 @@ require 'hmac/sha1'
 require 'cgi'
 require 'net/http'
 
+require 'videojuicer/oauth/request_proxy'
 require 'videojuicer/session'
 require 'videojuicer/exceptions'
 

@@ -1,7 +1,8 @@
 require 'rubygems'
 require 'spec'
 require 'mash'
-require File.join(File.dirname(__FILE__), *%w(.. lib videojuicer))
+require 'yaml'
+require File.join(File.dirname(__FILE__), "..", "lib", "videojuicer")
 
 module SpecHelper
   
@@ -16,8 +17,7 @@ module SpecHelper
   end
   
   def fixtures
-    raise RuntimeError, ::FOO.inspect
-    @fixtures ||= Mash.new(SDKTestHarness.fixtures)
+    @fixtures ||= Mash.new(YAML.load(File.open(File.join(File.dirname(__FILE__), "..", "core-fixtures.yml")).read))
   end
   
 end

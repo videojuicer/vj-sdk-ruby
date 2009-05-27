@@ -51,12 +51,18 @@ class ::SDKTestHarness
     end
     
     def load_fixtures
-      require 'yaml'
       Dir.chdir(core_directory) do
         out = `rake videojuicer:sdk:setup MERB_ENV=test`
         out = out.match(/!!!([^!]+)!!!/m)
-        self.fixtures = YAML.load(out[1])
+        self.fixtures = out[1]
       end
+    end
+    
+    def write_fixtures
+      f = File.open(File.join(File.dirname(__FILE__), "..", "core-fixtures.yml"), "w+")
+      f.rewind
+      f.write(self.fixtures)
+      f.close
     end
     
     def port
@@ -80,9 +86,10 @@ namespace :videojuicer do
     end
     
     task :load_fixtures do
-      SDKTestHarness.load_fixtures
       puts "Loading fixtures from vj-core..."
-      puts SDKTestHarness.fixtures.inspect
+      SDKTestHarness.load_fixtures
+      puts "Writing to tempfile..."
+      SDKTestHarness.write_fixtures
     end
     
     task :start do

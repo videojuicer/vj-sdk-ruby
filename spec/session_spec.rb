@@ -3,7 +3,6 @@ require File.join(File.dirname(__FILE__), "spec_helper")
 describe Videojuicer::Session do
   
   before(:all) { configure_test_settings }
-  before(:all) { fixtures.inspect.should == "" }
   
   describe "initialization" do    
     it "accepts an options hash"
