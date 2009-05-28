@@ -10,6 +10,8 @@ module Videojuicer
     include Videojuicer::Configurable
     include Videojuicer::OAuth::ProxyFactory
     
+    
+    
     def initialize(options={})
       configure!(options)
     end
@@ -62,8 +64,6 @@ module Videojuicer
       proxy = proxy_for(config.merge(:token=>token.oauth_token, :token_secret=>token.oauth_token_secret))
       Mash.new JSON.parse(proxy.get("/oauth/tokens.js").body)["access_token"]
     end
-    
-
     
     def authorize!
       # GET tokens.js with magic params
