@@ -64,14 +64,24 @@ describe Videojuicer::Session do
     end
     
     describe "(retrieving the access token)" do
-      it "fetches a token key"
-      it "fetches a token secret"
-      it "fetches the token permissions"
+      before(:all) do
+        @atok_fixture = fixtures["read-user"].access_token
+        @atok = @session.exchange_request_token(@atok_fixture)
+      end
+      
+      it "fetches a token key" do
+        @atok.oauth_token.should be_kind_of(String)
+        @atok.oauth_token.should_not be_empty
+      end
+      it "fetches a token secret" do
+        @atok.oauth_token_secret.should be_kind_of(String)
+        @atok.oauth_token_secret.should_not be_empty
+      end
+      it "fetches the token permissions" do
+        @atok.permissions.should == "read-user"
+      end
     end
-    
-    describe "(after access token is retrieved)" do
-      it "returns true when sent #authorized?"
-    end
+
   end
   
   describe "concurrency" do
