@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "spec_helper")
+require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
 
 describe Videojuicer::OAuth::RequestProxy do
   
@@ -6,25 +6,9 @@ describe Videojuicer::OAuth::RequestProxy do
   
   describe "instantiation" do
     before(:all) do
-      Videojuicer.configure!(:foo=>"custom", :bar=>"not overridden")
-    end
-    
-    it "gets the configuration defaults from those already set on the Videojuicer module" do
-      prox = Videojuicer::OAuth::RequestProxy.new
-      prox.config[:foo].should == "custom"
-    end
-    
-    it "can override defaults from the Videojuicer configuration hash" do
-      prox = Videojuicer::OAuth::RequestProxy.new(:bar=>"overridden")
-      prox.config[:bar].should == "overridden"
-    end
-    
-    %w(host port consumer_key consumer_secret token token_secret api_version).each do |attr|
-      it "provides a direct access method for the #{attr} given in the configuration" do
-        prox = Videojuicer::OAuth::RequestProxy.new((attr.to_sym)=>"#{attr} was set")
-        prox.send(attr).should == "#{attr} was set"
-      end
-    end
+      @candidate_klass = Videojuicer::OAuth::RequestProxy
+    end    
+    it_should_behave_like "a configurable"
   end
   
   describe "URL normalizer" do
@@ -86,14 +70,17 @@ describe Videojuicer::OAuth::RequestProxy do
     before(:all) do
       @seed = fixtures.seed
       @fixtures = fixtures["read-user"]
-      @proxy = Videojuicer::OAuth::RequestProxy.new(:consumer_key=>@fixtures.consumer.consumer_key, :consumer_secret=>@fixtures.consumer.consumer_secret, :token=>nil, :token_secret=>nil)
+      @proxy = Videojuicer::OAuth::RequestProxy.new(:seed_name=>@seed.name, :consumer_key=>@fixtures.consumer.consumer_key, :consumer_secret=>@fixtures.consumer.consumer_secret, :token=>nil, :token_secret=>nil)
     end
     
     it "can successfully retrieve a request token (indicating a successful signature verification)" do
       @proxy.consumer_key.should == @fixtures.consumer.consumer_key
-      response = @proxy.get("/oauth/tokens", :seed_name=>@seed.name)
+      response = @proxy.get("/oauth/tokens")
       response.body.should =~ /oauth_token=[a-zA-Z0-9]+&oauth_token_secret=[a-zA-Z0-9]+/
     end
+    
+    it "throws an exception when given a 401 return status"
+    it "throws an exception when given a 406 return status"
   end
   
 end

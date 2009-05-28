@@ -1,36 +1,66 @@
-require File.join(File.dirname(__FILE__), "spec_helper")
+require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
 
 describe Videojuicer::Session do
   
-  before(:all) { configure_test_settings }
+  before(:all) do 
+    configure_test_settings
+    @session = Videojuicer::Session.new(
+      :seed_name        => fixtures.seed.name,
+      :consumer_key     => fixtures["read-user"].consumer.consumer_key,
+      :consumer_secret  => fixtures["read-user"].consumer.consumer_secret
+    )
+  end
   
-  describe "initialization" do    
-    it "accepts an options hash"
-    it "requires at least a seed name"
-    
-    describe "without a token or token secret" do
-      it "returns false when sent #authorized?"
-    end
-    
-    describe "with a token and token secret" do
-      it "returns true when sent #authorized?"
-    end
+  describe "instantiation" do
+    before(:all) do
+      @candidate_klass = Videojuicer::Session
+    end    
+    it_should_behave_like "a configurable"
   end
   
   describe "authorisation" do
-    describe "(before request token is received)" do      
-      it "returns false when sent #authorized?"
-      it "raises a NoRequestToken exception when asked for the #authorize_url"
-    end
-    
     describe "(retrieving the request token)" do
-      it "fetches a token key"
-      it "fetches a token secret"
+      before(:all) do        
+        @token = @session.get_request_token
+      end
+      
+      it "fetches a token key" do
+        @token.oauth_token.should be_kind_of(String)
+        @token.oauth_token.should_not be_empty
+      end
+      it "fetches a token secret" do
+        @token.oauth_token_secret.should be_kind_of(String)
+        @token.oauth_token_secret.should_not be_empty
+      end
+      it "fetches the permissions" do
+        @token.permissions.should == "read-user"
+      end
     end
     
     describe "(authorizing the request token)" do
-      it "returns the URL when asked for the #authorize_url"
-      it "does not re-fetch the request token when asked for the #authorize_url multiple times"
+      before(:all) do
+        @authorize_url = @session.authorize_url
+        @authorize_url_parsed = URI.parse(@authorize_url)
+      end
+      
+      it "returns the URL when asked for the #authorize_url" do
+        @authorize_url_parsed.port.should == @session.port
+        @authorize_url_parsed.host.should == @session.host
+      end
+      it "returns a valid URL that can be successfully requested" do
+        req = Net::HTTP::Get.new("#{@authorize_url_parsed.path}?#{@authorize_url_parsed.query}")
+        response =  Net::HTTP.start(@authorize_url_parsed.host, @authorize_url_parsed.port) do |http|
+          http.request req
+        end
+        response.code.to_i.should == 200
+      end
+      it "validates that mangling this URL in any way also mangles the response to an error state" do
+        req = Net::HTTP::Get.new("#{@authorize_url_parsed.path}?#{@authorize_url_parsed.query.gsub(/oauth_token=[a-zA-Z0-9]+/,'')}")
+        response =  Net::HTTP.start(@authorize_url_parsed.host, @authorize_url_parsed.port) do |http|
+          http.request req
+        end
+        response.code.to_i.should == 401
+      end
     end
     
     describe "(retrieving the access token)" do
@@ -44,28 +74,12 @@ describe Videojuicer::Session do
     end
   end
   
-  describe "scope control" do
+  describe "concurrency" do
     
   end
   
-  
-#  #########################
-#  ## Test Implementation ##
-#  #########################
-#
-#  Videojuicer.configure!({
-#    :consumer_key => "wdQjFa4CV0zVksG", 
-#    :consumer_secret => "2abdTMZWWCa8aO1fcn46HdfPUxfU2Z0o6tO6U9y8",
-#    :api_version => 1
-#  })
-#
-#  token_key, token_secret = Videojuicer::Session.get_request_token(:seed_name => "splendidness")
-#  #puts token_key
-#  #puts token_secret
-#  session = Videojuicer::Session.new(
-#    :seed_name => "splendidness", :token_key => token_key, :token_secret => token_secret
-#  )
-#
-#  puts session.authorize!
+  describe "scope control" do
+    
+  end
   
 end

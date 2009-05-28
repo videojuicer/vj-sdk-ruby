@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),"spec_helper")
+require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
 
 describe "Videojuicer SDK" do
   
@@ -33,6 +33,7 @@ describe "Videojuicer SDK" do
       Videojuicer.default_options[:port].should == 100
     end
   end
+  
   
   describe "initialization with defaults" do
     before(:all) do

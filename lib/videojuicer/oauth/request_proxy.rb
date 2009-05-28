@@ -16,14 +16,14 @@ module Videojuicer
   module OAuth
     class RequestProxy
       
-      attr_accessor :config
-      
+      include Videojuicer::Configurable
+            
       # Initializes a new RequestProxy object which can be used to make requests.
       # Accepts all the same options as Videojuicer::configure! as well as:
       # +token+ - The OAuth token to use in requests made through this proxy.
       # +token_secret+ - The OAuth token secret to use when encrypting the request signature.
       def initialize(options={})
-        self.config = Videojuicer.default_options.merge(options)
+        configure!(options)
       end
       
       # Makes a GET request given path and params.
@@ -45,7 +45,7 @@ module Videojuicer
       # Does the actual work of making a request. Returns a Net::HTTPResponse object.
       def make_request(method, host, port, path, params)
         method_klass = request_class_for_method(method)
-        req = method_klass.new(path + ("?#{authified_query_string(method, path, params)}"))
+        req = method_klass.new("#{path}?#{authified_query_string(method, path, params)}")
         begin
           response =  Net::HTTP.start(host, port) do |http|
                         http.request req
@@ -56,8 +56,12 @@ module Videojuicer
         return response
       end
       
+      def signed_url(method, path, params={})
+        "#{protocol}://#{host}:#{port}#{path}?#{authified_query_string(method, path, params)}"
+      end
+      
       # Authifies the given parameters and converts them into a query string.
-      def authified_query_string(method, path, params)
+      def authified_query_string(method, path, params={})
         p = authify_params(method, path, params)
         p.collect {|k,v| "#{CGI.escape k.to_s}=#{CGI.escape v.to_s}"}.join("&")
       end
@@ -71,7 +75,9 @@ module Videojuicer
           :oauth_token=>token,
           :api_version=>api_version,
           :oauth_timestamp=>Time.now.to_i,
-          :oauth_nonce=>rand(9999)
+          :oauth_nonce=>rand(9999),
+          :oauth_signature_method=>"HMAC-SHA1",
+          :seed_name=>seed_name
         }.merge(params)
         params.delete_if {|k,v| (!v) or (v.to_s.empty?) }
         params[:oauth_signature] = signature(method, path, params)
@@ -129,23 +135,6 @@ module Videojuicer
           in_module::Get
         end
       end
-            
-      # Retrieves the host from the configuration options.
-      def host; config[:host]; end
-      # Retrieves the port from the configuration options.
-      def port; config[:port]; end
-      # Retrieves the consumer_key from the configuration options.
-      def consumer_key; config[:consumer_key]; end
-      # Retrieves the consumer_secret from the configuration options.
-      def consumer_secret; config[:consumer_secret]; end
-      # Retrieves the token from the configuration options.
-      def token; config[:token]; end
-      # Retrieves the token_secret from the configuration options.
-      def token_secret; config[:token_secret]; end
-      # Retrieves the api_version from the configuration options.
-      def api_version; config[:api_version]; end
-      # Retrieves the protocol from the configuration options.
-      def protocol; config[:protocol]; end
       
     end
   end
