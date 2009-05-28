@@ -9,9 +9,7 @@ module Videojuicer
         
     include Videojuicer::Configurable
     include Videojuicer::OAuth::ProxyFactory
-    
-    
-    
+
     def initialize(options={})
       configure!(options)
     end
