@@ -48,11 +48,15 @@ shared_examples_for "a RESTFUL resource model" do
       end
       
     
-      it "allows an object to be set directly"
-      it "allows an object to be read directly"
+      it "allows an object to be set and read directly" do
+        @example_registry.string = "1234567"
+        @example_registry.string.should == "1234567"
+      end
       
-      it "allows an object to be set via the setter helper"
-      it "allows an object to be read via the read helper"
+      it "allows an object to be set and read via the indirect helper" do
+        @example_registry.attr_set :string, "987654321"
+        @example_registry.attr_get(:string).should == "987654321"
+      end
       
       
       it "allows an object to be created with a hash of attributes" do
