@@ -7,6 +7,8 @@ require 'json'
 require 'hmac/sha1'
 require 'net/http'
 
+# Core ext
+#--
 # Core mixins
 require 'videojuicer/shared/exceptions'
 require 'videojuicer/shared/configurable'

@@ -13,17 +13,36 @@
 module Videojuicer
   module Resource
     module PropertyRegistry
-      
-      def self.included(base)
+
+      def self.included(base)        
+        # Class-level inheritable reader
         base.extend(SingletonMethods)
-        attr_accessor :attributes
+        base.class_eval do
+          @attributes = {}
+          class << self
+            attr_accessor :attributes
+          end
+        end
       end
+      
+      # Allow subclasses of each resource to get the attributes accessor
+      def self.inherited(subclass)
+        v = "@attributes"
+        subclass.instance_variable_set(v, instance_variable_get(v))
+      end
+
       
       def initialize(attrs={})
         self.attributes = default_attributes.merge(attrs)
       end
       
+      def attributes=(arg)
+        @attributes ||= {}
+        @attributes = arg
+      end
+      
       def attributes
+        @attributes ||= {}
         @attributes
       end
       
@@ -39,7 +58,7 @@ module Videojuicer
         self.class.attributes.each do |key, props|
           d[key] = props[:default] ||  nil
         end
-        d
+        return d
       end
       
       def attr_get(key)
@@ -56,10 +75,9 @@ module Videojuicer
         # Creates setter and getter methods
         def property(name, klass, options={})
           # Can't raise twice.
-          raise ArgumentError, "Property #{name} already registered." if attributes.include?(name)
+          raise ArgumentError, "Property #{name} already registered." if self.attributes.include?(name)
           # Register with the class
-          @@attributes ||= {}
-          @@attributes[name] = {:class=>klass}.merge(options)
+          self.attributes[name] = {:class=>klass}.merge(options)
           # Create setter methods
           define_method name do
             attr_get(name)
@@ -68,11 +86,6 @@ module Videojuicer
           define_method "#{name}=" do |arg|
             attr_set(name, arg)
           end
-        end
-        
-        def attributes
-          @@attributes ||= {}
-          @@attributes
         end
         
       end

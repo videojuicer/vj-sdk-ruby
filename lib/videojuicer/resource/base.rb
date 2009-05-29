@@ -19,8 +19,8 @@ module Videojuicer
       
       def self.included(base)
         base.extend(SingletonMethods)
-        base.extend(Inferrable::SingletonMethods)
-        base.extend(PropertyRegistry::SingletonMethods)
+        Inferrable.included(base)
+        PropertyRegistry.included(base)
       end
       
       module SingletonMethods

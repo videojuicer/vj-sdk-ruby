@@ -43,8 +43,8 @@ shared_examples_for "a RESTFUL resource model" do
       it "respects specific defaults on properties" do
         @example_registry.string_with_default.should == "this is the default"
       end
-      it "sets the default to be a blank version of the property's declared class" do
-        @example_registry.string.should == ""
+      it "sets the default to be nil" do
+        @example_registry.string.should be_nil
       end
       
     
