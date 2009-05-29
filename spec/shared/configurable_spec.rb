@@ -14,13 +14,13 @@ shared_examples_for "a configurable" do
   
   describe "scope control" do
     before(:all) do
-      @configurable_a = @candidate_klass.new
+      @configurable_a = @klass.new
       @configurable_a.configure! :foo=>"a"
       
-      @configurable_b = @candidate_klass.new
+      @configurable_b = @klass.new
       @configurable_b.configure! :foo=>"b"
       
-      @configurable_c = @candidate_klass.new
+      @configurable_c = @klass.new
       @configurable_c.configure!({})
     end
     
@@ -54,18 +54,20 @@ shared_examples_for "a configurable" do
   end
   
   it "gets the configuration defaults from those already set on the Videojuicer module" do
-    obj = @candidate_klass.new
+    obj = @klass.new
     obj.config[:foo].should == "custom"
   end
   
   it "can override defaults from the Videojuicer configuration hash" do
-    obj = @candidate_klass.new(:bar=>"overridden")
+    obj = @klass.new
+    obj.configure!(:bar=>"overridden")
     obj.config[:bar].should == "overridden"
   end
   
   %w(host port consumer_key consumer_secret token token_secret api_version seed_name protocol).each do |attr|
     it "provides a direct access method for the #{attr} given in the configuration" do
-      obj = @candidate_klass.new((attr.to_sym)=>"#{attr} was set")
+      obj = @klass.new
+      obj.configure!((attr.to_sym)=>"#{attr} was set")
       obj.send(attr).should == "#{attr} was set"
     end
   end

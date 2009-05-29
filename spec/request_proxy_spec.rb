@@ -6,7 +6,7 @@ describe Videojuicer::OAuth::RequestProxy do
   
   describe "instantiation" do
     before(:all) do
-      @candidate_klass = Videojuicer::OAuth::RequestProxy
+      @klass = Videojuicer::OAuth::RequestProxy
     end    
     it_should_behave_like "a configurable"
   end

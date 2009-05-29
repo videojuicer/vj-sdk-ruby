@@ -13,7 +13,7 @@ describe Videojuicer::Session do
   
   describe "instantiation" do
     before(:all) do
-      @candidate_klass = Videojuicer::Session
+      @klass = Videojuicer::Session
     end    
     it_should_behave_like "a configurable"
   end

@@ -1,18 +1,24 @@
 $:.unshift File.dirname(__FILE__)     # For use/testing when no gem is installed
 
+# Gem and stdlib dependencies
 require 'rubygems'
-require 'hmac/sha1'
 require 'cgi'
-require 'net/http'
 require 'json'
+require 'hmac/sha1'
+require 'net/http'
 
-
+# Core mixins
 require 'videojuicer/shared/exceptions'
 require 'videojuicer/shared/configurable'
-
+# Authentication and authorisation
 require 'videojuicer/oauth/request_proxy'
 require 'videojuicer/oauth/proxy_factory'
-
+# Resource handling
+require 'videojuicer/resource/inferrable'
+require 'videojuicer/resource/property_registry'
+require 'videojuicer/resource/base'
+# Frontend models
+require 'videojuicer/user'
 require 'videojuicer/session'
 
 module Videojuicer

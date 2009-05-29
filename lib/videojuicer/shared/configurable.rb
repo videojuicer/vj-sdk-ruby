@@ -46,7 +46,7 @@ module Videojuicer
     # Returns the shared configuration, which is the current
     # controller scope merged with the local config.
     def config
-      Videojuicer.current_scope.merge(local_config)
+      Videojuicer.current_scope.merge(local_config || {})
     end
     
     # Executes a block of code within the scope of this Configurable's
