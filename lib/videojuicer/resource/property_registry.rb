@@ -23,6 +23,7 @@ module Videojuicer
             attr_accessor :attributes
           end
         end
+        base.property :id, Integer
       end
       
       # Allow subclasses of each resource to get the attributes accessor

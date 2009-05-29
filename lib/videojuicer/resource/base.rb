@@ -23,9 +23,5 @@ module Videojuicer
         PropertyRegistry.included(base)
       end
       
-      module SingletonMethods
-                
-      end
-      
   end
 end

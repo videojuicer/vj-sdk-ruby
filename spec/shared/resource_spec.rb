@@ -74,8 +74,8 @@ shared_examples_for "a RESTFUL resource model" do
         created.string_with_default.should == "1111"
       end
       it "allows attributes to be read as a hash" do
-        created = ::FooAttributeRegistry.new(:integer=>0, :string=>"0000", :string_with_default=>"1111")
-        created.attributes.should == {:integer=>0, :string=>"0000", :string_with_default=>"1111"}
+        created = ::FooAttributeRegistry.new(:integer=>0, :string=>"0000", :string_with_default=>"1111", :id=>5)
+        created.attributes.should == {:integer=>0, :string=>"0000", :string_with_default=>"1111", :id=>5}
       end
     end
     
