@@ -111,7 +111,7 @@ shared_examples_for "a RESTFUL resource model" do
       end
       
       it "raises an exception when trying to pull attributes remotely" do
-        lambda {@record.remote_attributes}.should raise_error(Videojuicer::Exceptions::NoResource)
+        lambda {@record.reload}.should raise_error(Videojuicer::Exceptions::NoResource)
       end
       
       describe "being saved" do        
@@ -124,6 +124,9 @@ shared_examples_for "a RESTFUL resource model" do
           it "does not set any errors on the object" do
             @successful.errors.should be_empty
           end
+          it "gets an ID" do
+            @successful.id.should be_kind_of(Integer)
+          end
         end
         describe "unsuccessfully" do
           before(:all) { @fail = @klass.new; @saved = @fail.save }
@@ -135,6 +138,9 @@ shared_examples_for "a RESTFUL resource model" do
             @fail.errors.should be_kind_of(Hash)
             @fail.errors.should_not be_empty
           end
+          it "does not get an ID" do
+            @fail.id.should be_nil
+          end
         end
       end
     end
@@ -145,7 +151,8 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "an existing record" do
       before(:each) do
-        @record = @klass.new(:id=>500)
+        @record = @klass.new(@good_attributes)
+        @record.save.should be_true
       end
       
       it "returns false to #new_record?" do
@@ -153,10 +160,12 @@ shared_examples_for "a RESTFUL resource model" do
       end
       
       it "uses an instance-specific resource path" do
-        @record.resource_path.should == "/#{@plural_name}/500.js"
+        @record.resource_path.should == "/#{@plural_name}/#{@record.id}.js"
       end
       
-      it "pulls remote attributes successfully, returning a hash"
+      it "reloads from the remote API successfully" do
+        @record.reload.should be_true
+      end
     end
   
 end

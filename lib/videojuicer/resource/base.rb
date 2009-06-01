@@ -50,20 +50,29 @@ module Videojuicer
                     end
                     
         # Parse and handle response
-        attrs = JSON.parse(response.body)
-        if e = attrs["errors"]
-          @errors = e
-          return false
-        else
-          @errors = {}
-          return true
-        end
+        return validate_response(response)
       end
       
       # The hash of errors on this object - keyed by attribute name, 
       # with the error description as the value.
-      def errors
-        @errors || {}
+      attr_accessor :errors
+      def errors; @errors ||= {}; end
+      
+      # Takes a response from the API and performs the appropriate actions.
+      def validate_response(response)
+        attribs = JSON.parse(response.body)
+        attribs.each do |prop, value|
+          self.send("#{prop}=", value)
+        end
+        
+        if e = attribs["errors"]
+          @errors = e
+          return false
+        else
+          self.id = attribs["id"].to_i
+          @errors = {}
+          return true
+        end
       end
       
       # Returns the appropriate resource path for this object.
@@ -75,22 +84,11 @@ module Videojuicer
       end
       
       # Makes a call to the API for the current attributes on this object.
-      def remote_attributes
+      # Overwrites the current instance attribute values.
+      def reload
         raise NoResource, "Cannot load remote attributes for new records" if new_record?
         response = proxy_for(config).get(resource_path)
-        if response.code > 400
-          raise NoResource, "Problem fetching remote attributes for #{self.class.singular_name} with ID #{id}. The object does not exist on the remote API, or the remote API is down."
-        else
-          
-        end
-      end
-      
-      # Parses a response from the remote API and handles appropriately
-      
-      # Pulls attributes from the server for this object, and uses them to overwrite
-      # the attributes currently set on this object.
-      def reload_attributes!
-        self.attributes = remote_attributes
+        return validate_response(response)
       end
       
   end
