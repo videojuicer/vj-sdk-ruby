@@ -186,5 +186,14 @@ shared_examples_for "a RESTFUL resource model" do
         @record.save.should be_true
       end
     end
+    
+    describe "deleting a record" do
+      before(:each) do
+        @record = @klass.new(@good_attributes)
+        @record.save.should be_true
+      end
+      
+      
+    end
   
 end
