@@ -181,6 +181,10 @@ shared_examples_for "a RESTFUL resource model" do
       it "reloads from the remote API successfully" do
         @record.reload.should be_true
       end
+      
+      it "saves successfully" do
+        @record.save.should be_true
+      end
     end
   
 end
