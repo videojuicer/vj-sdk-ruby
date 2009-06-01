@@ -16,6 +16,7 @@ module Videojuicer
   module OAuth
     class RequestProxy
       
+      include Videojuicer::Exceptions
       include Videojuicer::Configurable
             
       # Initializes a new RequestProxy object which can be used to make requests.
@@ -45,7 +46,7 @@ module Videojuicer
       # Does the actual work of making a request. Returns a Net::HTTPResponse object.
       def make_request(method, host, port, path, params)
         method_klass = request_class_for_method(method)
-        req = method_klass.new("#{path}?#{authified_query_string(method, path, params)}")
+        req = method_klass.new("#{path}?#{authified_query_string(method, path, params)}", "content-accept"=>"application/json")
         begin
           response =  Net::HTTP.start(host, port) do |http|
                         http.request req
@@ -53,7 +54,21 @@ module Videojuicer
         rescue Errno::ECONNREFUSED => e
           raise "Could not connect to #{uri.inspect}"
         end
-        return response
+        return handle_response(response)
+      end
+      
+      # Handles an HTTPResponse object appropriately. Redirects are followed, 
+      # error states raise errors and success responses are returned directly.
+      def handle_response(response)
+        c = response.code.to_i
+        case c
+        when 404
+          raise NoResource, "Response code #{c} received: #{response.inspect}"
+        when 500..600
+          raise RemoteApplicationError, "Remote application raised status code #{c}."
+        else
+          response
+        end
       end
       
       def signed_url(method, path, params={})
@@ -62,8 +77,7 @@ module Videojuicer
       
       # Authifies the given parameters and converts them into a query string.
       def authified_query_string(method, path, params={})
-        p = authify_params(method, path, params)
-        p.collect {|k,v| "#{CGI.escape k.to_s}=#{CGI.escape v.to_s}"}.join("&")
+        normalize_params(authify_params(method, path, params))
       end
       
       # Takes a set of business parameters you want sent to the provider, and merges them

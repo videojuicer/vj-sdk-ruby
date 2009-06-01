@@ -3,6 +3,12 @@ shared_examples_for "a RESTFUL resource model" do
     # Expects @klass to be a reference to the model class being tested
     # Expects @singular_name to be a string containing the expected resource name, e.g. Videojuicer::User => "user"
     # Expects @plural_name to be a string containing the expected pluralised name, e.g. Videojuicer::User => "users"
+    # Expects @good_attributes to be a hash of attributes for objects of the tested type that will successfully create a valid object.
+    
+    before(:all) do
+      Videojuicer.configure! :seed_name => fixtures.seed.name
+    end
+    
     
     describe "attribute registry" do
       before(:all) do
@@ -79,34 +85,58 @@ shared_examples_for "a RESTFUL resource model" do
       end
     end
     
-    describe "inferrable names" do
-      
-      describe "at the class scope" do
-        it "has a resource name that matches the singular class name" do
-          @klass.resource_name.should == @singular_name
-        end
-        it "has a parameter name inferred from the resource name" do
-          @klass.parameter_name.should == @singular_name
-        end
-        it "has a resource path that properly pluralises the resource name" do
-          @klass.resource_path.should == "/#{@plural_name}"
-        end 
+    describe "inferrable naming" do
+      it "has a resource name that matches the singular class name" do
+        @klass.resource_name.should == @singular_name
       end
-      
-      describe "at the instance scope" do
-        describe "with a new record" do
-          it "uses the class resource path as the instance resource path"
-        end
-        
-        describe "with an existing record" do
-          it "uses an instance-specific resource path"
-        end
+      it "has a parameter name inferred from the resource name" do
+        @klass.parameter_name.should == @singular_name
       end
-      
+      it "has a resource path that properly pluralises the resource name" do
+        @klass.resource_path.should == "/#{@plural_name}"
+      end       
     end
     
     describe "a new record" do
+      before(:each) do
+        @record = @klass.new
+      end
       
+      it "returns true to #new_record?" do
+        @record.new_record?.should be_true
+      end
+      
+      it "uses the class resource path as the instance resource path" do
+        @record.resource_path.should == @klass.resource_path
+      end
+      
+      it "raises an exception when trying to pull attributes remotely" do
+        lambda {@record.remote_attributes}.should raise_error(Videojuicer::Exceptions::NoResource)
+      end
+      
+      describe "being saved" do        
+        describe "successfully" do
+          before(:all) { @successful = @klass.new(@good_attributes); @saved = @successful.save }
+          
+          it "returns true" do
+            @saved.should == true
+          end
+          it "does not set any errors on the object" do
+            @successful.errors.should be_empty
+          end
+        end
+        describe "unsuccessfully" do
+          before(:all) { @fail = @klass.new; @saved = @fail.save }
+          
+          it "returns false" do
+            @saved.should be_false
+          end
+          it "sets errors on the object" do
+            @fail.errors.should be_kind_of(Hash)
+            @fail.errors.should_not be_empty
+          end
+        end
+      end
     end
     
     describe "finding records" do
@@ -114,7 +144,19 @@ shared_examples_for "a RESTFUL resource model" do
     end
     
     describe "an existing record" do
+      before(:each) do
+        @record = @klass.new(:id=>500)
+      end
       
+      it "returns false to #new_record?" do
+        @record.new_record?.should be_false        
+      end
+      
+      it "uses an instance-specific resource path" do
+        @record.resource_path.should == "/#{@plural_name}/500.js"
+      end
+      
+      it "pulls remote attributes successfully, returning a hash"
     end
   
 end

@@ -14,6 +14,11 @@ describe Videojuicer::User do
     before(:all) do
       @singular_name = "user"
       @plural_name = "users"
+      @good_attributes = {
+        :login => "testuser#{rand 99999}",
+        :password => "#{p = rand(99999)}",
+        :password_confirmation => p
+      }
     end
     
     it_should_behave_like "a RESTFUL resource model"
