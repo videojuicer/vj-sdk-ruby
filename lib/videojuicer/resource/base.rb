@@ -19,16 +19,11 @@ module Videojuicer
       include Videojuicer::Resource::PropertyRegistry
             
       def self.included(base)
-        base.extend(SingletonMethods)
+        base.extend(ClassMethods)        
         Inferrable.included(base)
         PropertyRegistry.included(base)
       end
-      
-      # Fetches an object given an ID. Straight forward.
-      def self.get(id)
-        
-      end
-      
+          
       # Determines if this instance is a new record. For the purposes of the SDK,
       # this really means "does the item already have an ID?" - because if i reconstitute
       # a known item without first retrieving it from the API, then saving that 
@@ -89,6 +84,15 @@ module Videojuicer
         raise NoResource, "Cannot load remote attributes for new records" if new_record?
         response = proxy_for(config).get(resource_path)
         return validate_response(response)
+      end
+      
+      module ClassMethods
+        # Fetches an object given an ID. Straight forward.
+        def get(id)
+          o = new(:id=>id)
+          o.reload
+          o
+        end
       end
       
   end

@@ -145,7 +145,22 @@ shared_examples_for "a RESTFUL resource model" do
       end
     end
     
-    describe "finding records" do
+    describe "finding a record by ID" do
+      before(:all) do
+        @record = @klass.new(@good_attributes)
+        @record.save.should be_true
+        @found = @klass.get(@record.id)
+      end
+      
+      it "gets all the attributes" do
+        attrs = @found.attributes.dup
+        attrs.delete(:id)
+        attrs = attrs.reject {|k,v| !v}
+        attrs.should_not be_empty
+      end
+    end
+    
+    describe "finding a record by conditions" do
       
     end
     
