@@ -70,6 +70,12 @@ module Videojuicer
         end
       end
       
+      # Updates the attributes and saves the record in one go.
+      def update_attributes(attrs)
+        self.attributes = attrs
+        return save
+      end
+      
       # Returns the appropriate resource path for this object.
       # If the object is a new record, then the root object type path
       # will be given. If the object is not new (has an ID) then the
