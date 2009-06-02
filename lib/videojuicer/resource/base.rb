@@ -92,12 +92,23 @@ module Videojuicer
         return validate_response(response)
       end
       
+      # Attempts to delete this record. Will raise an exception if the record is new
+      # or if it has already been deleted.
+      def destroy
+        proxy_for(config).delete(resource_path)
+      end
+      
       module ClassMethods
         # Fetches an object given an ID. Straight forward.
         def get(id)
           o = new(:id=>id)
           o.reload
           o
+        end
+        
+        def destroy(id)
+          o = new(:id=>id)
+          o.destroy
         end
       end
       

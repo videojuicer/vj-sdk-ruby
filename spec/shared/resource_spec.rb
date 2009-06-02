@@ -193,7 +193,10 @@ shared_examples_for "a RESTFUL resource model" do
         @record.save.should be_true
       end
       
-      
+      it "destroys the record" do
+        @record.destroy
+        lambda {@record.reload}.should raise_error(Videojuicer::Exceptions::NoResource)
+      end
     end
   
 end
