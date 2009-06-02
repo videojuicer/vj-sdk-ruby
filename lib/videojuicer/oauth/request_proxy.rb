@@ -64,6 +64,10 @@ module Videojuicer
         case c
         when 404
           raise NoResource, "Response code #{c} received: #{response.inspect}"
+        #when 201
+        #  raise "CREATED and available at #{response["location"]}"
+        #when 406
+        #  raise "NOT SAVED due to attributes that were WELL INVALID"
         when 500..600
           raise RemoteApplicationError, "Remote application raised status code #{c}."
         else

@@ -12,4 +12,3 @@ module Videojuicer
     
   end
 end
-
