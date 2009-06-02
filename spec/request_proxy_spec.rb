@@ -69,7 +69,7 @@ describe Videojuicer::OAuth::RequestProxy do
   describe "request factory" do
     before(:all) do
       @seed = fixtures.seed
-      @fixtures = fixtures["read-user"]
+      @fixtures = fixtures["write-master"]
       @proxy = Videojuicer::OAuth::RequestProxy.new(:seed_name=>@seed.name, :consumer_key=>@fixtures.consumer.consumer_key, :consumer_secret=>@fixtures.consumer.consumer_secret, :token=>nil, :token_secret=>nil)
     end
     

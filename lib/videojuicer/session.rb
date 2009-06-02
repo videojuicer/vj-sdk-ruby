@@ -26,7 +26,7 @@ module Videojuicer
     # +oauth_token+ - The token key to be used as the oauth_token in calls using this token.
     # +oauth_token_secret+ - The token secret to be used when signing requests using this token.
     # +expires+ - The date and time at which the token will become invalid.
-    # +permissions+ - The permissions that you wish the token to have. Will be one of read-user, write-user, read-master or write-master.
+    # +permissions+ - The permissions that you wish the token to have. Will be one of FooAttributeRegistry, write-user, read-master or write-master.
     def get_request_token
       # GET tokens.js
       @request_token_response ||= JSON.parse(proxy_for(config).get("/oauth/tokens.js").body)
@@ -57,7 +57,7 @@ module Videojuicer
     # +oauth_token+ - The token key to be used as the oauth_token in calls using this token.
     # +oauth_token_secret+ - The token secret to be used when signing requests using this token.
     # +expires+ - The date and time at which the token will become invalid.
-    # +permissions+ - The permissions that you wish the token to have. Will be one of read-user, write-user, read-master or write-master.
+    # +permissions+ - The permissions that you wish the token to have. Will be one of FooAttributeRegistry, write-user, read-master or write-master.
     def exchange_request_token(token=get_request_token)
       proxy = proxy_for(config.merge(:token=>token.oauth_token, :token_secret=>token.oauth_token_secret))
       Mash.new JSON.parse(proxy.get("/oauth/tokens.js").body)["access_token"]

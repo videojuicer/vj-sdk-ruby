@@ -6,8 +6,8 @@ describe Videojuicer::Session do
     configure_test_settings
     @session = Videojuicer::Session.new(
       :seed_name        => fixtures.seed.name,
-      :consumer_key     => fixtures["read-user"].consumer.consumer_key,
-      :consumer_secret  => fixtures["read-user"].consumer.consumer_secret
+      :consumer_key     => fixtures["write-master"].consumer.consumer_key,
+      :consumer_secret  => fixtures["write-master"].consumer.consumer_secret
     )
   end
   
@@ -65,7 +65,7 @@ describe Videojuicer::Session do
     
     describe "(retrieving the access token)" do
       before(:all) do
-        @atok_fixture = fixtures["read-user"].access_token
+        @atok_fixture = fixtures["write-master"].access_token
         @atok = @session.exchange_request_token(@atok_fixture)
       end
       
@@ -78,7 +78,7 @@ describe Videojuicer::Session do
         @atok.oauth_token_secret.should_not be_empty
       end
       it "fetches the token permissions" do
-        @atok.permissions.should == "read-user"
+        @atok.permissions.should == "write-master"
       end
     end
 
