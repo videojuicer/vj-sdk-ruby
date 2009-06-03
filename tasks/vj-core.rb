@@ -9,7 +9,7 @@ require 'net/http'
 class ::SDKTestHarness
   class << self
 
-    attr_accessor :server_thread
+    attr_accessor :server_pid
     attr_accessor :fixtures
 
     def core_directory
@@ -17,22 +17,25 @@ class ::SDKTestHarness
     end
     
     def start!
-      stop! if server_thread
-      self.server_thread = Thread.new do
-        puts "Starting vj-core from #{core_directory}"
-        Merb.start  :merb_root=>core_directory, 
-                    :port=>port, 
-                    :reload_classes=>true, 
-                    :name=>"vj-sdk-test", 
-                    :verbose=>false, 
-                    :adapter=>"mongrel", 
-                    :testing=>true,
-                    :environment=>"test"
+      stop! if running?
+      puts "Starting vj-core from #{core_directory}\n"
+      Thread.new do
+        cur_dir = Dir.pwd
+        Dir.chdir(core_directory) do
+          `merb -d -p #{port} -e test`
+        end
+        Dir.chdir(cur_dir)
       end
     end
     
     def stop!
-      server_thread.exit
+      Thread.new do
+        cur_dir = Dir.pwd
+        Dir.chdir(core_directory) do
+          `merb --kill #{port}`
+        end
+        Dir.chdir(cur_dir)
+      end
     end
     
     def running?
@@ -82,7 +85,7 @@ namespace :videojuicer do
     end
     
     task :cleanup do
-      #Rake::Task['videojuicer:core:stop'].invoke
+      Rake::Task['videojuicer:core:stop'].invoke
     end
     
     task :load_fixtures do
@@ -94,12 +97,17 @@ namespace :videojuicer do
     
     task :start do
       if SDKTestHarness.running?
-        puts "The SDK Test harness is already running on port #{SDKTestHarness.port}"
+        puts "The SDK Test harness is already running on port #{SDKTestHarness.port}. Attempting to stop."
+        SDKTestHarness.stop!
+        until !SDKTestHarness.running? do
+          print "+"
+          sleep 1
+        end
       else
         SDKTestHarness.start!      
         puts "Waiting for test harness to launch and open the port."
         until SDKTestHarness.running? do
-          print "."
+          print "+"
           sleep 1
         end
       end
