@@ -25,15 +25,15 @@ describe Videojuicer::Session do
       end
       
       it "fetches a token key" do
-        @token.oauth_token.should be_kind_of(String)
-        @token.oauth_token.should_not be_empty
+        @token["oauth_token"].should be_kind_of(String)
+        @token["oauth_token"].should_not be_empty
       end
       it "fetches a token secret" do
-        @token.oauth_token_secret.should be_kind_of(String)
-        @token.oauth_token_secret.should_not be_empty
+        @token["oauth_token_secret"].should be_kind_of(String)
+        @token["oauth_token_secret"].should_not be_empty
       end
       it "fetches the permissions" do
-        @token.permissions.should == "read-user"
+        @token["permissions"].should == "read-user"
       end
     end
     

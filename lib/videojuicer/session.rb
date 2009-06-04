@@ -30,9 +30,7 @@ module Videojuicer
     def get_request_token
       # GET tokens.js
       @request_token_response ||= JSON.parse(proxy_for(config).get("/oauth/tokens.js").body)
-      Mash.new(
-        @request_token_response["request_token"]
-      )
+      @request_token_response["request_token"]
     end
     
     # Generates and returns a fully-qualified signed URL that the user should be directed to
@@ -44,7 +42,7 @@ module Videojuicer
     # cases this is not necessary - a request token will be requested and used automatically if one 
     # is not supplied.
     def authorize_url(token=get_request_token)
-      proxy_for(config.merge(:token=>token.oauth_token, :token_secret=>token.oauth_token_secret)).signed_url(:get, "/oauth/tokens/new")
+      proxy_for(config.merge(:token=>token["oauth_token"], :token_secret=>token["oauth_token_secret"])).signed_url(:get, "/oauth/tokens/new")
     end
     
     # Once a user has completed the OAuth authorisation procedure at the provider end, you may call 

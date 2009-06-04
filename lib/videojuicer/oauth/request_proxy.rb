@@ -46,7 +46,8 @@ module Videojuicer
       # Does the actual work of making a request. Returns a Net::HTTPResponse object.
       def make_request(method, host, port, path, params)
         method_klass = request_class_for_method(method)
-        req = method_klass.new("#{path}?#{authified_query_string(method, path, params)}", "content-accept"=>"application/json")
+        uri = "#{path}?#{authified_query_string(method, path, params)}"
+        req = method_klass.new(uri, "content-accept"=>"application/json")
         begin
           response =  Net::HTTP.start(host, port) do |http|
                         http.request req
