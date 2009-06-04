@@ -42,7 +42,7 @@ module Videojuicer
     # cases this is not necessary - a request token will be requested and used automatically if one 
     # is not supplied.
     def authorize_url(token=get_request_token)
-      proxy_for(config.merge(:token=>token["oauth_token"], :token_secret=>token["oauth_token_secret"])).signed_url(:get, "/oauth/tokens/new")
+      proxy_for(config.merge(:token=>token["oauth_token"], :token_secret=>token["oauth_token_secret"])).signed_url(:get, "/oauth/tokens/new", :oauth_callback=>token["oauth_callback"])
     end
     
     # Once a user has completed the OAuth authorisation procedure at the provider end, you may call 
@@ -57,7 +57,7 @@ module Videojuicer
     # +expires+ - The date and time at which the token will become invalid.
     # +permissions+ - The permissions that you wish the token to have. Will be one of FooAttributeRegistry, write-user, read-master or write-master.
     def exchange_request_token(token=get_request_token)
-      proxy = proxy_for(config.merge(:token=>token.oauth_token, :token_secret=>token.oauth_token_secret))
+      proxy = proxy_for(config.merge(:token=>token["oauth_token"], :token_secret=>token["oauth_token_secret"]))
       Mash.new JSON.parse(proxy.get("/oauth/tokens.js").body)["access_token"]
     end
     
