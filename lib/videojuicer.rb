@@ -32,6 +32,7 @@ module Videojuicer
     :token_secret     => nil,
     :api_version      => nil,
     :seed_name        => nil,
+    :user_id          => nil,
     :protocol         => "http",
     :host             => "api.videojuicer.com",
     :port             => 80

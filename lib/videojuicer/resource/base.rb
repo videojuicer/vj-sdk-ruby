@@ -57,7 +57,7 @@ module Videojuicer
       def validate_response(response)
         attribs = JSON.parse(response.body)
         attribs.each do |prop, value|
-          self.send("#{prop}=", value)
+          self.send("#{prop}=", value) rescue next
         end
         
         if e = attribs["errors"]

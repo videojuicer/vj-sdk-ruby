@@ -96,7 +96,8 @@ module Videojuicer
           :oauth_timestamp=>Time.now.to_i,
           :oauth_nonce=>rand(9999),
           :oauth_signature_method=>"HMAC-SHA1",
-          :seed_name=>seed_name
+          :seed_name=>seed_name,
+          :user_id=>user_id
         }.merge(params)
         params.delete_if {|k,v| (!v) or (v.to_s.empty?) }
         params[:oauth_signature] = signature(method, path, params)

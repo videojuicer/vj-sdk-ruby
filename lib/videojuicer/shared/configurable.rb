@@ -96,6 +96,8 @@ module Videojuicer
     def protocol; config[:protocol]; end
     # Retrieves the seed name from the configuration options.
     def seed_name; config[:seed_name]; end
+    # Retrieves the user_id from the configuration options. Master tokens can be used to authenticate as any user.
+    def user_id; config[:user_id]; end
     
   end
 end
