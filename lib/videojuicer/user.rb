@@ -1,6 +1,7 @@
 module Videojuicer
   class User
     include Videojuicer::Resource
+    include Videojuicer::Exceptions
     
     property :name, String
     property :login, String
@@ -9,6 +10,20 @@ module Videojuicer
     property :password_confirmation, String
     property :created_at, DateTime
     property :updated_at, DateTime
+    
+    # Authenticates the given login and password and returns
+    # a user if the details are correct. Requires a Master token.
+    def self.authenticate(login, password)
+      proxy = Videojuicer::OAuth::RequestProxy.new
+      begin
+        jobj = proxy.get("/users/authenticate.js", :login=>login, :password=>password)
+        o = new(:id=>jobj["id"])
+        o.reload
+        return o
+      rescue NoResource =>e
+        return nil
+      end
+    end
     
   end
 end
