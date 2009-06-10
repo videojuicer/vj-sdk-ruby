@@ -35,7 +35,7 @@ module Videojuicer
       
       # Saves the record, creating it if is new and updating it if it is not.
       # Returns TRUE on success and FALSE on fail.
-      def save
+      def save 
         proxy = proxy_for(config)
         param_key = self.class.parameter_name
         response =  if new_record?
@@ -55,7 +55,7 @@ module Videojuicer
       
       # Takes a response from the API and performs the appropriate actions.
       def validate_response(response)
-        attribs = JSON.parse(response.body)
+        attribs = JSON.parse(response.body) rescue raise(JSON::ParserError, "Could not parse: \n\n #{response.body}")
         attribs.each do |prop, value|
           self.send("#{prop}=", value) rescue next
         end

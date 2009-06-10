@@ -58,7 +58,8 @@ module Videojuicer
     # +permissions+ - The permissions that you wish the token to have. Will be one of FooAttributeRegistry, write-user, read-master or write-master.
     def exchange_request_token(token=get_request_token)
       proxy = proxy_for(config.merge(:token=>token["oauth_token"], :token_secret=>token["oauth_token_secret"]))
-      Mash.new JSON.parse(proxy.get("/oauth/tokens.js").body)["access_token"]
+      response = proxy.get("/oauth/tokens.js")
+      Mash.new JSON.parse(response.body)["access_token"] rescue raise(JSON::ParserError, "could not parse: \n\n #{response.body}")
     end
     
     def authorize!

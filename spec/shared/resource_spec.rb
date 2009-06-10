@@ -6,7 +6,11 @@ shared_examples_for "a RESTFUL resource model" do
     # Expects @good_attributes to be a hash of attributes for objects of the tested type that will successfully create a valid object.
     
     before(:all) do
-      Videojuicer.configure! :seed_name => fixtures.seed.name
+      Videojuicer.configure!  :seed_name => fixtures.seed.name, 
+                              :consumer_key=>fixtures["write-master"].consumer.consumer_key,
+                              :consumer_secret=>fixtures["write-master"].consumer.consumer_secret,
+                              :token=>fixtures["write-master"].authorized_token.oauth_token,
+                              :token_secret=>fixtures["write-master"].authorized_token.oauth_token_secret
     end
     
     
@@ -129,7 +133,13 @@ shared_examples_for "a RESTFUL resource model" do
           end
         end
         describe "unsuccessfully" do
-          before(:all) { @fail = @klass.new; @saved = @fail.save }
+          before(:all) do 
+            @bad_attributes = @good_attributes.inject({}) do |memo, (key,value)|
+              memo.merge({key=>""})
+            end
+            @fail = @klass.new(@bad_attributes)
+            @saved = @fail.save
+          end
           
           it "returns false" do
             @saved.should be_false
@@ -146,8 +156,8 @@ shared_examples_for "a RESTFUL resource model" do
     end
     
     describe "finding a record by ID" do
-      before(:all) do
-        @record = @klass.new(@good_attributes)
+      before(:all) do        
+        @record = @klass.new(cycle_attributes(@good_attributes))
         @record.save.should be_true
         @found = @klass.get(@record.id)
       end
@@ -161,12 +171,12 @@ shared_examples_for "a RESTFUL resource model" do
     end
     
     describe "finding a record by conditions" do
-      
+      it "should translate a conditions hash to filterable format"
     end
     
     describe "an existing record" do
       before(:each) do
-        @record = @klass.new(@good_attributes)
+        @record = @klass.new(cycle_attributes(@good_attributes))
         @record.save.should be_true
       end
       
@@ -189,7 +199,7 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "deleting a record" do
       before(:each) do
-        @record = @klass.new(@good_attributes)
+        @record = @klass.new(cycle_attributes(@good_attributes))
         @record.save.should be_true
       end
       

@@ -14,6 +14,7 @@ require 'hmac'
 
 module Videojuicer
   module OAuth
+
     class RequestProxy
       
       include Videojuicer::Exceptions
@@ -45,15 +46,12 @@ module Videojuicer
       
       # Does the actual work of making a request. Returns a Net::HTTPResponse object.
       def make_request(method, host, port, path, params)
-        method_klass = request_class_for_method(method)
-        uri = "#{path}?#{authified_query_string(method, path, params)}"
-        req = method_klass.new(uri, "content-accept"=>"application/json")
+        #method_klass = request_class_for_method(method)
+        url = "#{protocol}://#{host}:#{port}#{path}?#{authified_query_string(method, path, params)}"
         begin
-          response =  Net::HTTP.start(host, port) do |http|
-                        http.request req
-                      end
+          response = HTTParty.send(method, url, :headers=>{"content-accept"=>"application/json"})
         rescue Errno::ECONNREFUSED => e
-          raise "Could not connect to #{uri.inspect}"
+          raise "Could not connect to #{url.inspect}"
         end
         return handle_response(response)
       end
@@ -70,7 +68,7 @@ module Videojuicer
         #when 406
         #  raise "NOT SAVED due to attributes that were WELL INVALID"
         when 500..600
-          raise RemoteApplicationError, "Remote application raised status code #{c}."
+          raise RemoteApplicationError, "Remote application raised status code #{c}. Server output: \n\n #{response.body}"
         else
           response
         end
@@ -132,12 +130,12 @@ module Videojuicer
           path = hash_path.dup
           path << key.to_s
           if value.is_a?(Hash)
-            CGI.unescape normalize_params(value, *path)
-          else
+            normalize_params(value, *path)
+          elsif value
             key_path = path.first + path[1..(path.length-1)].collect {|h| "[#{h}]"}.join("")
             "#{CGI.escape "#{key_path}"}=#{CGI.escape value.to_s}"
           end
-        end.join("&")
+        end.compact.join("&")
       end
       
       # Returns the Net::HTTPRequest subclass needed to make a request for the given method.

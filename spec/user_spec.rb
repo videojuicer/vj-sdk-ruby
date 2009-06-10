@@ -16,12 +16,19 @@ describe Videojuicer::User do
       @plural_name = "users"
       @good_attributes = {
         :login => "testuser#{rand 99999}",
+        :name => "#{rand 9999} Jones",
+        :email => "test#{rand 999999}@test.videojuicer.com",
         :password => "#{p = rand(99999)}",
         :password_confirmation => p
       }
     end
     
     it_should_behave_like "a RESTFUL resource model"
+  end
+  
+  describe "authentication" do
+    
+    
   end
   
 end

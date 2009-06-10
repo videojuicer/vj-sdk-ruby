@@ -5,7 +5,7 @@ require 'rubygems'
 require 'cgi'
 require 'json'
 require 'hmac/sha1'
-require 'net/http'
+require 'httparty'
 
 # Core ext
 #--
@@ -44,7 +44,7 @@ module Videojuicer
   class << self
 
     def scopes
-      [default_options]+@scope_stack
+      ([default_options]+@scope_stack).compact
     end
     
     def in_scope?

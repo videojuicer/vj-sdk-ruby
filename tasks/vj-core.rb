@@ -22,7 +22,7 @@ class ::SDKTestHarness
       Thread.new do
         cur_dir = Dir.pwd
         Dir.chdir(core_directory) do
-          `merb -d -p #{port} -e test`
+          `merb -d -p #{port} -e test --log .log/sdk-development.log`
         end
         Dir.chdir(cur_dir)
       end
@@ -30,11 +30,7 @@ class ::SDKTestHarness
     
     def stop!
       Thread.new do
-        cur_dir = Dir.pwd
-        Dir.chdir(core_directory) do
-          `merb --kill #{port}`
-        end
-        Dir.chdir(cur_dir)
+        `killall -9 "merb : worker (port #{port})"`
       end
     end
     

@@ -20,7 +20,7 @@ describe Videojuicer::OAuth::RequestProxy do
       @proxy.normalize_params(:a=>"1", :b=>"2", :c=>"2", :d=>1).should == "a=1&b=2&c=2&d=1"
     end
     it "can sort complex nested parameter hashes correctly" do
-      @proxy.normalize_params(:a=>"1", :b=>"2", :c=>{:a=>"AAA", :b=>"BBB", :c=>"CCC"}, :d=>{:e=>"foo"}).should == "a=1&b=2&c[a]=AAA&c[b]=BBB&c[c]=CCC&d[e]=foo"
+      @proxy.normalize_params(:a=>"1", :b=>"2", :c=>{:a=>"AAA", :b=>"BBB", :c=>"CCC"}, :d=>{:e=>"foo"}).should == "a=1&b=2&c%5Ba%5D=AAA&c%5Bb%5D=BBB&c%5Bc%5D=CCC&d%5Be%5D=foo"
     end
     
     it "does not include binary file parameters in the signature"
