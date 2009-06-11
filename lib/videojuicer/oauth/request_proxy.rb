@@ -49,7 +49,7 @@ module Videojuicer
         #method_klass = request_class_for_method(method)
         url = "#{protocol}://#{host}:#{port}#{path}?#{authified_query_string(method, path, params)}"
         begin
-          response = HTTParty.send(method, url, :headers=>{"content-accept"=>"application/json"})
+          response = HTTParty.send(method, url)#, :headers=>{"content-accept"=>"text/javascript"})
         rescue Errno::ECONNREFUSED => e
           raise "Could not connect to #{url.inspect}"
         end

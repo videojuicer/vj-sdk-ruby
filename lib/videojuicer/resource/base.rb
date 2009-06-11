@@ -55,7 +55,7 @@ module Videojuicer
       
       # Takes a response from the API and performs the appropriate actions.
       def validate_response(response)
-        attribs = JSON.parse(response.body) rescue raise(JSON::ParserError, "Could not parse: \n\n #{response.body}")
+        attribs = (response.body.is_a?(Hash))? response.body : JSON.parse(response.body) rescue raise(JSON::ParserError, "Could not parse #{response.body.class.to_s}: \n\n #{response.body}")
         attribs.each do |prop, value|
           self.send("#{prop}=", value) rescue next
         end
