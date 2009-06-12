@@ -99,6 +99,21 @@ module Videojuicer
       end
       
       module ClassMethods
+        
+        # Finds all objects matching the criteria. Also allows
+        def all(options={})
+          # Get reserved options
+          limit = options.delete :limit
+          offset = options.delete :offset
+          # Get a proxy
+          op = instance_proxy.get(resource_path, :limit=>limit, :offset=>offset)
+          op.collect do |attrs|
+            o = new
+            o.attributes = attrs
+            o
+          end
+        end
+        
         # Fetches an object given an ID. Straight forward.
         def get(id)
           o = new(:id=>id)
@@ -109,6 +124,11 @@ module Videojuicer
         def destroy(id)
           o = new(:id=>id)
           o.destroy
+        end
+        
+        def instance_proxy
+          o = new
+          o.proxy_for(o.config)
         end
       end
       

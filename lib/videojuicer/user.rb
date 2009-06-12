@@ -25,5 +25,11 @@ module Videojuicer
       end
     end
     
+    # Manage virtual attributes that are not sent back to the API
+    attr_accessor :roles
+    def has_role?(symbol)
+      roles.include?(symbol.to_s)
+    end
+    
   end
 end

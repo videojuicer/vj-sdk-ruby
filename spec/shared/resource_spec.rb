@@ -170,6 +170,16 @@ shared_examples_for "a RESTFUL resource model" do
       end
     end
     
+    describe "listing records" do
+      before(:all) do
+        @list = @klass.all
+      end
+      
+      it "should return an array" do
+        @list.should be_kind_of(Array)
+      end
+    end
+    
     describe "finding a record by conditions" do
       it "should translate a conditions hash to filterable format"
     end
