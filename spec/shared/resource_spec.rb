@@ -29,6 +29,13 @@ shared_examples_for "a RESTFUL resource model" do
           
           property :bar, String
         end
+        
+        class ::NameConditionTestRegistry
+          include Videojuicer::Resource::PropertyRegistry
+          
+          property :name, String
+          property :email, String          
+        end
       end
       before(:each) do
         @example_registry = ::FooAttributeRegistry.new
@@ -86,6 +93,18 @@ shared_examples_for "a RESTFUL resource model" do
       it "allows attributes to be read as a hash" do
         created = ::FooAttributeRegistry.new(:integer=>0, :string=>"0000", :string_with_default=>"1111", :id=>5)
         created.attributes.should == {:integer=>0, :string=>"0000", :string_with_default=>"1111", :id=>5}
+      end
+      
+      it "allows mass assignment with indifferent access" do
+        created = ::NameConditionTestRegistry.new
+        created.attributes = {"name"=>"name set", "email"=>"gooooo"}
+        created.name.should == "name set"
+        created.email.should == "gooooo"
+        
+        created = ::NameConditionTestRegistry.new
+        created.attributes = {:name=>"name set", :email=>"gooooo"}
+        created.name.should == "name set"
+        created.email.should == "gooooo"
       end
     end
     

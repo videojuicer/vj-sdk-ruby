@@ -50,8 +50,9 @@ module Videojuicer
       
       # The hash of errors on this object - keyed by attribute name, 
       # with the error description as the value.
-      attr_accessor :errors
-      def errors; @errors ||= {}; end
+      def errors=(arg); @errors = Videojuicer::Resource::Errors.new(arg); end
+      def errors; @errors ||= Videojuicer::Resource::Errors.new({}); end
+      def errors_on(key); errors.on(key); end
       
       # Takes a response from the API and performs the appropriate actions.
       def validate_response(response)
@@ -61,11 +62,11 @@ module Videojuicer
         end
         
         if e = attribs["errors"]
-          @errors = e
+          self.errors = e
           return false
         else
           self.id = attribs["id"].to_i
-          @errors = {}
+          self.errors = {}
           return true
         end
       end

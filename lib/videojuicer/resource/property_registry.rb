@@ -34,12 +34,8 @@ module Videojuicer
 
       
       def initialize(attrs={})
-        self.attributes = default_attributes.merge(attrs)
-      end
-      
-      def attributes=(arg)
-        @attributes ||= {}
-        @attributes = arg
+        self.attributes = default_attributes
+        self.attributes = attrs
       end
       
       def attributes
@@ -74,18 +70,20 @@ module Videojuicer
         
         # Registers an attribute using a datamapper-style syntax.
         # Creates setter and getter methods
-        def property(name, klass, options={})
-          # Can't raise twice.
-          raise ArgumentError, "Property #{name} already registered." if self.attributes.include?(name)
+        def property(prop_name, klass, options={})
+          # Can't raise twice.          
+          prop_name = prop_name.to_sym
+          raise ArgumentError, "Property #{prop_name} already registered." if self.attributes.include?(prop_name)
+          
           # Register with the class
-          self.attributes[name] = {:class=>klass}.merge(options)
+          self.attributes[prop_name] = {:class=>klass}.merge(options)
           # Create setter methods
-          define_method name do
-            attr_get(name)
+          define_method prop_name do
+            attr_get(prop_name)
           end
           
-          define_method "#{name}=" do |arg|
-            attr_set(name, arg)
+          define_method "#{prop_name}=" do |arg|
+            attr_set(prop_name, arg)
           end
         end
         
