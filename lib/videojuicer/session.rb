@@ -28,8 +28,8 @@ module Videojuicer
     # +expires+ - The date and time at which the token will become invalid.
     # +permissions+ - The permissions that you wish the token to have. Will be one of FooAttributeRegistry, write-user, read-master or write-master.
     def get_request_token
-      # GET tokens.js
-      @request_token_response ||= JSON.parse(proxy_for(config).get("/oauth/tokens.js").body)
+      # GET tokens.json
+      @request_token_response ||= JSON.parse(proxy_for(config).get("/oauth/tokens.json").body)
       @request_token_response["request_token"]
     end
     
@@ -58,12 +58,12 @@ module Videojuicer
     # +permissions+ - The permissions that you wish the token to have. Will be one of FooAttributeRegistry, write-user, read-master or write-master.
     def exchange_request_token(token=get_request_token)
       proxy = proxy_for(config.merge(:token=>token["oauth_token"], :token_secret=>token["oauth_token_secret"]))
-      response = proxy.get("/oauth/tokens.js")
+      response = proxy.get("/oauth/tokens.json")
       Mash.new JSON.parse(response.body)["access_token"] rescue raise(JSON::ParserError, "could not parse: \n\n #{response.body}")
     end
     
     def authorize!
-      # GET tokens.js with magic params
+      # GET tokens.json with magic params
       puts "not yet authorized"
     end
     

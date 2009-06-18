@@ -82,7 +82,7 @@ module Videojuicer
       # will be given. If the object is not new (has an ID) then the
       # specific ID will be used.
       def resource_path
-        (new_record?)? self.class.resource_path : "#{self.class.resource_path}/#{id}.js"
+        (new_record?)? self.class.resource_path : "#{self.class.resource_path}/#{id}.json"
       end
       
       # Makes a call to the API for the current attributes on this object.

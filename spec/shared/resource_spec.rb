@@ -214,7 +214,7 @@ shared_examples_for "a RESTFUL resource model" do
       end
       
       it "uses an instance-specific resource path" do
-        @record.resource_path.should == "/#{@plural_name}/#{@record.id}.js"
+        @record.resource_path.should == "/#{@plural_name}/#{@record.id}.json"
       end
       
       it "reloads from the remote API successfully" do

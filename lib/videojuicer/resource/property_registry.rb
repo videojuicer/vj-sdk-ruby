@@ -59,10 +59,12 @@ module Videojuicer
       end
       
       def attr_get(key)
+        key = key.to_sym
         attributes[key]
       end
       
       def attr_set(key, value)
+        key = key.to_sym
         attributes[key] = value
       end
       

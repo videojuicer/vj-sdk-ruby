@@ -13,14 +13,14 @@
   Videojuicer::Movie.resource_name #=> "movie" (The base name)
   Videojuicer::Movie.parameter_name #=> "movie" (The key used when crafting parameter keys e.g. movie[title])
   Videojuicer::Movie.resource_path #=> "/movies" (The base URI used to retrieve data related to objects of this tyle)
-  Videojuicer::Movie.resource_path(id_of_movie) #=> "/movies/id_of_movie.js" (The base URI used to retrieve data related to objects of this tyle)
+  Videojuicer::Movie.resource_path(id_of_movie) #=> "/movies/id_of_movie.json" (The base URI used to retrieve data related to objects of this tyle)
 
   m = Videojuicer::Movie.new
   m.resource_path #=> "/movies" (The URI that will be used to )
 
   m = Videojuicer::Movie.first
   m.id #=> 500, for example
-  m.resource_path #=> "/movies/500.js"
+  m.resource_path #=> "/movies/500.json"
 =end
 
 module Videojuicer
