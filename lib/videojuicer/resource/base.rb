@@ -39,14 +39,15 @@ module Videojuicer
         proxy = proxy_for(config)
         param_key = self.class.parameter_name
         response =  if new_record?
-                      proxy.post(resource_path, param_key=>attributes)
+                      proxy.post(resource_path, param_key=>returnable_attributes)
                     else
-                      proxy.put(resource_path, param_key=>attributes)
+                      proxy.put(resource_path, param_key=>returnable_attributes)
                     end
                     
         # Parse and handle response
         return validate_response(response)
       end
+      
       
       # The hash of errors on this object - keyed by attribute name, 
       # with the error description as the value.

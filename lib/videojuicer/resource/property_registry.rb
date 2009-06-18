@@ -68,6 +68,17 @@ module Videojuicer
         attributes[key] = value
       end
       
+      # Returns a hash of the attributes for this object, minus the
+      # private attributes that should not be included in the response.
+      def returnable_attributes
+        attrs = attributes.dup
+        self.class.attributes.select {|name, props| props[:writer] != :public}.each do |name, props|
+          attrs.delete name
+        end
+        attrs.delete(:id)
+        attrs
+      end
+      
       module SingletonMethods
         
         # Registers an attribute using a datamapper-style syntax.
@@ -77,16 +88,22 @@ module Videojuicer
           prop_name = prop_name.to_sym
           raise ArgumentError, "Property #{prop_name} already registered." if self.attributes.include?(prop_name)
           
+          options = {:class=>klass, :writer=>:public}.merge(options)
           # Register with the class
-          self.attributes[prop_name] = {:class=>klass}.merge(options)
+          self.attributes[prop_name] = options
           # Create setter methods
           define_method prop_name do
             attr_get(prop_name)
           end
           
-          define_method "#{prop_name}=" do |arg|
-            attr_set(prop_name, arg)
-          end
+          private if options[:writer] == :private
+          protected if options[:writer] == :protected
+          
+            define_method "#{prop_name}=" do |arg|
+              attr_set(prop_name, arg)
+            end
+          
+          public
         end
         
       end

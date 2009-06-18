@@ -36,9 +36,17 @@ shared_examples_for "a RESTFUL resource model" do
           property :name, String
           property :email, String          
         end
+        
+        class ::PrivatePropertyRegistry
+          include Videojuicer::Resource::PropertyRegistry
+          
+          property :private_attr, String, :writer=>:private
+          property :public_attr, String          
+        end
       end
       before(:each) do
         @example_registry = ::FooAttributeRegistry.new
+        @example_private_prop_registry = ::PrivatePropertyRegistry.new
       end
       
       it "registers an attribute with a type at the class scope" do
@@ -63,8 +71,7 @@ shared_examples_for "a RESTFUL resource model" do
       it "sets the default to be nil" do
         @example_registry.string.should be_nil
       end
-      
-    
+          
       it "allows an object to be set and read directly" do
         @example_registry.string = "1234567"
         @example_registry.string.should == "1234567"
@@ -75,6 +82,13 @@ shared_examples_for "a RESTFUL resource model" do
         @example_registry.attr_get(:string).should == "987654321"
       end
       
+      it "does not include the ID in the returnable attributes" do
+        @example_private_prop_registry.returnable_attributes.should_not include(:id)
+      end
+      it "does not include the private attributes in the returnable attributes" do
+        @example_private_prop_registry.returnable_attributes.should_not include(:private_attr)
+        @example_private_prop_registry.returnable_attributes.should include(:public_attr)
+      end
       
       it "allows an object to be created with a hash of attributes" do
         created = ::FooAttributeRegistry.new(:integer=>0, :string=>"0000", :string_with_default=>"1111")
@@ -137,7 +151,7 @@ shared_examples_for "a RESTFUL resource model" do
         lambda {@record.reload}.should raise_error(Videojuicer::Exceptions::NoResource)
       end
       
-      describe "being saved" do        
+      describe "being saved" do   
         describe "successfully" do
           before(:all) { @successful = @klass.new(@good_attributes); @saved = @successful.save }
           
@@ -149,7 +163,7 @@ shared_examples_for "a RESTFUL resource model" do
           end
           it "gets an ID" do
             @successful.id.should be_kind_of(Integer)
-          end
+          end 
         end
         describe "unsuccessfully" do
           before(:all) do 
