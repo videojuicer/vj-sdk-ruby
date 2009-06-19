@@ -4,7 +4,7 @@ $:.unshift File.dirname(__FILE__)     # For use/testing when no gem is installed
 require 'rubygems'
 require 'cgi'
 require 'json'
-require 'hmac/sha1'
+require 'hmac-sha1'
 require 'httparty'
 
 # Core ext
