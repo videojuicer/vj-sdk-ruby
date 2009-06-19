@@ -5,6 +5,7 @@ require 'yaml'
 require File.join(File.dirname(__FILE__), "..", "..", "lib", "videojuicer")
 
 require File.join(File.dirname(__FILE__), "..", "shared", "configurable_spec")
+require File.join(File.dirname(__FILE__), "..", "shared", "resource_spec")
 
 module SpecHelper
   

@@ -22,6 +22,7 @@ require 'videojuicer/resource/property_registry'
 require 'videojuicer/resource/base'
 # Frontend models
 require 'videojuicer/user'
+require 'videojuicer/movie'
 require 'videojuicer/session'
 
 module Videojuicer
