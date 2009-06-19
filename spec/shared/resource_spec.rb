@@ -5,15 +5,6 @@ shared_examples_for "a RESTFUL resource model" do
     # Expects @plural_name to be a string containing the expected pluralised name, e.g. Videojuicer::User => "users"
     # Expects @good_attributes to be a hash of attributes for objects of the tested type that will successfully create a valid object.
     
-    before(:all) do
-      Videojuicer.configure!  :seed_name => fixtures.seed.name, 
-                              :consumer_key=>fixtures["write-master"].consumer.consumer_key,
-                              :consumer_secret=>fixtures["write-master"].consumer.consumer_secret,
-                              :token=>fixtures["write-master"].authorized_token.oauth_token,
-                              :token_secret=>fixtures["write-master"].authorized_token.oauth_token_secret
-    end
-    
-    
     describe "inferrable naming" do
       it "has a resource name that matches the singular class name" do
         @klass.resource_name.should == @singular_name
