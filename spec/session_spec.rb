@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
+require 'net/http'
 
 describe Videojuicer::Session do
   

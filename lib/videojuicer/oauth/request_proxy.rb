@@ -46,10 +46,12 @@ module Videojuicer
       
       # Does the actual work of making a request. Returns a Net::HTTPResponse object.
       def make_request(method, host, port, path, params)
-        #method_klass = request_class_for_method(method)
+        # Strip the files from the parameters
+        params, multipart_params = split_multipart_params(params)
+
         url = "#{protocol}://#{host}:#{port}#{path}?#{authified_query_string(method, path, params)}"
         begin
-          response = HTTParty.send(method, url)#, :headers=>{"content-accept"=>"text/javascript"})
+          response = HTTPClient.send(method, url, multipart_params)
         rescue Errno::ECONNREFUSED => e
           raise "Could not connect to #{url.inspect}"
         end
@@ -64,7 +66,7 @@ module Videojuicer
         when 404
           raise NoResource, "Response code #{c} received: #{response.inspect}"
         #when 201
-        #  raise "CREATED and available at #{response["location"]}"
+        #  raise "CREATED and available at #{response.header["location"]}"
         #when 406
         #  raise "NOT SAVED due to attributes that were WELL INVALID"
         when 500..600
@@ -72,6 +74,36 @@ module Videojuicer
         else
           response
         end
+      end
+      
+      # Splits a given parameter hash into two hashes - one containing all
+      # string and non-binary parameters, and one containing all file/binary parameters.
+      # This action is performed recursively so that:
+      #   params = {:user=>{:attributes=>{:file=>some_file, :name=>"user name"}}, :foo=>"bar"}
+      #   normal, multipart = split_multipart_params(params)
+      #   normal.inspect # => {:user=>{:attributes=>{:name=>"user name"}}, :foo=>"bar"}
+      #   multipart.inspect # => {:user=>{:attributes=>{:file=>some_file}}}
+      def split_multipart_params(params, *hash_path)
+        strings = {}
+        files = {}
+        params.each do |key, value|
+          if value.is_a?(Hash)
+            # Call recursively
+            s, f = split_multipart_params(value, *(hash_path+[key]))
+            strings = strings.deep_merge(s)
+            files = files.deep_merge(f)
+          else 
+            # Insert it into files at the current key path if it is a binary,
+            # and into strings if it is not.
+            pwd = (value.is_a?(IO))? files : strings
+            hash_path.each do |component|
+              pwd[component] ||= {}
+              pwd = pwd[component]
+            end
+            pwd[key] = value
+          end
+        end
+        return strings, files
       end
       
       def signed_url(method, path, params={})

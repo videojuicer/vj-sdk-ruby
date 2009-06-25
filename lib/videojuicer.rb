@@ -5,10 +5,10 @@ require 'rubygems'
 require 'cgi'
 require 'json'
 require 'hmac-sha1'
-require 'httparty'
+require 'httpclient'
 
 # Core ext
-#--
+require 'core_ext/hash'
 # Core mixins
 require 'videojuicer/shared/exceptions'
 require 'videojuicer/shared/configurable'
