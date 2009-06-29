@@ -5,7 +5,7 @@ require 'rubygems'
 require 'cgi'
 require 'json'
 require 'hmac-sha1'
-require 'httpclient'
+require 'net/http'
 
 # Core ext
 require 'core_ext/hash'
@@ -24,6 +24,7 @@ require 'videojuicer/resource/base'
 require 'videojuicer/user'
 require 'videojuicer/movie'
 require 'videojuicer/session'
+require 'videojuicer/asset/audio'
 
 module Videojuicer
   

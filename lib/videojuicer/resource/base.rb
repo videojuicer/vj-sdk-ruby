@@ -57,7 +57,7 @@ module Videojuicer
       
       # Takes a response from the API and performs the appropriate actions.
       def validate_response(response)
-        body = response.body.content
+        body = response.body
         attribs = (body.is_a?(Hash))? body : JSON.parse(body) rescue raise(JSON::ParserError, "Could not parse #{body}: \n\n #{body}")
         attribs.each do |prop, value|
           self.send("#{prop}=", value) rescue next
@@ -110,7 +110,7 @@ module Videojuicer
           offset = options.delete :offset
           # Get a proxy
           response = instance_proxy.get(resource_path, :limit=>limit, :offset=>offset)
-          op = JSON.parse(response.body.content)
+          op = JSON.parse(response.body)
           op.collect do |attrs|
             o = new
             o.attributes = attrs

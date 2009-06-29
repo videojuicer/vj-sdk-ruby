@@ -19,7 +19,7 @@ describe Videojuicer::OAuth::RequestProxy do
     it "can split a parameter hash into a regular and multipart hash" do
       f = File.open(__FILE__)
       params = {:user=>{:attributes=>{:file=>f, :name=>"user name"}}, :foo=>"bar"}
-      normal, multipart = @proxy.split_multipart_params(params)
+      normal, multipart = @proxy.split_by_signature_eligibility(params)
       normal.should == {:user=>{:attributes=>{:name=>"user name"}}, :foo=>"bar"}
       multipart.should == {:user=>{:attributes=>{:file=>f}}}
     end
@@ -84,7 +84,7 @@ describe Videojuicer::OAuth::RequestProxy do
     it "can successfully retrieve a request token (indicating a successful signature verification)" do
       @proxy.consumer_key.should == @fixtures.consumer.consumer_key
       response = @proxy.get("/oauth/tokens")
-      response.body.content.should =~ /oauth_token=[a-zA-Z0-9]+&oauth_token_secret=[a-zA-Z0-9]+/
+      response.body.should =~ /oauth_token=[a-zA-Z0-9]+&oauth_token_secret=[a-zA-Z0-9]+/
     end
     
     it "throws an exception when given a 401 return status"

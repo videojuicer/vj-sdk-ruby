@@ -26,7 +26,21 @@ module SpecHelper
   
   def cycle_attributes(attrs)
     r = rand(99999)
-    attrs.inject({}) {|memo, (key, value)| memo.merge({key=>value.to_s.gsub(/\d+/, r.to_s)})}
+    attrs.inject({}) do |memo, (key, value)| 
+      memo.merge({
+        key =>  if value.respond_to?(:read)
+                  value
+                elsif value.is_a?(Date) or value.is_a?(DateTime) or value.is_a?(Time)
+                  value
+                else 
+                  value.to_s.gsub(/\d+/, r.to_s)
+                end
+      })
+    end
+  end
+  
+  def strip_files(attrs)
+    
   end
   
 end

@@ -73,7 +73,8 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "finding a record by ID" do
       before(:all) do        
-        @record = @klass.new(cycle_attributes(@good_attributes))
+        attrs = cycle_attributes(@good_attributes)
+        @record = @klass.new(attrs)
         @record.save.should be_true
         @found = @klass.get(@record.id)
       end
@@ -101,7 +102,7 @@ shared_examples_for "a RESTFUL resource model" do
     end
     
     describe "an existing record" do
-      before(:each) do
+      before(:all) do
         @record = @klass.new(cycle_attributes(@good_attributes))
         @record.save.should be_true
       end
@@ -119,7 +120,9 @@ shared_examples_for "a RESTFUL resource model" do
       end
       
       it "saves successfully" do
-        @record.save.should be_true
+        saved = @record.save
+        @record.errors.should == {}
+        saved.should be_true
       end
     end
     

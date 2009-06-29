@@ -16,7 +16,7 @@ module Videojuicer
     def self.authenticate(login, password)
       proxy = Videojuicer::OAuth::RequestProxy.new
       begin
-        jobj = JSON.parse(proxy.get("/users/authenticate.json", :login=>login, :password=>password).body.content)
+        jobj = JSON.parse(proxy.get("/users/authenticate.json", :login=>login, :password=>password).body)
         o = new(:id=>jobj["id"])
         o.reload
         return o

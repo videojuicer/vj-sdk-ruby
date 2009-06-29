@@ -30,7 +30,7 @@ module Videojuicer
     def get_request_token
       # GET tokens.json
       response = proxy_for(config).get("/oauth/tokens.json")
-      body = response.body.content
+      body = response.body
       @request_token_response ||= JSON.parse(body)
       @request_token_response["request_token"]
     end
@@ -61,7 +61,7 @@ module Videojuicer
     def exchange_request_token(token=get_request_token)
       proxy = proxy_for(config.merge(:token=>token["oauth_token"], :token_secret=>token["oauth_token_secret"]))
       response = proxy.get("/oauth/tokens.json")
-      t = response.body.content
+      t = response.body
       Mash.new JSON.parse(t)["access_token"] rescue raise(JSON::ParserError, "could not parse: \n\n #{t}")
     end
     

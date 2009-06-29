@@ -11,6 +11,7 @@
 
 require 'cgi'
 require 'hmac'
+require File.join(File.dirname(__FILE__), 'multipart_helper')
 
 module Videojuicer
   module OAuth
@@ -45,13 +46,35 @@ module Videojuicer
       def delete(path, params={}); make_request(:delete, host, port, path, params); end
       
       # Does the actual work of making a request. Returns a Net::HTTPResponse object.
-      def make_request(method, host, port, path, params)
-        # Strip the files from the parameters
-        params, multipart_params = split_multipart_params(params)
-
-        url = "#{protocol}://#{host}:#{port}#{path}?#{authified_query_string(method, path, params)}"
+      def make_request(method, host, port, path, params={})
+        # Strip the files from the parameters to determine what, from the whole bundle, needs signing
+        signature_params, multipart_params = split_by_signature_eligibility(params)
+        
+        if multipart_params.any?
+          # Sign the params and include the as multipart
+          multipart_params = flatten_params(
+            authify_params(method, path, signature_params).deep_merge(multipart_params)
+          )
+          query_string = ""
+        else
+          # Use the query string
+          query_string = authified_query_string(method, path, signature_params)
+        end
+        
+        # Generate the HTTP Request and handle the response
+        url = "#{protocol}://#{host}:#{port}#{path}?#{query_string}"
+        request = request_class_for_method(method).new("#{path}?#{query_string}")
+        # Generate the multipart body and headers
+        if multipart_params.any?
+          post_body, content_type = Multipart::Post.new(multipart_params).to_multipart
+          request.content_length = post_body.length
+          request.content_type = content_type
+          request.body = post_body
+        end
+        
         begin
-          response = HTTPClient.send(method, url, multipart_params)
+          #response = HTTPClient.send(method, url, multipart_params)
+          response = Net::HTTP.start(host, port) {|http| http.request(request) }
         rescue Errno::ECONNREFUSED => e
           raise "Could not connect to #{url.inspect}"
         end
@@ -63,12 +86,10 @@ module Videojuicer
       def handle_response(response)
         c = response.code.to_i
         case c
+        when 401
+          raise NoResource, "Couldn't authenticate with the API"
         when 404
           raise NoResource, "Response code #{c} received: #{response.inspect}"
-        #when 201
-        #  raise "CREATED and available at #{response.header["location"]}"
-        #when 406
-        #  raise "NOT SAVED due to attributes that were WELL INVALID"
         when 500..600
           raise RemoteApplicationError, "Remote application raised status code #{c}. Server output: \n\n #{response.body}"
         else
@@ -83,13 +104,13 @@ module Videojuicer
       #   normal, multipart = split_multipart_params(params)
       #   normal.inspect # => {:user=>{:attributes=>{:name=>"user name"}}, :foo=>"bar"}
       #   multipart.inspect # => {:user=>{:attributes=>{:file=>some_file}}}
-      def split_multipart_params(params, *hash_path)
+      def split_by_signature_eligibility(params, *hash_path)
         strings = {}
         files = {}
         params.each do |key, value|
           if value.is_a?(Hash)
             # Call recursively
-            s, f = split_multipart_params(value, *(hash_path+[key]))
+            s, f = split_by_signature_eligibility(value, *(hash_path+[key]))
             strings = strings.deep_merge(s)
             files = files.deep_merge(f)
           else 
@@ -158,16 +179,23 @@ module Videojuicer
       # the key 'bar inside {:foo=>{:bar=>"baz"}} will be named foo[bar] in the signature
       # and in the eventual request object.
       def normalize_params(params, *hash_path)
-        params.sort {|a,b| a.to_s<=>b.to_s}.collect do |key, value|
+        flatten_params(params).sort {|a,b| a.to_s <=> b.to_s}.collect {|k, v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}" }.join("&")
+      end
+      
+      def flatten_params(params, *hash_path)
+        op = {}
+        params.sort {|a,b| a.to_s<=>b.to_s}.each do |key, value|
           path = hash_path.dup
           path << key.to_s
+          
           if value.is_a?(Hash)
-            normalize_params(value, *path)
+            op.merge! flatten_params(value, *path)
           elsif value
             key_path = path.first + path[1..(path.length-1)].collect {|h| "[#{h}]"}.join("")
-            "#{CGI.escape "#{key_path}"}=#{CGI.escape value.to_s}"
+            op[key_path] = value
           end
-        end.compact.join("&")
+        end
+        return op
       end
       
       # Returns the Net::HTTPRequest subclass needed to make a request for the given method.
