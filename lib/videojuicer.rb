@@ -25,6 +25,9 @@ require 'videojuicer/user'
 require 'videojuicer/movie'
 require 'videojuicer/session'
 require 'videojuicer/asset/audio'
+require 'videojuicer/asset/video'
+require 'videojuicer/asset/text'
+require 'videojuicer/asset/image'
 
 module Videojuicer
   
