@@ -1,9 +1,9 @@
 require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
 
-describe Videojuicer::Movie do
+describe Videojuicer::Presentation do
   
   before(:all) do
-    @klass = Videojuicer::Movie
+    @klass = Videojuicer::Presentation
     configure_test_settings
     Videojuicer.enter_scope :seed_name => fixtures.seed.name, 
                             :consumer_key=>fixtures["write-master"].consumer.consumer_key,
@@ -22,11 +22,11 @@ describe Videojuicer::Movie do
   
   describe "general interface:" do
     before(:all) do
-      @singular_name = "movie"
-      @plural_name = "movies"
+      @singular_name = "presentation"
+      @plural_name = "presentations"
       @good_attributes = {
-        :title=>"Movie title #{rand 99999}",
-        :abstract=>"Movie abstract #{rand 99999}",
+        :title=>"Presentation title #{rand 99999}",
+        :abstract=>"Presentation abstract #{rand 99999}",
         :author=>"Bob Anon"
       }
     end

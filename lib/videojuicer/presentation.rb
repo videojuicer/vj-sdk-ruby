@@ -1,5 +1,5 @@
 module Videojuicer
-  class Movie
+  class Presentation
     include Videojuicer::Resource
     include Videojuicer::Exceptions
     
