@@ -62,9 +62,15 @@ module Videojuicer
           singular_name
         end
 
+        # The path to this class's resource given the desired action route.
+        def resource_path(action=nil)
+          action_stem = (action)? "/#{action}" : ""
+          "#{base_path}#{action_stem}"
+        end
+        
         # The root path for requests to the API. By default this is inferred from the plural name
         # e.g. Videojuicer::Movie uses /movies as the resource_path.
-        def resource_path
+        def base_path
           "/#{plural_name}"
         end
       end

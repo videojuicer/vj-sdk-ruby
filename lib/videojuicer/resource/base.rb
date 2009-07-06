@@ -30,7 +30,7 @@ module Videojuicer
       # object should push changes to the correct resource rather than creating a new
       # object.
       def new_record?
-        (id)? false : true
+        (id.to_i > 0)? false : true
       end
       
       # Saves the record, creating it if is new and updating it if it is not.
@@ -42,6 +42,22 @@ module Videojuicer
                       proxy.post(resource_path, param_key=>returnable_attributes)
                     else
                       proxy.put(resource_path, param_key=>returnable_attributes)
+                    end
+                    
+        # Parse and handle response
+        return validate_response(response)
+      end
+      
+      # Attempts to validate this object with the remote service. Returns TRUE on success,
+      # and returns FALSE on failure. Failure will also populate the #errors object on
+      # this instance.
+      def valid?
+        proxy = proxy_for(config)
+        param_key = self.class.parameter_name
+        response =  if new_record?
+                      proxy.post(resource_path(:validate), param_key=>returnable_attributes)
+                    else
+                      proxy.put(resource_path(:validate), param_key=>returnable_attributes)
                     end
                     
         # Parse and handle response
@@ -60,6 +76,7 @@ module Videojuicer
         body = response.body
         attribs = (body.is_a?(Hash))? body : JSON.parse(body) rescue raise(JSON::ParserError, "Could not parse #{body}: \n\n #{body}")
         attribs.each do |prop, value|
+          next if (prop == "id") and (value.to_i < 1)
           self.send("#{prop}=", value) rescue next
         end
         
@@ -83,8 +100,9 @@ module Videojuicer
       # If the object is a new record, then the root object type path
       # will be given. If the object is not new (has an ID) then the
       # specific ID will be used.
-      def resource_path
-        (new_record?)? self.class.resource_path : "#{self.class.resource_path}/#{id}.json"
+      def resource_path(action=nil)
+        action_stem = (action)? "/#{action}" : ""
+        (new_record?)? self.class.resource_path(action) : "#{self.class.resource_path}/#{id}#{action_stem}.json"
       end
       
       # Makes a call to the API for the current attributes on this object.

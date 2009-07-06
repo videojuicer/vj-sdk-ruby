@@ -28,7 +28,7 @@ module Videojuicer
           "asset"
         end
         
-        def resource_path
+        def base_path
           "/assets/#{self.to_s.downcase.split("::").last}"
         end
       end

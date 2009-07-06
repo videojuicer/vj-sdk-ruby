@@ -78,18 +78,19 @@ module Videojuicer
         rescue Errno::ECONNREFUSED => e
           raise "Could not connect to #{url.inspect}"
         end
-        return handle_response(response)
+        
+        return handle_response(response, request)
       end
       
       # Handles an HTTPResponse object appropriately. Redirects are followed, 
       # error states raise errors and success responses are returned directly.
-      def handle_response(response)
+      def handle_response(response, request)
         c = response.code.to_i
         case c
         when 401
           raise NoResource, "Couldn't authenticate with the API"
         when 404
-          raise NoResource, "Response code #{c} received: #{response.inspect}"
+          raise NoResource, "Response code #{c} received for #{request.path}"
         when 500..600
           raise RemoteApplicationError, "Remote application raised status code #{c}. Server output: \n\n #{response.body}"
         else

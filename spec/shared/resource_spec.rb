@@ -34,9 +34,17 @@ shared_examples_for "a RESTFUL resource model" do
         lambda {@record.reload}.should raise_error(Videojuicer::Exceptions::NoResource)
       end
       
+      it "returns false to #valid?" do
+        @record.valid?.should be_false
+      end
+      
       describe "being saved" do   
         describe "successfully" do
-          before(:all) { @successful = @klass.new(@good_attributes); @saved = @successful.save }
+          before(:all) do 
+            @successful = @klass.new(@good_attributes)
+            @successful.valid?.should be_true
+            @saved = @successful.save
+          end
           
           it "returns true" do
             @saved.should == true
@@ -55,6 +63,10 @@ shared_examples_for "a RESTFUL resource model" do
             end
             @fail = @klass.new(@bad_attributes)
             @saved = @fail.save
+          end
+          
+          it "is not #valid?" do
+            @fail.valid?.should be_false
           end
           
           it "returns false" do
