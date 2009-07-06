@@ -70,6 +70,7 @@ module Videojuicer
             param_key = prefix.nil? ? key : "#{prefix}[#{key}]"
             if value.respond_to?(:read)
               @multipart_params << FileParam.new(param_key, value.path, value.read)
+              value.rewind
             else
               if value.is_a?(Hash) || value.is_a?(Mash)
                 value.keys.each do |k|
