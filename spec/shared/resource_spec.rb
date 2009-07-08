@@ -104,8 +104,16 @@ shared_examples_for "a RESTFUL resource model" do
         @list = @klass.all
       end
       
-      it "should return an array" do
-        @list.should be_kind_of(Array)
+      it "should return a collection object"
+      it "should add the pagination options to the collection object"
+      
+      describe "with pagination settings" do
+        it "returns a collection object"
+        it "returns the proper amount of objects"
+      end
+      
+      describe "with conditions" do
+        it "returns a collection object"
       end
     end
     
