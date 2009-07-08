@@ -121,19 +121,31 @@ module Videojuicer
       
       module ClassMethods
         
-        # Finds all objects matching the criteria. Also allows
+        # Finds all objects matching the criteria. Also allows filterable methods.
+        # Use :limit to throttle the amount of records returned.
+        # Use :offset to return all objects after a certain index. Combine with :limit for pagination.        
+        # You may specify comparators on attributes by giving them in the following forms:
+        # > "id"=>"9" #=> Returns only records with ID 9
+        # > "id.gt" => "9" #=> Returns only records with ID greater than 9
+        # > "id.lt" => "9" #=> Returns only records with ID less than 9
+        # > "id.gte" => "9" #=> Returns only records with ID greater than or equal to 9
+        # > "id.lte" => "9" #=> Returns only records with ID less than or equal to than 9
         def all(options={})
-          # Get reserved options
-          limit = options.delete :limit
-          offset = options.delete :offset
           # Get a proxy
-          response = instance_proxy.get(resource_path, :limit=>limit, :offset=>offset)
+          response = instance_proxy.get(resource_path, options)
           op = JSON.parse(response.body)
-          op.collect do |attrs|
-            o = new
-            o.attributes = attrs
+          
+          items = (op["items"] rescue op) # If "items" is on the returned object then this is a collection hash.
+          # Instantiate objects
+          items.collect do |attrs|
+            o = new; o.attributes = attrs
             o
           end
+          return (op.is_a?(Hash))? Videojuicer::Resource::Collection.new(items, op["count"], op["offset"], op["limit"]) : items
+        end
+        
+        def first(options={})
+          all(options.merge(:limit=>1))
         end
         
         # Fetches an object given an ID. Straight forward.
