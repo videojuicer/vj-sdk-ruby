@@ -132,6 +132,7 @@ module Videojuicer
         # > "id.lte" => "9" #=> Returns only records with ID less than or equal to than 9
         def all(options={})
           # Get a proxy
+          options = (options.empty?)? {} : {new.param_key=>options}
           response = instance_proxy.get(resource_path, options)
           op = JSON.parse(response.body)
           
