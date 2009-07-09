@@ -132,7 +132,7 @@ module Videojuicer
         # > "id.lte" => "9" #=> Returns only records with ID less than or equal to than 9
         def all(options={})
           # Get a proxy
-          options = (options.empty?)? {} : {new.param_key=>options}
+          options = (options.empty?)? {} : {parameter_name=>options} # FIXME this is a hacky workaround for singleton scope.
           response = instance_proxy.get(resource_path, options)
           op = JSON.parse(response.body)
           

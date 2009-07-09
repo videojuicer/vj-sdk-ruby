@@ -92,7 +92,21 @@ module Videojuicer
         when 404
           raise NoResource, "Response code #{c} received for #{request.path}"
         when 500..600
-          raise RemoteApplicationError, "Remote application raised status code #{c}. Server output: \n\n #{response.body}"
+          #begin
+            require 'nokogiri'
+            # Attempt to pull the error trace from core.
+            doc = Nokogiri::HTML(response.body)
+            error_type = doc.css("#exception_0 h1").first.content
+            error_desc = doc.css("#exception_0 h2").first.content
+            error_trace = []
+            doc.css("table.trace td.path").each do |td|
+              error_trace << td.content
+            end
+            raise RemoteApplicationError, "Remote application raised error. Parsed merb error page to reveal the error as: \n\n #{error_type} - #{error_desc} \n #{error_trace[0..6].join("\n")}"
+          #rescue
+          #
+          #end                    
+          #raise RemoteApplicationError, "Remote application raised status code #{c}. Server output: \n\n #{response.body}"
         else
           response
         end
