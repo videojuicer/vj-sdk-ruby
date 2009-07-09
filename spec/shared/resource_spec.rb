@@ -117,10 +117,10 @@ shared_examples_for "a RESTFUL resource model" do
         end
         
         it "should return a collection object" do
-          @list.should be_kind_of(Videojuicer::Resource::Collection)
+          @paginated_list.should be_kind_of(Videojuicer::Resource::Collection)
         end
         it "returns the proper amount of objects" do
-          @list.limit.should == 5
+          @paginated_list.limit.should == 5
         end
       end
     end
