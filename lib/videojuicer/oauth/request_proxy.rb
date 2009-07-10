@@ -87,29 +87,29 @@ module Videojuicer
       def handle_response(response, request)
         c = response.code.to_i
         case c
-        when 401
-          raise NoResource, "Couldn't authenticate with the API"
-        when 404
-          raise NoResource, "Response code #{c} received for #{request.path}"
+        when 415
+          response
+        when 403
+          response_error Forbidden, response
+        when 400..499
+          response_error NoResource, response
         when 500..600
-          #begin
-            require 'nokogiri'
-            # Attempt to pull the error trace from core.
-            doc = Nokogiri::HTML(response.body)
-            error_type = doc.css("#exception_0 h1").first.content
-            error_desc = doc.css("#exception_0 h2").first.content
-            error_trace = []
-            doc.css("table.trace td.path").each do |td|
-              error_trace << td.content
-            end
-            raise RemoteApplicationError, "Remote application raised error. Parsed merb error page to reveal the error as: \n\n #{error_type} - #{error_desc} \n #{error_trace[0..6].join("\n")}"
-          #rescue
-          #
-          #end                    
-          #raise RemoteApplicationError, "Remote application raised status code #{c}. Server output: \n\n #{response.body}"
+          response_error RemoteApplicationError, response
         else
           response
         end
+      end
+      
+      # Handles the response as an error of the desired type.
+      def response_error(exception_klass, response)
+        begin
+          e = JSON.parse(response.body)
+          e = e["error"]
+          raise exception_klass, "#{e["message"]} \n #{(e["backtrace"] || []).join("\n")}"
+        rescue JSON::ParserError
+          raise exception_klass
+        end
+        
       end
       
       # Splits a given parameter hash into two hashes - one containing all
@@ -186,7 +186,7 @@ module Videojuicer
       # Returns the unencrypted signature base string for this proxy object and the 
       # given request properties.
       def signature_base_string(method, path, params)
-        [method.to_s.upcase, "#{protocol}://#{host}#{path}", normalize_params(params)].collect {|e| CGI.escape(e)}.join("&")
+        s = [method.to_s.upcase, "#{protocol}://#{host}#{path}", normalize_params(params)].collect {|e| CGI.escape(e)}.join("&")
       end
       
       # Returns a string representing a normalised parameter hash. Supports nesting for

@@ -13,5 +13,8 @@ module Videojuicer
     # Raised when a request is completely buggered by the remote API.
     class RemoteApplicationError < ::StandardError; end
     
+    # Raised when the remote resource refuses to carry out an action.
+    class Forbidden < ::StandardError; end
+    
   end
 end

@@ -138,7 +138,7 @@ module Videojuicer
           
           items = (op["items"] rescue op) # If "items" is on the returned object then this is a collection hash.
           # Instantiate objects
-          items.collect do |attrs|
+          items = items.collect do |attrs|
             o = new; o.attributes = attrs
             o
           end

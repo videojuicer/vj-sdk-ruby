@@ -21,6 +21,7 @@ module Videojuicer
         # - access control / workflow
         base.property :disclosure,       String
         base.property :state,            String, :writer => :private
+        base.property :url,            String, :writer => :private
       end
       
       module ClassMethods

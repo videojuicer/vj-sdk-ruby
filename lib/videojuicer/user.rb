@@ -31,5 +31,13 @@ module Videojuicer
       roles.include?(symbol.to_s)
     end
     
+    def add_role(*symbols)
+      symbols.each {|r| proxy_for(config).post(resource_path(:add_role), :role=>r) }
+    end
+
+    def remove_role(*symbols)
+      symbols.each {|r| proxy_for(config).post(resource_path(:remove_role), :role=>r) }
+    end
+    
   end
 end
