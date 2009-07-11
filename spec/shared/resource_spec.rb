@@ -42,6 +42,7 @@ shared_examples_for "a RESTFUL resource model" do
         describe "successfully" do
           before(:all) do 
             @successful = @klass.new(@good_attributes)
+            raise @successful.errors.inspect unless @successful.valid?
             @successful.valid?.should be_true
             @saved = @successful.save
           end

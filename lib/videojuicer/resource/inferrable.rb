@@ -6,21 +6,21 @@
 
   E.g. 
 
-  class Videojuicer::Movie
+  class Videojuicer::Presentation
     include Videojuicer::Resource # Inferrable is included by this line
   end
 
-  Videojuicer::Movie.resource_name #=> "movie" (The base name)
-  Videojuicer::Movie.parameter_name #=> "movie" (The key used when crafting parameter keys e.g. movie[title])
-  Videojuicer::Movie.resource_path #=> "/movies" (The base URI used to retrieve data related to objects of this tyle)
-  Videojuicer::Movie.resource_path(id_of_movie) #=> "/movies/id_of_movie.json" (The base URI used to retrieve data related to objects of this tyle)
+  Videojuicer::Presentation.resource_name #=> "presentation" (The base name)
+  Videojuicer::Presentation.parameter_name #=> "presentation" (The key used when crafting parameter keys e.g. presentation[title])
+  Videojuicer::Presentation.resource_path #=> "/presentations" (The base URI used to retrieve data related to objects of this tyle)
+  Videojuicer::Presentation.resource_path(id_of_presentation) #=> "/presentations/id_of_presentation.json" (The base URI used to retrieve data related to objects of this tyle)
 
-  m = Videojuicer::Movie.new
-  m.resource_path #=> "/movies" (The URI that will be used to )
+  m = Videojuicer::Presentation.new
+  m.resource_path #=> "/presentations" (The URI that will be used to )
 
-  m = Videojuicer::Movie.first
+  m = Videojuicer::Presentation.first
   m.id #=> 500, for example
-  m.resource_path #=> "/movies/500.json"
+  m.resource_path #=> "/presentations/500.json"
 =end
 
 module Videojuicer
@@ -69,7 +69,7 @@ module Videojuicer
         end
         
         # The root path for requests to the API. By default this is inferred from the plural name
-        # e.g. Videojuicer::Movie uses /movies as the resource_path.
+        # e.g. Videojuicer::Presentation uses /presentations as the resource_path.
         def base_path
           "/#{plural_name}"
         end

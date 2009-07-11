@@ -45,6 +45,7 @@ module Videojuicer
                     end
                     
         # Parse and handle response
+        puts resource_path
         return validate_response(response)
       end
       
@@ -102,6 +103,7 @@ module Videojuicer
       # specific ID will be used.
       def resource_path(action=nil)
         action_stem = (action)? "/#{action}" : ""
+        puts "Is a new record? #{new_record?}"
         (new_record?)? self.class.resource_path(action) : "#{self.class.resource_path}/#{id}#{action_stem}.json"
       end
       
