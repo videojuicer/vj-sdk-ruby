@@ -24,6 +24,7 @@ require 'videojuicer/resource/base'
 require 'videojuicer/session'
 # Frontend models
 require 'videojuicer/user'
+require 'videojuicer/campaign'
 require 'videojuicer/presentation'
 require 'videojuicer/asset/audio'
 require 'videojuicer/asset/video'
