@@ -131,7 +131,7 @@ module Videojuicer
           else 
             # Insert it into files at the current key path if it is a binary,
             # and into strings if it is not.
-            pwd = (value.is_a?(IO))? files : strings
+            pwd = (value.respond_to?(:read))? files : strings
             hash_path.each do |component|
               pwd[component] ||= {}
               pwd = pwd[component]

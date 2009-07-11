@@ -7,21 +7,21 @@ module Videojuicer
         base.send(:extend, Videojuicer::Asset::Base::ClassMethods)
         base.send(:include, Videojuicer::Asset::Base::InstanceMethods)
         
-        base.property :user_id,          Integer
+        base.property :user_id,         Integer
         # - generic file handling
-        base.property :file,             File
-        base.property :file_name,        String, :writer=>:private
-        base.property :file_size,        Integer, :writer=>:private
+        base.property :file,            File
+        base.property :file_name,       String
+        base.property :file_size,       Integer, :writer=>:private
         # - common metadata
-        base.property :duration,         Integer # milliseconds
-        base.property :licensed_at,      Date
-        base.property :licensed_by,      String
-        base.property :licensed_under,   String
-        base.property :published_at,     Date
+        base.property :duration,        Integer # milliseconds
+        base.property :licensed_at,     Date
+        base.property :licensed_by,     String
+        base.property :licensed_under,  String
+        base.property :published_at,    Date
         # - access control / workflow
-        base.property :disclosure,       String
-        base.property :state,            String, :writer => :private
-        base.property :url,            String, :writer => :private
+        base.property :disclosure,      String
+        base.property :state,           String, :writer => :private
+        base.property :url,             String, :writer => :private
       end
       
       module ClassMethods
