@@ -17,11 +17,13 @@ module Videojuicer
       include Videojuicer::OAuth::ProxyFactory
       include Videojuicer::Resource::Inferrable
       include Videojuicer::Resource::PropertyRegistry
+      include Videojuicer::Resource::Relationships::BelongsTo
             
       def self.included(base)
         base.extend(ClassMethods)        
         Inferrable.included(base)
         PropertyRegistry.included(base)
+        Relationships::BelongsTo.included(base)
       end
           
       # Determines if this instance is a new record. For the purposes of the SDK,
@@ -147,7 +149,7 @@ module Videojuicer
         end
         
         def first(options={})
-          all(options.merge(:limit=>1))
+          all(options.merge(:limit=>1)).first
         end
         
         # Fetches an object given an ID. Straight forward.

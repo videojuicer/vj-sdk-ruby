@@ -9,6 +9,7 @@ module Videojuicer
     property :author_url,         String
     property :abstract,           String
     property :user_id,            Integer,  :writer=>:private
+      belongs_to :user, :class=>Videojuicer::User
     property :callback_url,       String
 
     property :state,              String,   :default=>"ready" # see the STATES constant for values
