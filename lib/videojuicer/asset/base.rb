@@ -22,6 +22,9 @@ module Videojuicer
         base.property :disclosure,      String
         base.property :state,           String, :writer => :private
         base.property :url,             String, :writer => :private
+        
+        base.property :created_at,      DateTime
+        base.property :updated_at,      DateTime
       end
       
       module ClassMethods

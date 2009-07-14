@@ -31,10 +31,17 @@ describe Videojuicer::Resource::PropertyRegistry do
         property :private_attr, String, :writer=>:private
         property :public_attr, String          
       end
+      
+      class ::DateRegistry
+        include Videojuicer::Resource::PropertyRegistry
+        
+        property :date, DateTime
+      end
     end
     before(:each) do
       @example_registry = ::FooAttributeRegistry.new
       @example_private_prop_registry = ::PrivatePropertyRegistry.new
+      @date_registry = ::DateRegistry.new
     end
   
     it "registers an attribute with a type at the class scope" do
@@ -68,6 +75,17 @@ describe Videojuicer::Resource::PropertyRegistry do
     it "allows an object to be set and read via the indirect helper" do
       @example_registry.attr_set :string, "987654321"
       @example_registry.attr_get(:string).should == "987654321"
+    end
+  
+    it "converts attributes to a date when a string is passed into a datetime object" do
+      @date_registry.date = "2009-07-01 13:14:15"
+      @date_registry.date.should be_kind_of(DateTime)
+      @date_registry.date.year.should == 2009
+      @date_registry.date.month.should == 7
+      @date_registry.date.day.should == 1
+      @date_registry.date.hour.should == 13
+      @date_registry.date.min.should == 14
+      @date_registry.date.sec.should == 15
     end
   
     it "does not include the ID in the returnable attributes" do

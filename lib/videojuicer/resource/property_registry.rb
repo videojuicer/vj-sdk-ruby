@@ -65,7 +65,20 @@ module Videojuicer
       
       def attr_set(key, value)
         key = key.to_sym
-        attributes[key] = value
+        attributes[key] = coerce_value(key, value)
+      end
+      
+      # Takes what is normally a string and coerces it into the correct object type for the 
+      # attribute's actual type.
+      def coerce_value(key, value)
+        return value unless value
+        klass = self.class.attributes[key][:class]
+        if value.is_a?(String) and value.any?
+          if klass.respond_to?(:parse)
+            return klass.parse(value) rescue raise "Invalid date: #{value.inspect}"
+          end
+        end
+        return value
       end
       
       # Returns a hash of the attributes for this object, minus the
