@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'merb-core'
 require 'rake'
-require 'tasks/vj-core'
 
 begin
   require 'jeweler'
@@ -27,6 +26,7 @@ end
 
 namespace :spec do
   task :sdk do
+    require 'tasks/vj-core'
     Rake::Task["videojuicer:core:setup"].invoke
     Rake::Task["spec"].invoke
     Rake::Task["videojuicer:core:cleanup"].invoke
