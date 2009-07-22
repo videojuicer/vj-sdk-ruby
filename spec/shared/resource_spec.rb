@@ -86,8 +86,8 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "finding a record by ID" do
       before(:all) do        
-        attrs = cycle_attributes(@good_attributes)
-        @record = @klass.new(attrs)
+        @random_attributes ||= cycle_attributes(@good_attributes)
+        @record = @klass.new(@random_attributes)
         @record.save.should be_true
         @found = @klass.get(@record.id)
       end
@@ -132,7 +132,8 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "an existing record" do
       before(:all) do
-        @record = @klass.new(cycle_attributes(@good_attributes))
+        @random_attributes ||= cycle_attributes(@good_attributes)
+        @record = @klass.new(@random_attributes)
         @record.save.should be_true
       end
       
@@ -157,7 +158,8 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "deleting a record" do
       before(:each) do
-        @record = @klass.new(cycle_attributes(@good_attributes))
+        @random_attributes ||= cycle_attributes(@good_attributes)
+        @record = @klass.new(@random_attributes)
         @record.save.should be_true
       end
       

@@ -47,7 +47,6 @@ module Videojuicer
                     end
                     
         # Parse and handle response
-        puts resource_path
         return validate_response(response)
       end
       
