@@ -19,7 +19,6 @@ module Videojuicer
         base.property :licensed_under,  String
         base.property :published_at,    Date
         # - access control / workflow
-        base.property :disclosure,      String
         base.property :state,           String, :writer => :private
         base.property :url,             String, :writer => :private
         
