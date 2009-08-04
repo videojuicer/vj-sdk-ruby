@@ -89,8 +89,12 @@ module Videojuicer
         case c
         when 415
           response
+        when 401
+          response_error Unauthenticated, response
         when 403
           response_error Forbidden, response
+        when 406
+          response_error NotAcceptable, response
         when 400..499
           response_error NoResource, response
         when 500..600
