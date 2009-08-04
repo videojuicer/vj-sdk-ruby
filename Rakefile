@@ -12,7 +12,8 @@ begin
     gem.authors = ["danski", "thejohnny", "knowtheory", "sixones"]
     
     # Declare dependencies
-    gem.add_dependency "oauth", ">= 0.3.3"
+    gem.add_dependency "json", ">= 1.0"
+    gem.add_dependency "ruby-hmac", ">= 0.3.2"
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
