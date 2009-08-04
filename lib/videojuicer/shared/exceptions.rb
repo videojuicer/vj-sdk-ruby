@@ -16,5 +16,11 @@ module Videojuicer
     # Raised when the remote resource refuses to carry out an action.
     class Forbidden < ::StandardError; end
     
+    # Raised when status is 401
+    class Unauthenticated < ::StandardError; end
+    
+    # Raised when status is 406
+    class NotAcceptable < ::StandardError; end
+    
   end
 end
