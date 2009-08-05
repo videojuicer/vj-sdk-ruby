@@ -72,6 +72,12 @@ module Videojuicer
           request.body = post_body
         end
         
+        # Send a content-length on POST and PUT to avoid an HTTP 411 response
+        case method
+        when :post, :put
+          request.content_length = 0
+        end
+        
         begin
           #response = HTTPClient.send(method, url, multipart_params)
           response = Net::HTTP.start(host, port) {|http| http.request(request) }
