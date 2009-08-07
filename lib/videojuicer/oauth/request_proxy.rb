@@ -85,6 +85,8 @@ module Videojuicer
         begin
           #response = HTTPClient.send(method, url, multipart_params)
           response = Net::HTTP.start(host, port) {|http| http.request(request) }
+        rescue EOFError => e
+          raise "EOF error when accessing #{url.inspect}"
         rescue Errno::ECONNREFUSED => e
           raise "Could not connect to #{url.inspect}"
         end
@@ -105,35 +107,35 @@ module Videojuicer
           response
         when 401
           # Authentication problem
-          response_error Unauthenticated, response
+          response_error Unauthenticated, request, response
         when 403
           # Attempted to perform a forbidden action
-          response_error Forbidden, response
+          response_error Forbidden, request, response
         when 404
           # Resource URL not valid
-          response_error NoResource, response
+          response_error NoResource, request, response
         when 406
           # Excuse me WTF r u doin
-          response_error NotAcceptable, response
+          response_error NotAcceptable, request, response
         when 411
           # App-side server error where request is not properly constructed.
-          response_error ContentLengthRequired, response
+          response_error ContentLengthRequired, request, response
         when 500..600
           # Remote application failure
-          response_error RemoteApplicationError, response
+          response_error RemoteApplicationError, request, response
         else
-          response_error UnhandledHTTPStatus, response
+          response_error UnhandledHTTPStatus, request, response
         end
       end
       
       # Handles the response as an error of the desired type.
-      def response_error(exception_klass, response)
+      def response_error(exception_klass, request, response)
         begin
           e = JSON.parse(response.body)
           e = e["error"]
           raise exception_klass, "#{e["message"]} \n #{(e["backtrace"] || []).join("\n")}"
         rescue JSON::ParserError
-          raise exception_klass, "#{exception_klass.to_s} : Response code was #{response.code}"
+          raise exception_klass, "#{exception_klass.to_s} : Response code was #{response.code} for request: #{request.path}"
         end
         
       end

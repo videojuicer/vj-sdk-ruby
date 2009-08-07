@@ -98,15 +98,6 @@ module Videojuicer
         return save
       end
       
-      # Returns the appropriate resource path for this object.
-      # If the object is a new record, then the root object type path
-      # will be given. If the object is not new (has an ID) then the
-      # specific ID will be used.
-      def resource_path(action=nil)
-        action_stem = (action)? "/#{action}" : ""
-        (new_record?)? self.class.resource_path(action) : "#{self.class.resource_path}/#{id}#{action_stem}.json"
-      end
-      
       # Makes a call to the API for the current attributes on this object.
       # Overwrites the current instance attribute values.
       def reload
@@ -135,7 +126,7 @@ module Videojuicer
         def all(options={})
           # Get a proxy
           options = (options.empty?)? {} : {parameter_name=>options} # FIXME this is a hacky workaround for singleton scope.
-          response = instance_proxy.get(resource_path, options)
+          response = instance_proxy.get(base_path(:nested=>false), options)
           op = JSON.parse(response.body)
           
           items = (op["items"] rescue op) # If "items" is on the returned object then this is a collection hash.

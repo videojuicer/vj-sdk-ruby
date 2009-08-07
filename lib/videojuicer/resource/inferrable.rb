@@ -29,9 +29,61 @@ module Videojuicer
   
       def self.included(base)
         base.extend(SingletonMethods)
+        base.send :include, InstanceMethods
+      end
+      
+      module InstanceMethods
+        # Returns the appropriate resource path for this object.
+        # If the object is a new record, then the root object type path
+        # will be given. If the object is not new (has an ID) then the
+        # specific ID will be used.
+        def resource_path(action=nil)
+          action_stem = (action)? "/#{action}" : ""
+          
+          if new_record?
+           r = self.class.resource_route(action)
+           self.class.compile_route(r, attributes)
+          else
+          	r = self.class.resource_route
+          	"#{self.class.compile_route(r, attributes)}/#{id}#{action_stem}.json"
+          end
+        end
       end
       
       module SingletonMethods
+        
+        def compile_route(mask, properties={})
+          properties = properties.deep_stringify
+          result = []
+          mask.split("/").each do |member|
+            if member[0..0] == ":"
+              result << (properties[member.delete(":")])
+            else
+              result << member
+            end            
+          end
+          "#{result.join("/")}"
+        end
+        
+        # Nested resources are inferred from the class hierarchy:
+        # Something.parent_class #=> nil
+        # Something::Else.parent_class #=> Something        
+        # Monkeys::Are::Delicious
+        def containing_class
+          c = self.to_s.split("::"); c.pop
+          (c.any?)? Object.full_const_get(c.join("::")) : nil
+        end
+        
+        # The route fragment under which nested resources should be mapped.
+        def nesting_route
+          r = ["#{plural_name}/#{nesting_route_key}"]
+          r = ([(self.containing_class.nesting_route rescue nil)] + r).compact.join("/")
+        end
+        
+        # The key used by other models when referring to this one in resource routes. User.nesting_route_key == ":user_id"
+        def nesting_route_key
+          ":#{resource_name}_id"
+        end
         
         # Returns the lowercased, underscored version of the including class name.
         # e.g. Videojuicer::ExampleModel.singular_name => "example_model"
@@ -47,6 +99,10 @@ module Videojuicer
         # when compared directly and fairly to something like ActiveSupport's inflection
         # module, is an idiot. You would be best to treat it as one.
         def plural_name
+          if singular_name.match(/y$/)
+          	return singular_name.gsub(/y$/, "ies")
+          end          
+          # Fall back to the simplest rules
           (singular_name.match(/s$/))? "#{singular_name}es" : "#{singular_name}s"
         end
         
@@ -63,16 +119,23 @@ module Videojuicer
         end
 
         # The path to this class's resource given the desired action route.
-        def resource_path(action=nil)
+        # Returned as a mask with replaceable keys e.g. /fixed/fixed/:replaceme/fixed
+        def resource_route(action=nil)
           action_stem = (action)? "/#{action}" : ""
           "#{base_path}#{action_stem}"
         end
         
-        # The root path for requests to the API. By default this is inferred from the plural name
+        # The root route for requests to the API. By default this is inferred from the plural name
         # e.g. Videojuicer::Presentation uses /presentations as the resource_path.
-        def base_path
-          "/#{plural_name}"
+        def base_path(options={})
+	      options = {
+	      	:nested=>true
+	      }.merge(options)
+          r = "/#{plural_name}"
+          r = "#{self.containing_class.nesting_route rescue nil}#{r}" if options[:nested]
+          return r
         end
+        
       end
       
       

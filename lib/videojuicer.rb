@@ -9,6 +9,8 @@ require 'net/http'
 
 # Core ext
 require 'core_ext/hash'
+require 'core_ext/string'
+require 'core_ext/object'
 # Core mixins
 require 'videojuicer/shared/exceptions'
 require 'videojuicer/shared/configurable'
@@ -26,19 +28,12 @@ require 'videojuicer/session'
 # Frontend models
 require 'videojuicer/user'
 require 'videojuicer/campaign'
+require 'videojuicer/campaign_policy'
 require 'videojuicer/presentation'
 require 'videojuicer/asset/audio'
 require 'videojuicer/asset/video'
 require 'videojuicer/asset/text'
 require 'videojuicer/asset/image'
-
-require 'videojuicer/criterion/affiliate'
-require 'videojuicer/criterion/date_range'
-require 'videojuicer/criterion/embed'
-require 'videojuicer/criterion/geolocation'
-require 'videojuicer/criterion/request'
-require 'videojuicer/criterion/time'
-require 'videojuicer/criterion/week_day'
 
 module Videojuicer
   

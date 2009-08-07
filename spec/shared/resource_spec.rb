@@ -6,6 +6,20 @@ shared_examples_for "a RESTFUL resource model" do
     # Expects @good_attributes to be a hash of attributes for objects of the tested type that will successfully create a valid object.
     
     describe "inferrable naming" do
+      before(:all) do
+        class ::Nester
+          include Videojuicer::Resource::Inferrable
+        
+          class Nested
+            include Videojuicer::Resource::Inferrable
+          
+            class Leaf
+              include Videojuicer::Resource::Inferrable
+            end
+          end
+        end
+      end
+    
       it "has a resource name that matches the singular class name" do
         @klass.resource_name.should == @singular_name
       end
@@ -13,8 +27,22 @@ shared_examples_for "a RESTFUL resource model" do
         @klass.parameter_name.should == @singular_name
       end
       it "has a resource path that properly pluralises the resource name" do
-        @klass.resource_path.should == "/#{@plural_name}"
-      end       
+        @klass.resource_route.should =~ /\/#{@plural_name}/
+      end
+      
+      it "ascertains the containing class" do
+        ::Nester.containing_class.should be_nil
+        ::Nester::Nested.containing_class.should == ::Nester
+        ::Nester::Nested::Leaf.containing_class.should == ::Nester::Nested
+      end
+      
+      it "builds a nested route" do
+        ::Nester::Nested::Leaf.resource_route.should == "nesters/:nester_id/nesteds/:nested_id/leafs"
+      end
+      
+      it "compiles a route" do
+        ::Nester.compile_route("/foo/bar/:foo/:bar/foo", :foo=>"OMG", :bar=>"ROFLMAO").should == "/foo/bar/OMG/ROFLMAO/foo"
+      end
     end
     
     describe "a new record" do
@@ -24,10 +52,6 @@ shared_examples_for "a RESTFUL resource model" do
       
       it "returns true to #new_record?" do
         @record.new_record?.should be_true
-      end
-      
-      it "uses the class resource path as the instance resource path" do
-        @record.resource_path.should == @klass.resource_path
       end
       
       it "raises an exception when trying to pull attributes remotely" do
