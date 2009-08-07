@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.1.5"
+  s.version = "0.1.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones"]
-  s.date = %q{2009-08-07}
+  s.date = %q{2009-08-08}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION.yml",
      "lib/core_ext/hash.rb",
+     "lib/core_ext/object.rb",
+     "lib/core_ext/string.rb",
      "lib/sdk_connection_harness.rb",
      "lib/videojuicer.rb",
      "lib/videojuicer/asset/audio.rb",
@@ -29,13 +31,7 @@ Gem::Specification.new do |s|
      "lib/videojuicer/asset/text.rb",
      "lib/videojuicer/asset/video.rb",
      "lib/videojuicer/campaign.rb",
-     "lib/videojuicer/criterion/affiliate.rb",
-     "lib/videojuicer/criterion/date_range.rb",
-     "lib/videojuicer/criterion/embed.rb",
-     "lib/videojuicer/criterion/geolocation.rb",
-     "lib/videojuicer/criterion/request.rb",
-     "lib/videojuicer/criterion/time.rb",
-     "lib/videojuicer/criterion/week_day.rb",
+     "lib/videojuicer/campaign_policy.rb",
      "lib/videojuicer/oauth/multipart_helper.rb",
      "lib/videojuicer/oauth/proxy_factory.rb",
      "lib/videojuicer/oauth/request_proxy.rb",
@@ -52,13 +48,9 @@ Gem::Specification.new do |s|
      "lib/videojuicer/user.rb",
      "spec/audio_spec.rb",
      "spec/belongs_to_spec.rb",
+     "spec/campaign_policy_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
-     "spec/criteria/date_range_spec.rb",
-     "spec/criteria/geolocation_spec.rb",
-     "spec/criteria/request_spec.rb",
-     "spec/criteria/time_spec.rb",
-     "spec/criteria/week_day_spec.rb",
      "spec/files/audio.mp3",
      "spec/files/empty_file",
      "spec/files/image.jpg",
@@ -88,13 +80,9 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/audio_spec.rb",
      "spec/belongs_to_spec.rb",
+     "spec/campaign_policy_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
-     "spec/criteria/date_range_spec.rb",
-     "spec/criteria/geolocation_spec.rb",
-     "spec/criteria/request_spec.rb",
-     "spec/criteria/time_spec.rb",
-     "spec/criteria/week_day_spec.rb",
      "spec/helpers/spec_helper.rb",
      "spec/image_spec.rb",
      "spec/presentation_spec.rb",
