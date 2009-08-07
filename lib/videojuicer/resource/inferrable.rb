@@ -37,14 +37,13 @@ module Videojuicer
         # If the object is a new record, then the root object type path
         # will be given. If the object is not new (has an ID) then the
         # specific ID will be used.
-        def resource_path(action=nil)
+        def resource_path(action=nil, route_options={})
           action_stem = (action)? "/#{action}" : ""
           
-          if new_record?
-           r = self.class.resource_route(action)
+          r = self.class.resource_route(action, route_options)
+          if new_record?           
            self.class.compile_route(r, attributes)
           else
-          	r = self.class.resource_route
           	"#{self.class.compile_route(r, attributes)}/#{id}#{action_stem}.json"
           end
         end
@@ -120,17 +119,17 @@ module Videojuicer
 
         # The path to this class's resource given the desired action route.
         # Returned as a mask with replaceable keys e.g. /fixed/fixed/:replaceme/fixed
-        def resource_route(action=nil)
+        def resource_route(action=nil, route_options={})
           action_stem = (action)? "/#{action}" : ""
-          "#{base_path}#{action_stem}"
+          "#{base_path(route_options)}#{action_stem}"
         end
         
         # The root route for requests to the API. By default this is inferred from the plural name
         # e.g. Videojuicer::Presentation uses /presentations as the resource_path.
         def base_path(options={})
-	      options = {
-	      	:nested=>true
-	      }.merge(options)
+  	      options = {
+  	      	:nested=>true
+  	      }.merge(options)
           r = "/#{plural_name}"
           r = "#{self.containing_class.nesting_route rescue nil}#{r}" if options[:nested]
           return r

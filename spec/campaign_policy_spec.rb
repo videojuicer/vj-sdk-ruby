@@ -25,8 +25,15 @@ describe Videojuicer::Campaign::CampaignPolicy do
       @singular_name = "campaign_policy"
       @plural_name = "campaign_policies"
       string_mash = (("A".."z").to_a + ("a".."z").to_a)
+      
+      p = Videojuicer::Presentation.new(:title=>"FOOOBARRRRR")
+      p.save.should be_true
+      c = Videojuicer::Campaign.new(:name=>"TACOSPHERE")
+      c.save.should be_true
+      
       @good_attributes = {
-        :name => (0..rand(75)).map{ string_mash[rand(string_mash.size - 1)] }.join
+		:campaign_id => c.id,
+		:presentation_id => p.id	
       }
     end
     
