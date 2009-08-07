@@ -35,6 +35,7 @@ describe Videojuicer::Campaign::CampaignPolicy do
 		:campaign_id => c.id,
 		:presentation_id => p.id	
       }
+      @fixed_attributes = [:campaign_id]
     end
     
     it_should_behave_like "a RESTFUL resource model"

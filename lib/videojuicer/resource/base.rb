@@ -102,7 +102,7 @@ module Videojuicer
       # Overwrites the current instance attribute values.
       def reload
         raise NoResource, "Cannot load remote attributes for new records" if new_record?
-        response = proxy_for(config).get(resource_path)
+        response = proxy_for(config).get(resource_path(nil, :nested=>false))
         return validate_response(response)
       end
       

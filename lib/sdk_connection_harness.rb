@@ -16,7 +16,7 @@ class SDKConnectionHarness
       Thread.new do
         cur_dir = Dir.pwd
         Dir.chdir(core_directory) do
-          `merb -d -p #{port} -e test --log .log/sdk-development.log`
+          `merb -d -p #{port} -e test --log ./log/sdk-development.log`
         end
         Dir.chdir(cur_dir)
       end

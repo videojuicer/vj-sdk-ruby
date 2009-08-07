@@ -5,6 +5,10 @@ shared_examples_for "a RESTFUL resource model" do
     # Expects @plural_name to be a string containing the expected pluralised name, e.g. Videojuicer::User => "users"
     # Expects @good_attributes to be a hash of attributes for objects of the tested type that will successfully create a valid object.
     
+    before(:all) do
+    	@fixed_attributes ||= []
+    end
+    
     describe "inferrable naming" do
       before(:all) do
         class ::Nester
@@ -37,7 +41,7 @@ shared_examples_for "a RESTFUL resource model" do
       end
       
       it "builds a nested route" do
-        ::Nester::Nested::Leaf.resource_route.should == "nesters/:nester_id/nesteds/:nested_id/leafs"
+        ::Nester::Nested::Leaf.resource_route.should == "/nesters/:nester_id/nesteds/:nested_id/leafs"
       end
       
       it "compiles a route" do
@@ -84,7 +88,7 @@ shared_examples_for "a RESTFUL resource model" do
         describe "unsuccessfully" do
           before(:all) do 
             @bad_attributes = @good_attributes.inject({}) do |memo, (key,value)|
-              memo.merge({key=>""})
+              memo.merge({key=>(@fixed_attributes.include?(key)? value : "")})
             end
             @fail = @klass.new(@bad_attributes)
             @saved = @fail.save
@@ -110,7 +114,7 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "finding a record by ID" do
       before(:all) do        
-        @random_attributes ||= cycle_attributes(@good_attributes)
+        @random_attributes ||= cycle_attributes(@good_attributes, @fixed_attributes)
         @record = @klass.new(@random_attributes)
         @record.save.should be_true
         @found = @klass.get(@record.id)
@@ -156,7 +160,7 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "an existing record" do
       before(:all) do
-        @random_attributes ||= cycle_attributes(@good_attributes)
+        @random_attributes ||= cycle_attributes(@good_attributes, @fixed_attributes)
         @record = @klass.new(@random_attributes)
         @record.save.should be_true
       end
@@ -166,7 +170,7 @@ shared_examples_for "a RESTFUL resource model" do
       end
       
       it "uses an instance-specific resource path" do
-        @record.resource_path.should == "/#{@plural_name}/#{@record.id}.json"
+        @record.resource_path.should =~ /\/#{@plural_name}\/#{@record.id}\.json$/
       end
       
       it "reloads from the remote API successfully" do
@@ -182,7 +186,7 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "deleting a record" do
       before(:each) do
-        @random_attributes ||= cycle_attributes(@good_attributes)
+        @random_attributes ||= cycle_attributes(@good_attributes, @fixed_attributes)
         @record = @klass.new(@random_attributes)
         @record.save.should be_true
       end

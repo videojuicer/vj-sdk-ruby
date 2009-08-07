@@ -75,8 +75,15 @@ module Videojuicer
         
         # The route fragment under which nested resources should be mapped.
         def nesting_route
-          r = ["#{plural_name}/#{nesting_route_key}"]
-          r = ([(self.containing_class.nesting_route rescue nil)] + r).compact.join("/")
+=begin
+          'Videojuicer::Asset::Video general interface: inferrable naming builds a nested route' FAILED
+expected: "/nesters/:nester_id/nesteds/:nested_id/leafs",
+     got: "/nesters/:nester_id//nesteds/:nested_id/leafs" (using ==)
+
+=end
+        
+          r = ["/#{plural_name}/#{nesting_route_key}"]
+          r = ([(self.containing_class.nesting_route rescue nil)] + r).compact.join("")
         end
         
         # The key used by other models when referring to this one in resource routes. User.nesting_route_key == ":user_id"
