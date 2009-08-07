@@ -62,21 +62,25 @@ module Videojuicer
         end
         
         # Generate the HTTP Request and handle the response
-        url = "#{protocol}://#{host}:#{port}#{path}?#{query_string}"
-        request = request_class_for_method(method).new("#{path}?#{query_string}")
+        url = "#{protocol}://#{host}:#{port}#{path}"
+        request = request_class_for_method(method).new("#{path}?#{query_string}")        
         # Generate the multipart body and headers
-        if multipart_params.any?
+        if multipart_params.any?          
           post_body, content_type = Multipart::Post.new(multipart_params).to_multipart
           request.content_length = post_body.length
           request.content_type = content_type
           request.body = post_body
+        else
+          # Send a content-length on POST and PUT to avoid an HTTP 411 response
+          case method
+          when :post, :put
+            request = request_class_for_method(method).new("#{path}")
+            request.content_type = "application/x-www-form-urlencoded"
+            request.body = query_string
+            request.content_length = query_string.length
+          end
         end
         
-        # Send a content-length on POST and PUT to avoid an HTTP 411 response
-        case method
-        when :post, :put
-          request.content_length = 0
-        end
         
         begin
           #response = HTTPClient.send(method, url, multipart_params)
@@ -93,20 +97,32 @@ module Videojuicer
       def handle_response(response, request)
         c = response.code.to_i
         case c
+        when 200..399
+          # Successful or redirected response
+          response
         when 415
+          # Validation error
           response
         when 401
+          # Authentication problem
           response_error Unauthenticated, response
         when 403
+          # Attempted to perform a forbidden action
           response_error Forbidden, response
-        when 406
-          response_error NotAcceptable, response
-        when 400..499
+        when 404
+          # Resource URL not valid
           response_error NoResource, response
+        when 406
+          # Excuse me WTF r u doin
+          response_error NotAcceptable, response
+        when 411
+          # App-side server error where request is not properly constructed.
+          response_error ContentLengthRequired, response
         when 500..600
+          # Remote application failure
           response_error RemoteApplicationError, response
         else
-          response
+          response_error UnhandledHTTPStatus, response
         end
       end
       
@@ -117,7 +133,7 @@ module Videojuicer
           e = e["error"]
           raise exception_klass, "#{e["message"]} \n #{(e["backtrace"] || []).join("\n")}"
         rescue JSON::ParserError
-          raise exception_klass
+          raise exception_klass, "#{exception_klass.to_s} : Response code was #{response.code}"
         end
         
       end

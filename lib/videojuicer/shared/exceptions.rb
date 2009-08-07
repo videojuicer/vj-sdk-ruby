@@ -22,5 +22,11 @@ module Videojuicer
     # Raised when status is 406
     class NotAcceptable < ::StandardError; end
     
+    # Raised when status is 411
+    class ContentLengthRequired < ::StandardError; end
+    
+    # Raised on an unclassified exception
+    class UnhandledHTTPStatus < ::StandardError; end
+    
   end
 end
