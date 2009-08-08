@@ -75,13 +75,6 @@ module Videojuicer
         
         # The route fragment under which nested resources should be mapped.
         def nesting_route
-=begin
-          'Videojuicer::Asset::Video general interface: inferrable naming builds a nested route' FAILED
-expected: "/nesters/:nester_id/nesteds/:nested_id/leafs",
-     got: "/nesters/:nester_id//nesteds/:nested_id/leafs" (using ==)
-
-=end
-        
           r = ["/#{plural_name}/#{nesting_route_key}"]
           r = ([(self.containing_class.nesting_route rescue nil)] + r).compact.join("")
         end
@@ -98,7 +91,7 @@ expected: "/nesters/:nester_id/nesteds/:nested_id/leafs",
                               gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
                               gsub(/([a-z\d])([A-Z])/,'\1_\2').
                               tr("-", "_").
-                              downcase
+                              downcase.snake_case
         end
         
         # Returns the plural version of the underscored singular name. This method,

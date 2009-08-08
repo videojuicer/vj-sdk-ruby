@@ -34,6 +34,7 @@ require 'videojuicer/asset/audio'
 require 'videojuicer/asset/video'
 require 'videojuicer/asset/text'
 require 'videojuicer/asset/image'
+require 'videojuicer/criterion/date_range'
 
 module Videojuicer
   

@@ -19,6 +19,12 @@ module Videojuicer
         @criteria = arg
       end
         
+      def add_criteria(*criteria)
+      end
+      
+      def remove_critiera
+      end
+      
       def request_criteria
         @criteria[:request]
       end
