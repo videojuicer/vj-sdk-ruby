@@ -1,9 +1,9 @@
-require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
+require File.join(File.dirname(__FILE__), "..", "helpers",  "spec_helper")
 
-describe Videojuicer::Asset::Audio do
+describe Videojuicer::Asset::Image do
   
   before(:all) do
-    @klass = Videojuicer::Asset::Audio
+    @klass = Videojuicer::Asset::Image
     configure_test_settings
     Videojuicer.enter_scope :seed_name => fixtures.seed.name, 
                             :consumer_key=>fixtures["write-master"].consumer.consumer_key,
@@ -23,18 +23,17 @@ describe Videojuicer::Asset::Audio do
   describe "general interface:" do
     before(:all) do
       @singular_name = "asset"
-      @plural_name = "assets/audio"
+      @plural_name = "assets/image"
       @good_attributes = {
         :user_id        => rand(100) + 1,
         :licensed_at    => Time.now,
         :licensed_by    => "foo, bar",
         :licensed_under => "CC BY:NC:SA",
         :published_at   => Time.now,      
-        :duration       => 40200,
-        :bit_rate       => 1280400,
-        :format         => "MPEG Layer 3",
-        :stereo         => "stereo",
-        :file => File.open(File.join(File.dirname(__FILE__), "files", "audio.mp3"))
+        :duration       => 180000, 
+        :width          => 640,
+        :height         => 480,
+        :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "image.jpg"))
       }
     end
     

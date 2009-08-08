@@ -17,6 +17,7 @@ module Videojuicer
       include Videojuicer::OAuth::ProxyFactory
       include Videojuicer::Resource::Inferrable
       include Videojuicer::Resource::PropertyRegistry
+      include Videojuicer::Resource::Types
       include Videojuicer::Resource::Relationships::BelongsTo
             
       def self.included(base)

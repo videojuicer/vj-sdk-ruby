@@ -1,9 +1,9 @@
-require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
+require File.join(File.dirname(__FILE__), "..", "helpers",  "spec_helper")
 
-describe Videojuicer::Asset::Image do
+describe Videojuicer::Asset::Text do
   
   before(:all) do
-    @klass = Videojuicer::Asset::Image
+    @klass = Videojuicer::Asset::Text
     configure_test_settings
     Videojuicer.enter_scope :seed_name => fixtures.seed.name, 
                             :consumer_key=>fixtures["write-master"].consumer.consumer_key,
@@ -23,7 +23,7 @@ describe Videojuicer::Asset::Image do
   describe "general interface:" do
     before(:all) do
       @singular_name = "asset"
-      @plural_name = "assets/image"
+      @plural_name = "assets/text"
       @good_attributes = {
         :user_id        => rand(100) + 1,
         :licensed_at    => Time.now,
@@ -31,9 +31,7 @@ describe Videojuicer::Asset::Image do
         :licensed_under => "CC BY:NC:SA",
         :published_at   => Time.now,      
         :duration       => 180000, 
-        :width          => 640,
-        :height         => 480,
-        :file => File.open(File.join(File.dirname(__FILE__), "files", "image.jpg"))
+        :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "text.txt"))
       }
     end
     

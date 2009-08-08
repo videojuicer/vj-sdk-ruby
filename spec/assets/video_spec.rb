@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
+require File.join(File.dirname(__FILE__), "..", "helpers",  "spec_helper")
 
 describe Videojuicer::Asset::Video do
   
@@ -39,7 +39,7 @@ describe Videojuicer::Asset::Video do
         :video_format      => "Sorenson Video 3 Decompressor",
         :width             => 240,
         :height            => 180,
-        :file => File.open(File.join(File.dirname(__FILE__), "files", "video.mov"))
+        :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "video.mov"))
       }
     end
     

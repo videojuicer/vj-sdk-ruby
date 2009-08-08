@@ -1,9 +1,9 @@
-require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
+require File.join(File.dirname(__FILE__), "..", "helpers",  "spec_helper")
 
-describe Videojuicer::Asset::Text do
-  
-  before(:all) do
-    @klass = Videojuicer::Asset::Text
+describe Videojuicer::Promo::Image do
+
+   before(:all) do
+    @klass = Videojuicer::Promo::Image
     configure_test_settings
     Videojuicer.enter_scope :seed_name => fixtures.seed.name, 
                             :consumer_key=>fixtures["write-master"].consumer.consumer_key,
@@ -22,21 +22,14 @@ describe Videojuicer::Asset::Text do
   
   describe "general interface:" do
     before(:all) do
-      @singular_name = "asset"
-      @plural_name = "assets/text"
+      @singular_name = "promo"
+      @plural_name = "promos/image"
       @good_attributes = {
-        :user_id        => rand(100) + 1,
-        :licensed_at    => Time.now,
-        :licensed_by    => "foo, bar",
-        :licensed_under => "CC BY:NC:SA",
-        :published_at   => Time.now,      
-        :duration       => 180000, 
-        :file => File.open(File.join(File.dirname(__FILE__), "files", "text.txt"))
       }
     end
     
-    it_should_behave_like "a RESTFUL resource model"
+    it_should_behave_like "a dependent non-resource object"
   end
-  
-  
+
 end
+  

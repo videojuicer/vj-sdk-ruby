@@ -18,6 +18,7 @@ require 'videojuicer/shared/configurable'
 require 'videojuicer/oauth/request_proxy'
 require 'videojuicer/oauth/proxy_factory'
 # Resource handling
+require 'videojuicer/resource/types'
 require 'videojuicer/resource/relationships/belongs_to'
 require 'videojuicer/resource/errors'
 require 'videojuicer/resource/collection'
@@ -34,6 +35,7 @@ require 'videojuicer/asset/audio'
 require 'videojuicer/asset/video'
 require 'videojuicer/asset/text'
 require 'videojuicer/asset/image'
+require 'videojuicer/promo/base'
 require 'videojuicer/criterion/date_range'
 
 module Videojuicer
