@@ -20,9 +20,19 @@ module Videojuicer
       end
         
       def add_criteria(*criteria)
+        criteria.map do |criterion|
+          proxy_for(config).post("#{path_for_criterion}#{criterion.class.base_path}", {:criterion => criterion.attributes})
+        end
       end
       
-      def remove_critiera
+      def remove_criteria(*criteria)
+        criteria.map do |criterion|
+          proxy_for(config).delete("#{path_for_criterion}#{criterion.class.base_path}", {:criterion => criterion.attributes})
+        end
+      end
+      
+      def path_for_criterion
+        self.class.compile_route(self.class.nesting_route,{:campaign_policy_id => self.id, :campaign_id => self.campaign_id})
       end
       
       def request_criteria

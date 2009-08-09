@@ -1,9 +1,9 @@
-require File.join(File.dirname(__FILE__), "..", "helpers",  "spec_helper")
+require File.join(File.dirname(__FILE__), "..", "helpers", "spec_helper")
 
-describe Videojuicer::Criterion::DateRange do
+describe Videojuicer::Criterion::Request do
 
    before(:all) do
-    @klass = Videojuicer::Criterion::DateRange
+    @klass = Videojuicer::Criterion::Request
     configure_test_settings
     Videojuicer.enter_scope :seed_name => fixtures.seed.name, 
                             :consumer_key=>fixtures["write-master"].consumer.consumer_key,
@@ -23,10 +23,9 @@ describe Videojuicer::Criterion::DateRange do
   describe "general interface:" do
     before(:all) do
       @singular_name = "criterion"
-      @plural_name = "criteria/date_range"
+      @plural_name = "criteria/request"
       @good_attributes = {
-        :until => DateTime.send(:today) + 1,
-        :after => DateTime.send(:today) - 1
+        :referrer => "http://www.google.com"
       }
     end
     
@@ -34,4 +33,3 @@ describe Videojuicer::Criterion::DateRange do
   end
 
 end
-  
