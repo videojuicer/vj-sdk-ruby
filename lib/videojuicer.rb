@@ -18,6 +18,7 @@ require 'videojuicer/shared/configurable'
 require 'videojuicer/oauth/request_proxy'
 require 'videojuicer/oauth/proxy_factory'
 # Resource handling
+require 'videojuicer/resource/embeddable'
 require 'videojuicer/resource/types'
 require 'videojuicer/resource/relationships/belongs_to'
 require 'videojuicer/resource/errors'

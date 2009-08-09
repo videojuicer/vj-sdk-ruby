@@ -32,6 +32,7 @@ describe Videojuicer::Presentation do
     end
     
     it_should_behave_like "a RESTFUL resource model"
+    it_should_behave_like "an embeddable"
   end
   
   

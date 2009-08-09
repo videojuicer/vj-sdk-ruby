@@ -62,7 +62,7 @@ module Videojuicer
         end
         
         # Generate the HTTP Request and handle the response
-        url = "#{protocol}://#{host}:#{port}#{path}"
+        url = "#{host_stub}#{path}"
         request = request_class_for_method(method).new("#{path}?#{query_string}")        
         # Generate the multipart body and headers
         if multipart_params.any?          
@@ -92,6 +92,10 @@ module Videojuicer
         end
         
         return handle_response(response, request)
+      end
+      
+      def host_stub
+        "#{protocol}://#{host}:#{port}"
       end
       
       # Handles an HTTPResponse object appropriately. Redirects are followed, 
