@@ -5,7 +5,7 @@ module Videojuicer
     
     property :name,     String
     property :user_id,  Integer
-      belongs_to :user
+      belongs_to :user, :class=>Videojuicer::User
     
     attr_accessor :campaign_policies
     def campaign_policies=(arg)

@@ -17,9 +17,10 @@ module Videojuicer
             
             define_method name do
               id = self.send(options[:foreign_key])
+              klass = (options[:class].is_a?(String))? Videojuicer.const_get(options[:class]) : options[:class]
               return nil unless id
               begin
-                return options[:class].get(id)
+                return klass.get(id)
               rescue Videojuicer::Exceptions::NoResource
                 return nil
               end
