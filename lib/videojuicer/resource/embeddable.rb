@@ -16,6 +16,11 @@ module Videojuicer
         JSON.parse(result.body)
       end
       
+      def embed_size(maxwidth, maxheight)
+        p = oembed_payload(maxwidth, maxheight)
+        return p["width"], p["height"]
+      end
+      
       def embed_code(maxwidth, maxheight)
         oembed_payload(maxwidth, maxheight)["html"]
       end

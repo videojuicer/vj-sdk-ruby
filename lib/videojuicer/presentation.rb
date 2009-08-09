@@ -29,5 +29,10 @@ module Videojuicer
 
     property :tag_list,           String
    
+    def permalink
+      proxy = proxy_for(config)
+      "#{proxy.host_stub}/presentations/#{id}.html?seed_name=#{seed_name}".gsub(":80/","/")
+    end
+   
   end 
 end
