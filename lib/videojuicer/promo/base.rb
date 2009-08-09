@@ -1,5 +1,13 @@
 module Videojuicer
   module Promo
+    def self.model_map
+      { :audio  => Videojuicer::Promo::Audio,
+        :images => Videojuicer::Promo::Image,
+        :texts  => Videojuicer::Promo::Text,
+        :videos => Videojuicer::Promo::Video
+      }
+    end
+    
     class Base
       
       def self.inherited(base)

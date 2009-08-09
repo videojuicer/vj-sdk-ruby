@@ -25,7 +25,7 @@ describe Videojuicer::Promo::Image do
       @singular_name = "promo"
       @plural_name = "promos/image"
       @good_attributes = {
-        :role => "Thumbnail",
+        :role => "Voice Over",
         :href => "http://www.videojuicer.com",
         :asset_id => 1
       }
@@ -35,4 +35,3 @@ describe Videojuicer::Promo::Image do
   end
 
 end
-  
