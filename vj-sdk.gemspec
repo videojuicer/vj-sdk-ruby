@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.1.7"
+  s.version = "0.1.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones"]
@@ -34,6 +34,10 @@ Gem::Specification.new do |s|
      "lib/videojuicer/campaign_policy.rb",
      "lib/videojuicer/criterion/base.rb",
      "lib/videojuicer/criterion/date_range.rb",
+     "lib/videojuicer/criterion/geolocation.rb",
+     "lib/videojuicer/criterion/request.rb",
+     "lib/videojuicer/criterion/time.rb",
+     "lib/videojuicer/criterion/week_day.rb",
      "lib/videojuicer/oauth/multipart_helper.rb",
      "lib/videojuicer/oauth/proxy_factory.rb",
      "lib/videojuicer/oauth/request_proxy.rb",
@@ -59,7 +63,11 @@ Gem::Specification.new do |s|
      "spec/campaign_policy_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
-     "spec/criteria/date_range_spec.rb",
+     "spec/criterion/date_range_spec.rb",
+     "spec/criterion/geolocation_spec.rb",
+     "spec/criterion/request_spec.rb",
+     "spec/criterion/time_spec.rb",
+     "spec/criterion/week_day_spec.rb",
      "spec/files/audio.mp3",
      "spec/files/empty_file",
      "spec/files/image.jpg",
@@ -67,7 +75,10 @@ Gem::Specification.new do |s|
      "spec/files/video.mov",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
+     "spec/promos/audio_spec.rb",
      "spec/promos/image_spec.rb",
+     "spec/promos/text_spec.rb",
+     "spec/promos/video_spec.rb",
      "spec/property_registry_spec.rb",
      "spec/request_proxy_spec.rb",
      "spec/session_spec.rb",
@@ -96,10 +107,17 @@ Gem::Specification.new do |s|
      "spec/campaign_policy_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
-     "spec/criteria/date_range_spec.rb",
+     "spec/criterion/date_range_spec.rb",
+     "spec/criterion/geolocation_spec.rb",
+     "spec/criterion/request_spec.rb",
+     "spec/criterion/time_spec.rb",
+     "spec/criterion/week_day_spec.rb",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
+     "spec/promos/audio_spec.rb",
      "spec/promos/image_spec.rb",
+     "spec/promos/text_spec.rb",
+     "spec/promos/video_spec.rb",
      "spec/property_registry_spec.rb",
      "spec/request_proxy_spec.rb",
      "spec/session_spec.rb",
