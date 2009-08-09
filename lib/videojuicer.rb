@@ -37,6 +37,10 @@ require 'videojuicer/asset/text'
 require 'videojuicer/asset/image'
 require 'videojuicer/promo/base'
 require 'videojuicer/criterion/date_range'
+require 'videojuicer/criterion/geolocation'
+require 'videojuicer/criterion/request'
+require 'videojuicer/criterion/time'
+require 'videojuicer/criterion/week_day'
 
 module Videojuicer
   
