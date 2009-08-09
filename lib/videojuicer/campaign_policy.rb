@@ -56,7 +56,7 @@ module Videojuicer
       
       def add_criteria(*criteria)
         responses = criteria.map do |criterion|
-          proxy_for(config).post("#{path_for_criterion}#{criterion.class.base_path}", {:criterion => criterion.attributes})
+          proxy_for(config).post("#{path_for_dependents}#{criterion.class.base_path}", {:criterion => criterion.attributes})
         end
         self.reload
         responses
@@ -64,7 +64,7 @@ module Videojuicer
       
       def remove_criteria(*criteria)
         responses = criteria.map do |criterion|
-          proxy_for(config).delete("#{path_for_criterion}#{criterion.class.base_path}", {:criterion => criterion.attributes})
+          proxy_for(config).delete("#{path_for_dependents}#{criterion.class.base_path}", {:criterion => criterion.attributes})
         end
         self.reload
         responses
@@ -74,7 +74,7 @@ module Videojuicer
         @promos = {}
         object_hash.map do |type_sym, promos|
           @promos[type_sym.to_sym] = 
-          promos.map do promo|
+          promos.map do |promo|
             Videojuicer::Promo.model_map[type_sym.to_sym].new(promo)
           end
         end
@@ -93,8 +93,8 @@ module Videojuicer
       end
 
       def add_promos(*promos)
-        responses = promos.map do promo|
-          proxy_for(config).post("#{path_for_criterion}#{criterion.class.base_path}", {:promo => promo.attributes})
+        responses = promos.map do |promo|
+          proxy_for(config).post("#{path_for_dependents}#{promo.class.base_path}", {:promo => promo.attributes})
         end
         self.reload
         responses
@@ -102,13 +102,13 @@ module Videojuicer
       
       def remove_promos(*promos)
         responses = promos.map do |promo|
-          proxy_for(config).delete("#{path_for_criterion}#{criterion.class.base_path}", {:promo => promo.attributes})
+          proxy_for(config).delete("#{path_for_dependents}#{promo.class.base_path}", {:promo => promo.attributes})
         end
         self.reload
         responses
       end
       
-      def path_for_criterion
+      def path_for_dependents
         self.class.compile_route(self.class.nesting_route,{:campaign_policy_id => self.id, :campaign_id => self.campaign_id})
       end
     end
