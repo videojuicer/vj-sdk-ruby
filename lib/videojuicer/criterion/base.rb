@@ -34,6 +34,20 @@ module Videojuicer
         def save(*args); raise NoMethodError; end
         def destroy(*args); raise NoMethodError; end
         def ==(other); self.attributes == other.attributes; end
+        def matcher_attributes;  end
+        
+        def matcher_attributes
+          result = {}
+          self.matcher_keys.each do |key|
+            result[key] = self.send(key)
+          end
+          return result
+        end
+        
+        def matcher_keys
+          raise NoMethodError, "Matcher Attributes needs to be implemented for #{self.class}";
+        end
+
       end
             
     end

@@ -5,9 +5,14 @@ module Videojuicer
     class Geolocation < Base
       
       property :country,            String
-      property :region,             String    # these are things like States and Provinces for the US & Canada
-      property :city,               String,   :length => 255
-#      property :exclude,            Boolean,  :default => false
+      property :region,             String
+      property :city,               String
+      property :exclude,            Boolean
+      
+      def matcher_keys
+        [:country, :region, :city, :exclude]
+      end
+
     end
   end
 end

@@ -7,6 +7,9 @@ module Videojuicer
       property :until, DateTime
       property :after, DateTime
       
+      def matcher_keys
+        [:until, :after]
+      end
     end
   end
 end

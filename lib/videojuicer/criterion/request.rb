@@ -7,6 +7,9 @@ module Videojuicer
       property :referrer,           String, :nullable => false
       property :exclude,            Boolean
       
+      def matcher_keys
+        [:referrer, :exclude]
+      end
     end
   end
 end
