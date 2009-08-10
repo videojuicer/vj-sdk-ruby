@@ -25,7 +25,7 @@ describe Videojuicer::Criterion::WeekDay do
       @singular_name = "criterion"
       @plural_name = "criteria/week_day"
       @good_attributes = {
-        :day => 1
+        :monday => true
       }
     end
     
