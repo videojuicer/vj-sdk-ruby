@@ -83,6 +83,19 @@ module Videojuicer
           if klass.respond_to?(:parse)
             return klass.parse(value) rescue raise "Invalid date: #{value.inspect}"
           end
+        elsif value.is_a? Hash and value.any?
+          if klass == DateTime
+            if value.is_a?(Hash)
+              year   = value[:year]
+              month  = value[:month]
+              day    = value[:day]
+              hour   = value[:hour] or "00"
+              minute = value[:minute] or "00"
+              value = klass.parse("#{year}-#{month}-#{day}T#{hour}:#{minute}:00+00:00")
+            else
+              raise ArgumentError, "Please supply a DateTime, Hash keyed w/ [:day, :month, :year, :hour, :minute] or a String that can be coerced into a date"
+            end
+          end
         end
         return value
       end
