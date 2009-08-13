@@ -3,6 +3,8 @@ require File.join(File.dirname(__FILE__), "base")
 module Videojuicer
   module Asset
     class Video < Base
+      property :bit_rate,          Integer # bits per second
+      
       property :audio_bit_rate,    Integer # bits per second
       property :audio_format,      String
       property :audio_sample_rate, Integer # hertz

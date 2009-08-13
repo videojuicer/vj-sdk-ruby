@@ -30,9 +30,10 @@ describe Videojuicer::Asset::Audio do
         :licensed_by    => "foo, bar",
         :licensed_under => "CC BY:NC:SA",
         :published_at   => Time.now,      
-        :duration       => 40200,
-        :bit_rate       => 1280400,
+        :bit_rate       => 127999,
+        :duration       => 4092,
         :format         => "MPEG Layer 3",
+        :sample_rate    => 44100,
         :stereo         => "stereo",
         :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "audio.mp3"))
       }
