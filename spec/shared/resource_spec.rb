@@ -5,7 +5,7 @@ shared_examples_for "a RESTFUL resource model" do
     # Expects @plural_name to be a string containing the expected pluralised name, e.g. Videojuicer::User => "users"
     # Expects @good_attributes to be a hash of attributes for objects of the tested type that will successfully create a valid object.
     
-	it_should_behave_like "a model"
+	  it_should_behave_like "a model"
 
     before(:all) do
     	@fixed_attributes ||= []

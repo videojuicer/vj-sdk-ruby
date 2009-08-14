@@ -5,7 +5,7 @@
 =end
 
 require 'net/http'
-require 'lib/sdk_connection_harness'
+require File.join(File.dirname(__FILE__), "..", "lib", "sdk_connection_harness")
 
 namespace :videojuicer do  
   namespace :core do

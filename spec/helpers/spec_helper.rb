@@ -10,6 +10,9 @@ require File.join(File.dirname(__FILE__), "..", "shared", "resource_spec")
 require File.join(File.dirname(__FILE__), "..", "shared", "embeddable_spec")
 require File.join(File.dirname(__FILE__), "..", "shared", "dependent_spec")
 
+# Load the fixture helper
+require File.join(File.dirname(__FILE__), "spec_fixtures")
+
 module SpecHelper
   
   def configure_test_settings(overrides={})
