@@ -11,6 +11,7 @@ namespace :videojuicer do
   namespace :core do
     
     task :setup do
+      Rake::Task['videojuicer:core:stop'].invoke
       Rake::Task['videojuicer:core:load_fixtures'].invoke
       Rake::Task['videojuicer:core:start'].invoke
     end
@@ -62,7 +63,7 @@ namespace :videojuicer do
           sleep 1
         end
       else
-        puts "The test harness was not running and therefore could not be stopped. We advise that you do not attempt to confuse us with such philosophical quandries again."
+        puts "The test harness is not running."
       end
     end
     

@@ -16,7 +16,7 @@ class SDKConnectionHarness
       Thread.new do
         cur_dir = Dir.pwd
         Dir.chdir(core_directory) do
-          `merb -d -p #{port} -e test --log ./log/sdk-development.log`
+          `./bin/merb -d -p #{port} -e test --log ./log/sdk-development.log`
         end
         Dir.chdir(cur_dir)
       end
@@ -45,7 +45,7 @@ class SDKConnectionHarness
     
     def load_fixtures
       Dir.chdir(core_directory) do
-        out = `rake videojuicer:sdk:setup MERB_ENV=test`
+        out = `./bin/rake videojuicer:sdk:setup MERB_ENV=test`
         out = out.match(/!!!([^!]+)!!!/m)
         self.fixtures = out[1]
       end
@@ -59,7 +59,7 @@ class SDKConnectionHarness
     end
     
     def port
-      5555
+      6666
     end
     
     def connect(overrides={})
@@ -79,7 +79,7 @@ class SDKConnectionHarness
         :api_version      => 1,
         :protocol         => "http",
         :host             => "localhost",
-        :port             => 5555
+        :port             => port
       }.merge(overrides))
     end
     

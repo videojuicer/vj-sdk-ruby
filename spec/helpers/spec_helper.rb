@@ -19,7 +19,7 @@ module SpecHelper
       :api_version      => 1,
       :protocol         => "http",
       :host             => "localhost",
-      :port             => 5555
+      :port             => 6666
     }.merge(overrides))
   end
   

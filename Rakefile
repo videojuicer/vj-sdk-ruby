@@ -29,7 +29,7 @@ namespace :spec do
   task :sdk do
     require 'tasks/vj-core'
     Rake::Task["videojuicer:core:setup"].invoke
-    Rake::Task["spec"].invoke
+    Rake::Task["spec"].execute
     Rake::Task["videojuicer:core:cleanup"].invoke
   end
 end
