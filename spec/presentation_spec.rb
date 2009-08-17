@@ -24,11 +24,6 @@ describe Videojuicer::Presentation do
     before(:all) do
       @singular_name = "presentation"
       @plural_name = "presentations"
-      @good_attributes = {
-        :title=>"Presentation title #{rand 99999}",
-        :abstract=>"Presentation abstract #{rand 99999}",
-        :author=>"Bob Anon"
-      }
     end
     
     it_should_behave_like "a RESTFUL resource model"

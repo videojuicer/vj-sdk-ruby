@@ -24,10 +24,6 @@ describe Videojuicer::Criterion::Time do
     before(:all) do
       @singular_name = "criterion"
       @plural_name = "criteria/time"
-      @good_attributes = {
-        :after => (Time.now - 3600).strftime("%H%M"),
-        :until => (Time.now + 3600).strftime("%H%M")
-      }
     end
     
     it_should_behave_like "a dependent non-resource object"

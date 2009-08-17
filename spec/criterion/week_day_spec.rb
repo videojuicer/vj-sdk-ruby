@@ -24,9 +24,6 @@ describe Videojuicer::Criterion::WeekDay do
     before(:all) do
       @singular_name = "criterion"
       @plural_name = "criteria/week_day"
-      @good_attributes = {
-        :monday => true
-      }
     end
     
     it_should_behave_like "a dependent non-resource object"

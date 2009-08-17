@@ -38,14 +38,9 @@ module Videojuicer
         # will be given. If the object is not new (has an ID) then the
         # specific ID will be used.
         def resource_path(action=nil, route_options={})
-          action_stem = (action)? "/#{action}" : ""
-          
+          route_options = {:id=>id}.merge(route_options) unless new_record?
           r = self.class.resource_route(action, route_options)
-          if new_record?           
-           self.class.compile_route(r, attributes)
-          else
-          	"#{self.class.compile_route(r, attributes)}/#{id}#{action_stem}.json"
-          end
+          self.class.compile_route(r, attributes)
         end
       end
       
@@ -120,7 +115,10 @@ module Videojuicer
         # The path to this class's resource given the desired action route.
         # Returned as a mask with replaceable keys e.g. /fixed/fixed/:replaceme/fixed
         def resource_route(action=nil, route_options={})
-          action_stem = (action)? "/#{action}" : ""
+          id = route_options.delete(:id)
+          action_stem = (id)? "/#{id}" : ""
+          action_stem += (action)? "/#{action}" : ""
+          action_stem += ".json" unless action_stem.empty?
           "#{base_path(route_options)}#{action_stem}"
         end
         

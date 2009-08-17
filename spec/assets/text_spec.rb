@@ -24,15 +24,6 @@ describe Videojuicer::Asset::Text do
     before(:all) do
       @singular_name = "asset"
       @plural_name = "assets/text"
-      @good_attributes = {
-        :user_id        => rand(100) + 1,
-        :licensed_at    => Time.now,
-        :licensed_by    => "foo, bar",
-        :licensed_under => "CC BY:NC:SA",
-        :published_at   => Time.now,      
-        :duration       => 180000, 
-        :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "text.txt"))
-      }
     end
     
     it_should_behave_like "a RESTFUL resource model"

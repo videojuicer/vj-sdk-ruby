@@ -24,11 +24,6 @@ describe Videojuicer::Promo::Image do
     before(:all) do
       @singular_name = "promo"
       @plural_name = "promos/image"
-      @good_attributes = {
-        :role => "Thumbnail",
-        :href => "http://www.videojuicer.com",
-        :asset_id => 1
-      }
     end
     
     it_should_behave_like "a dependent non-resource object"

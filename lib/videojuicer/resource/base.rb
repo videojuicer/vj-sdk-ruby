@@ -143,6 +143,12 @@ module Videojuicer
           all(options.merge(:limit=>1)).first
         end
         
+        def create(attrs={})
+          o = new(attrs)
+          o.save
+          return o
+        end
+        
         # Fetches an object given an ID. Straight forward.
         def get(id)
           o = new(:id=>id)

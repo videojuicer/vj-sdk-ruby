@@ -24,9 +24,6 @@ describe Videojuicer::Criterion::Request do
     before(:all) do
       @singular_name = "criterion"
       @plural_name = "criteria/request"
-      @good_attributes = {
-        :referrer => "http://www.google.com"
-      }
     end
     
     it_should_behave_like "a dependent non-resource object"

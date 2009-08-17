@@ -25,9 +25,6 @@ describe Videojuicer::Campaign do
       string_mash = (("A".."z").to_a + ("a".."z").to_a)
       @singular_name = "campaign"
       @plural_name = "campaigns"
-      @good_attributes = {
-        :name => (0..rand(75)).map{ string_mash[rand(string_mash.size - 1)] }.join
-      }
     end
     
     it_should_behave_like "a RESTFUL resource model"

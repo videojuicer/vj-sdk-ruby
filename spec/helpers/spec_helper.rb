@@ -2,6 +2,12 @@ require 'rubygems'
 require 'spec'
 require 'mash'
 require 'yaml'
+begin
+  require 'randexp'
+rescue LoadError
+  raise "The Randexp gem is required in order to run the test suites, but it is not required to use the SDK in production environments. To run the tests, please `sudo gem install randexp`"
+end
+
 require File.join(File.dirname(__FILE__), "..", "..", "lib", "videojuicer")
 
 require File.join(File.dirname(__FILE__), "..", "shared", "configurable_spec")
@@ -28,27 +34,6 @@ module SpecHelper
   
   def fixtures
     @fixtures ||= Mash.new(YAML.load(File.open(File.join(File.dirname(__FILE__), "..", "..", "core-fixtures.yml")).read))
-  end
-  
-  def cycle_attributes(attrs, exempt_keys=[])
-    r = rand(99999)
-    attrs.inject({}) do |memo, (key, value)| 
-      memo.merge({
-        key =>  if exempt_keys.include?(key)
-                  value
-                elsif value.respond_to?(:read)
-                  value
-                elsif value.is_a?(Date) or value.is_a?(DateTime) or value.is_a?(Time)
-                  value
-                else 
-                  value.to_s.gsub(/\d+/, r.to_s)
-                end
-      })
-    end
-  end
-  
-  def strip_files(attrs)
-    
   end
   
 end

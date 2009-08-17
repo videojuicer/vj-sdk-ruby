@@ -19,7 +19,7 @@ shared_examples_for "a RESTFUL resource model" do
       describe "being saved" do   
         describe "successfully" do
           before(:all) do 
-            @successful = @klass.new(@good_attributes)
+            @successful = @klass.gen
             raise @successful.errors.inspect unless @successful.valid?
             @successful.valid?.should be_true
             @saved = @successful.save
@@ -37,7 +37,7 @@ shared_examples_for "a RESTFUL resource model" do
         end
         describe "unsuccessfully" do
           before(:all) do 
-            @bad_attributes = @good_attributes.inject({}) do |memo, (key,value)|
+            @bad_attributes = @klass.gen_attributes.inject({}) do |memo, (key,value)|
               memo.merge({key=>(@fixed_attributes.include?(key)? value : "")})
             end
             @fail = @klass.new(@bad_attributes)
@@ -64,8 +64,7 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "finding a record by ID" do
       before(:all) do        
-        @random_attributes ||= cycle_attributes(@good_attributes, @fixed_attributes)
-        @record = @klass.new(@random_attributes)
+        @record = @klass.gen
         @record.save.should be_true
         @found = @klass.get(@record.id)
       end
@@ -110,8 +109,7 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "an existing record" do
       before(:all) do
-        @random_attributes ||= cycle_attributes(@good_attributes, @fixed_attributes)
-        @record = @klass.new(@random_attributes)
+        @record = @klass.gen
         @record.save.should be_true
       end
       
@@ -136,8 +134,7 @@ shared_examples_for "a RESTFUL resource model" do
     
     describe "deleting a record" do
       before(:each) do
-        @random_attributes ||= cycle_attributes(@good_attributes, @fixed_attributes)
-        @record = @klass.new(@random_attributes)
+        @record = @klass.gen
         @record.save.should be_true
       end
       

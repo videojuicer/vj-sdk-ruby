@@ -3,8 +3,7 @@ shared_examples_for "an embeddable" do
   # Requires same variables to be set as the shared resource spec.
   
   before(:all) do
-    @random_attributes ||= cycle_attributes(@good_attributes, @fixed_attributes)
-    @record = @klass.new(@random_attributes)
+    @record = @klass.gen
     @record.save.should be_true
   end
   

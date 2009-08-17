@@ -14,13 +14,21 @@ module Videojuicer
     end
     
     module ClassMethods
-      def gen_attributes
-        attribute_proc.call
+      def gen(fixture=:default, overrides={})
+        fixture, overrides = :default, fixture if fixture.is_a?(Hash)
+        create(gen_attributes(fixture).merge(overrides))
       end
-      def attribute_proc
-        @attribute_proc || Proc.new {{}}
+      
+      def gen_attributes(fixture=:default)
+        attribute_proc(fixture).call
       end
-      def attribute_proc=(arg); @attribute_proc=arg; end
+      def attribute_proc(fixture=:default)
+        @attribute_procs[fixture]
+      end
+      def set_attribute_proc(fixture=:default, &block)
+        @attribute_procs ||= {}
+        @attribute_procs[fixture] = block
+      end
     end
     
     module InstanceMethods
@@ -30,21 +38,180 @@ module Videojuicer
   
   class User
     include FixtureHelper
-    self.attribute_proc = Proc.new {{
-     :foo=>"bar" 
+    set_attribute_proc {{
+      :login => /testuser(\d{1,5})/.gen,
+      :name => /(\d{1,5}) Jones/.gen,
+      :email => /test(\d{1,5}+)@test\.videojuicer\.com/.gen,
+      :password => "#{p = rand(99999)}",
+      :password_confirmation => p
     }}
   end
   
   class Presentation    
     include FixtureHelper
+    set_attribute_proc {{
+      :title=>/Presentation title (\d{1,5})/.gen,
+      :abstract=>/Presentation abstract (\d{1,5})/.gen,
+      :author=>"Bob Anon"
+    }}
   end
   
   class Campaign
     include FixtureHelper
+    set_attribute_proc {{
+      :name => /\w+/.gen
+    }}
   end
   
-  class CampaignPolicy
+  class Campaign::CampaignPolicy
     include FixtureHelper
+    set_attribute_proc {{
+	    :campaign_id => Campaign.gen.id,
+	    :presentation_id => (Presentation.first.id rescue Presentation.gen.id)
+    }}
   end
+  
+  class Criterion::DateRange
+    include FixtureHelper
+    set_attribute_proc {{
+      :until => DateTime.send(:today) + 1,
+      :after => DateTime.send(:today) - 1
+    }}
+  end
+  
+  class Criterion::Geolocation
+    include FixtureHelper
+    set_attribute_proc {{
+      :city => "Columbus", 
+      :region => "OH",
+      :country => "United States"
+    }}
+  end
+  
+  class Criterion::Request
+    include FixtureHelper
+    set_attribute_proc {{
+      :referrer => "http://www.google.com"
+    }}
+  end
+  
+  class Criterion::Time
+    include FixtureHelper
+    set_attribute_proc {{
+      :after => (Time.now - 3600).strftime("%H%M"),
+      :until => (Time.now + 3600).strftime("%H%M")
+    }}
+  end
+  
+  class Criterion::WeekDay
+    include FixtureHelper
+    set_attribute_proc {{
+      :monday => true
+    }}
+  end
+  
+  class Promo::Image
+    include FixtureHelper
+    set_attribute_proc {{
+      :role => "Thumbnail",
+      :href => "http://www.videojuicer.com",
+      :asset_id => 1
+    }}
+  end
+  
+  class Promo::Audio
+    include FixtureHelper
+    set_attribute_proc {{
+      :role => "Voice Over",
+      :href => "http://www.videojuicer.com",
+      :asset_id => 1
+    }}
+  end
+  
+  class Promo::Video
+    include FixtureHelper
+    set_attribute_proc {{
+      :role => "preroll",
+      :href => "http://www.videojuicer.com",
+      :asset_id => 1
+    }}
+  end
+  
+  class Promo::Text
+    include FixtureHelper
+    set_attribute_proc {{
+      :role => "Description",
+      :href => "http://www.videojuicer.com",
+      :asset_id => 1
+    }}
+  end
+  
+  class Asset::Image
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,      
+      :duration       => 180000, 
+      :width          => 640,
+      :height         => 480,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "image.jpg"))
+    }}
+  end
+  
+  class Asset::Video
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id           => rand(100) + 1,
+      :licensed_at       => Time.now,
+      :licensed_by       => "foo, bar",
+      :licensed_under    => "CC BY:NC:SA",
+      :published_at      => Time.now,      
+      :bit_rate          => 127454,
+      :duration          => 16133,
+      :audio_bit_rate    => 354200,
+      :audio_format      => "QDesign Music 2",
+      :audio_sample_rate => 22050,
+      :audio_stereo      => "mono",
+      :video_bit_rate    => 1000000,
+      :video_format      => "Sorenson Video 3",
+      :width             => 240,
+      :height            => 180,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "video.mov"))
+    }}
+  end
+  
+  class Asset::Audio
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,      
+      :bit_rate       => 127999,
+      :duration       => 4092,
+      :format         => "MPEG Layer 3",
+      :sample_rate    => 44100,
+      :stereo         => "stereo",
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "audio.mp3"))
+    }}
+  end
+  
+  class Asset::Text
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,      
+      :duration       => 180000, 
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "text.txt"))
+    }}
+  end
+  
   
 end

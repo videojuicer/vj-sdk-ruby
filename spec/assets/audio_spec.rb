@@ -24,19 +24,6 @@ describe Videojuicer::Asset::Audio do
     before(:all) do
       @singular_name = "asset"
       @plural_name = "assets/audio"
-      @good_attributes = {
-        :user_id        => rand(100) + 1,
-        :licensed_at    => Time.now,
-        :licensed_by    => "foo, bar",
-        :licensed_under => "CC BY:NC:SA",
-        :published_at   => Time.now,      
-        :bit_rate       => 127999,
-        :duration       => 4092,
-        :format         => "MPEG Layer 3",
-        :sample_rate    => 44100,
-        :stereo         => "stereo",
-        :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "audio.mp3"))
-      }
     end
     
     it_should_behave_like "a RESTFUL resource model"

@@ -24,10 +24,6 @@ describe Videojuicer::Criterion::DateRange do
     before(:all) do
       @singular_name = "criterion"
       @plural_name = "criteria/date_range"
-      @good_attributes = {
-        :until => DateTime.send(:today) + 1,
-        :after => DateTime.send(:today) - 1
-      }
     end
     
     it_should_behave_like "a dependent non-resource object"

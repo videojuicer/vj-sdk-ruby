@@ -24,11 +24,6 @@ describe Videojuicer::Criterion::Geolocation do
     before(:all) do
       @singular_name = "criterion"
       @plural_name = "criteria/geolocation"
-      @good_attributes = {
-        :city => "Columbus", 
-        :region => "OH",
-        :country => "United States"
-      }
     end
     
     it_should_behave_like "a dependent non-resource object"
