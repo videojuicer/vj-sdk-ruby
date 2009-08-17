@@ -103,10 +103,6 @@ shared_examples_for "a RESTFUL resource model" do
       end
     end
     
-    describe "finding a record by conditions" do
-      it "should translate a conditions hash to filterable format"
-    end
-    
     describe "an existing record" do
       before(:all) do
         @record = @klass.gen
