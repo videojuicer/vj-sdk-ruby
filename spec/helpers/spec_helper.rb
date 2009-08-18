@@ -1,7 +1,12 @@
 require 'rubygems'
 require 'spec'
-require 'mash'
 require 'yaml'
+
+unless defined?(Mash)
+  # Don't require Mash twice. It causes cranial trauma.
+  require 'mash'
+end
+
 begin
   require 'randexp'
 rescue LoadError
@@ -27,16 +32,18 @@ module SpecHelper
       :protocol         => "http",
       :host             => "localhost",
       :port             => 6666,
-      :consumer_key     => fixtures["write-master"].consumer.consumer_key,
-      :consumer_secret  => fixtures["write-master"].consumer.consumer_secret,
-      :token            => fixtures["write-master"].authorized_token.oauth_token,
-      :token_secret     => fixtures["write-master"].authorized_token.oauth_token_secret,
-      :seed_name        => fixtures.seed.name
+      :consumer_key     => fixtures["write-master"]["consumer"]["consumer_key"],
+      :consumer_secret  => fixtures["write-master"]["consumer"]["consumer_secret"],
+      :token            => fixtures["write-master"]["authorized_token"]["oauth_token"],
+      :token_secret     => fixtures["write-master"]["authorized_token"]["oauth_token_secret"],
+      :seed_name        => fixtures["seed"]["name"]
     }.merge(overrides))
   end
   
   def fixtures
-    @core_fixtures ||= Mash.new(YAML.load(File.open(File.join(File.dirname(__FILE__), "..", "..", "core-fixtures.yml")).read))
+    fixture_path = File.join(File.dirname(__FILE__), "..", "..", "core-fixtures.yml")
+    fixture_src = File.open(fixture_path).read
+    @core_fixtures ||= Mash.new(YAML.load(fixture_src))
   end
   
 end

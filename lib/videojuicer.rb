@@ -103,7 +103,5 @@ module Videojuicer
     def default_options
       @default_options
     end
-  end
-  
-  
-end
+  end # class << self
+end # module Videojuicer
