@@ -23,17 +23,20 @@ module SpecHelper
   
   def configure_test_settings(overrides={})
     Videojuicer.configure!({
-      :consumer_key     => nil,
-      :consumer_secret  => nil,
       :api_version      => 1,
       :protocol         => "http",
       :host             => "localhost",
-      :port             => 6666
+      :port             => 6666,
+      :consumer_key     => fixtures["write-master"].consumer.consumer_key,
+      :consumer_secret  => fixtures["write-master"].consumer.consumer_secret,
+      :token            => fixtures["write-master"].authorized_token.oauth_token,
+      :token_secret     => fixtures["write-master"].authorized_token.oauth_token_secret,
+      :seed_name        => fixtures.seed.name
     }.merge(overrides))
   end
   
   def fixtures
-    @fixtures ||= Mash.new(YAML.load(File.open(File.join(File.dirname(__FILE__), "..", "..", "core-fixtures.yml")).read))
+    @core_fixtures ||= Mash.new(YAML.load(File.open(File.join(File.dirname(__FILE__), "..", "..", "core-fixtures.yml")).read))
   end
   
 end

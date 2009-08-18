@@ -8,7 +8,9 @@ describe Videojuicer::Session do
     @session = Videojuicer::Session.new(
       :seed_name        => fixtures.seed.name,
       :consumer_key     => fixtures["write-master"].consumer.consumer_key,
-      :consumer_secret  => fixtures["write-master"].consumer.consumer_secret
+      :consumer_secret  => fixtures["write-master"].consumer.consumer_secret,
+      :token            => nil,
+      :token_secret     => nil
     )
   end
   

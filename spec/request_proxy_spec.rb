@@ -2,7 +2,9 @@ require File.join(File.dirname(__FILE__), "helpers", "spec_helper")
 
 describe Videojuicer::OAuth::RequestProxy do
   
-  before(:each) { configure_test_settings }
+  before(:each) do
+    configure_test_settings
+  end
   
   describe "instantiation" do
     before(:all) do
@@ -74,12 +76,12 @@ describe Videojuicer::OAuth::RequestProxy do
   describe "request factory" do
     before(:all) do
       @seed = fixtures.seed
-      @fixtures = fixtures["write-master"]
-      @proxy = Videojuicer::OAuth::RequestProxy.new(:seed_name=>@seed.name, :consumer_key=>@fixtures.consumer.consumer_key, :consumer_secret=>@fixtures.consumer.consumer_secret, :token=>nil, :token_secret=>nil)
+      @fix = fixtures["write-master"]
+      @proxy = Videojuicer::OAuth::RequestProxy.new(:seed_name=>@seed.name, :consumer_key=>@fix.consumer.consumer_key, :consumer_secret=>@fix.consumer.consumer_secret, :token=>nil, :token_secret=>nil)
     end
     
     it "can successfully retrieve a request token (indicating a successful signature verification)" do
-      @proxy.consumer_key.should == @fixtures.consumer.consumer_key
+      @proxy.consumer_key.should == @fix.consumer.consumer_key
       response = @proxy.get("/oauth/tokens")
       response.body.should =~ /oauth_token=[a-zA-Z0-9]+&oauth_token_secret=[a-zA-Z0-9]+/
     end
