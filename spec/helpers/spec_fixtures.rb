@@ -22,6 +22,11 @@ module Videojuicer
       def gen_attributes(fixture=:default)
         attribute_proc(fixture).call
       end
+      def blank_attributes(fixture=:default)
+        gen_attributes(fixture).inject({}) do |memo, (key, value)|
+          memo.update(key => " ")
+        end
+      end
       def attribute_proc(fixture=:default)
         @attribute_procs[fixture]
       end
