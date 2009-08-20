@@ -146,30 +146,6 @@ module Videojuicer
     }}
   end
   
-  class Asset::Image
-    include FixtureHelper
-    set_attribute_proc {{
-      :user_id        => rand(100) + 1,
-      :licensed_at    => Time.now,
-      :licensed_by    => "foo, bar",
-      :licensed_under => "CC BY:NC:SA",
-      :published_at   => Time.now,
-      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "image.jpg"))
-    }}
-  end
-  
-  class Asset::Video
-    include FixtureHelper
-    set_attribute_proc {{
-      :user_id           => rand(100) + 1,
-      :licensed_at       => Time.now,
-      :licensed_by       => "foo, bar",
-      :licensed_under    => "CC BY:NC:SA",
-      :published_at      => Time.now,
-      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "video.mov"))
-    }}
-  end
-  
   class Asset::Audio
     include FixtureHelper
     set_attribute_proc {{
@@ -182,6 +158,30 @@ module Videojuicer
     }}
   end
   
+  class Asset::Image
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "image.jpg"))
+    }}
+  end
+  
+  class Asset::Flash
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "flash.swf"))
+    }}
+  end
+  
   class Asset::Text
     include FixtureHelper
     set_attribute_proc {{
@@ -191,6 +191,18 @@ module Videojuicer
       :licensed_under => "CC BY:NC:SA",
       :published_at   => Time.now,
       :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "text.txt"))
+    }}
+  end
+  
+  class Asset::Video
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id           => rand(100) + 1,
+      :licensed_at       => Time.now,
+      :licensed_by       => "foo, bar",
+      :licensed_under    => "CC BY:NC:SA",
+      :published_at      => Time.now,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "video.mov"))
     }}
   end
     
