@@ -7,23 +7,32 @@ module Videojuicer
         base.send(:extend, Videojuicer::Asset::Base::ClassMethods)
         base.send(:include, Videojuicer::Asset::Base::InstanceMethods)
         
-        base.property :user_id,         Integer
-        # - generic file handling
-        base.property :file,            File
-        base.property :file_name,       String
-        base.property :file_size,       Integer, :writer=>:private
-        # - common metadata
-        base.property :duration,        Integer # milliseconds
-        base.property :licensed_at,     Date
-        base.property :licensed_by,     String
-        base.property :licensed_under,  String
-        base.property :published_at,    Date
-        # - access control / workflow
-        base.property :state,           String, :writer => :private
-        base.property :url,             String, :writer => :private
+        # - heritage
+        base.property :original_asset_id,   Integer,  :writer => :private
+        base.property :original_asset_type, String,   :writer => :private
+        base.property :preset_id,           Integer,  :writer => :private
+        base.property :user_id,             Integer,  :writer => :private
         
-        base.property :created_at,      DateTime
-        base.property :updated_at,      DateTime
+        # - transformation
+        base.property :source_space_window, Yaml,     :writer => :private
+        base.property :source_time_window,  Yaml,     :writer => :private
+        
+        # - generic file handling
+        base.property :file_name,           String,   :length => 255
+        base.property :file_size,           Integer,  :writer => :private # bytes
+        
+        # - common metadata
+        base.property :licensed_at,         Date
+        base.property :licensed_by,         String,   :length => 255
+        base.property :licensed_under,      String,   :length => 255
+        base.property :published_at,        Date
+        
+        # - access control / workflow
+        base.property :state,               String,   :writer => :private
+        base.property :state_changed_at,    DateTime, :writer => :private
+        base.property :state_changed_url,   String,   :length => 255
+        base.property :created_at,          DateTime
+        base.property :updated_at,          DateTime
       end
       
       module ClassMethods
