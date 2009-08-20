@@ -16,7 +16,7 @@ class SDKConnectionHarness
       Thread.new do
         cur_dir = Dir.pwd
         Dir.chdir(core_directory) do
-          `./bin/merb -d -p #{port} -e test --log ./log/sdk-development.log`
+          `./bin/merb -d -a #{app_server} -p #{port} -e test --log ./log/sdk-development.log`
         end
         Dir.chdir(cur_dir)
       end
@@ -56,6 +56,10 @@ class SDKConnectionHarness
       f.rewind
       f.write(self.fixtures)
       f.close
+    end
+    
+    def app_server
+      `which thin`.empty? ? "mongrel" : "thin"
     end
     
     def port
