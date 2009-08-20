@@ -14,23 +14,25 @@ module Videojuicer
         base.property :user_id,             Integer,  :writer => :private
         
         # - transformation
-        base.property :source_space_window, Yaml,     :writer => :private
-        base.property :source_time_window,  Yaml,     :writer => :private
+        base.property :source_space_window, String,   :writer => :private
+        base.property :source_time_window,  String,   :writer => :private
         
         # - generic file handling
-        base.property :file_name,           String,   :length => 255
+        base.property :file,                File
+        base.property :file_name,           String
         base.property :file_size,           Integer,  :writer => :private # bytes
         
         # - common metadata
         base.property :licensed_at,         Date
-        base.property :licensed_by,         String,   :length => 255
-        base.property :licensed_under,      String,   :length => 255
+        base.property :licensed_by,         String
+        base.property :licensed_under,      String
         base.property :published_at,        Date
         
         # - access control / workflow
+        base.property :url,                 String,   :writer => :private
         base.property :state,               String,   :writer => :private
         base.property :state_changed_at,    DateTime, :writer => :private
-        base.property :state_changed_url,   String,   :length => 255
+        base.property :state_changed_url,   String
         base.property :created_at,          DateTime
         base.property :updated_at,          DateTime
       end
