@@ -5,10 +5,10 @@ module Videojuicer
     class Time < Base
       
       property :until, DateTime
-      property :after, DateTime
+      property :from, DateTime
       
       def matcher_keys
-        [:until, :after]
+        [:until, :from]
       end
     end
   end

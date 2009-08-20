@@ -80,7 +80,7 @@ module Videojuicer
     include FixtureHelper
     set_attribute_proc {{
       :until => DateTime.send(:today) + 1,
-      :after => DateTime.send(:today) - 1
+      :from => DateTime.send(:today) - 1
     }}
   end
   
@@ -103,7 +103,7 @@ module Videojuicer
   class Criterion::Time
     include FixtureHelper
     set_attribute_proc {{
-      :after => (Time.now - 3600).strftime("%H%M"),
+      :from => (Time.now - 3600).strftime("%H%M"),
       :until => (Time.now + 3600).strftime("%H%M")
     }}
   end

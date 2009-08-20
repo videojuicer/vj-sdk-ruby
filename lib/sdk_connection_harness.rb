@@ -16,7 +16,7 @@ class SDKConnectionHarness
       Thread.new do
         cur_dir = Dir.pwd
         Dir.chdir(core_directory) do
-          `./bin/merb -d -a #{app_server} -p #{port} -e test --log ./log/sdk-development.log`
+          `./bin/merb -d #{app_server} -p #{port} -e test --log ./log/sdk-development.log`
         end
         Dir.chdir(cur_dir)
       end
@@ -59,7 +59,13 @@ class SDKConnectionHarness
     end
     
     def app_server
-      `which thin`.empty? ? "mongrel" : "thin"
+     begin
+       require 'thin'
+       adapter = 'thin'
+     rescue LoadError
+       adapter = 'mongrel'
+     end
+     return "--adapter #{adapter}"
     end
     
     def port
