@@ -3,19 +3,20 @@ require File.join(File.dirname(__FILE__), "base")
 module Videojuicer
   module Asset
     class Video < Base
-      property :bit_rate,          Integer # bits per second
-      
-      property :audio_bit_rate,    Integer # bits per second
-      property :audio_format,      String
-      property :audio_sample_rate, Integer # hertz
-      property :audio_stereo,      String
+      property :bit_rate,          Integer, :writer => :private # bits per second
+      property :duration,          Integer, :writer => :private # milliseconds
 
-      property :video_bit_rate,    Integer # bits per second
-      property :video_format,      String
-      property :video_frame_rate,  Float   # frames per second
+      property :audio_bit_rate,    Integer, :writer => :private # bits per second
+      property :audio_channels,    Integer, :writer => :private
+      property :audio_format,      String,  :writer => :private
+      property :audio_sample_rate, Integer, :writer => :private # hertz
 
-      property :width,             Integer # pixels
-      property :height,            Integer # pixels
+      property :video_bit_rate,    Integer, :writer => :private # bits per second
+      property :video_format,      String,  :writer => :private
+      property :video_frame_rate,  Float,   :writer => :private # frames per second
+
+      property :width,             Integer, :writer => :private # pixels
+      property :height,            Integer, :writer => :private # pixels
     end
   end
 end

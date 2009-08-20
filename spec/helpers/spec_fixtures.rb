@@ -151,43 +151,6 @@ module Videojuicer
     }}
   end
   
-  class Asset::Image
-    include FixtureHelper
-    set_attribute_proc {{
-      :user_id        => rand(100) + 1,
-      :licensed_at    => Time.now,
-      :licensed_by    => "foo, bar",
-      :licensed_under => "CC BY:NC:SA",
-      :published_at   => Time.now,      
-      :duration       => 180000, 
-      :width          => 640,
-      :height         => 480,
-      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "image.jpg"))
-    }}
-  end
-  
-  class Asset::Video
-    include FixtureHelper
-    set_attribute_proc {{
-      :user_id           => rand(100) + 1,
-      :licensed_at       => Time.now,
-      :licensed_by       => "foo, bar",
-      :licensed_under    => "CC BY:NC:SA",
-      :published_at      => Time.now,      
-      :bit_rate          => 127454,
-      :duration          => 16133,
-      :audio_bit_rate    => 354200,
-      :audio_format      => "QDesign Music 2",
-      :audio_sample_rate => 22050,
-      :audio_stereo      => "mono",
-      :video_bit_rate    => 1000000,
-      :video_format      => "Sorenson Video 3",
-      :width             => 240,
-      :height            => 180,
-      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "video.mov"))
-    }}
-  end
-  
   class Asset::Audio
     include FixtureHelper
     set_attribute_proc {{
@@ -195,13 +158,32 @@ module Videojuicer
       :licensed_at    => Time.now,
       :licensed_by    => "foo, bar",
       :licensed_under => "CC BY:NC:SA",
-      :published_at   => Time.now,      
-      :bit_rate       => 127999,
-      :duration       => 4092,
-      :format         => "MPEG Layer 3",
-      :sample_rate    => 44100,
-      :stereo         => "stereo",
+      :published_at   => Time.now,
       :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "audio.mp3"))
+    }}
+  end
+  
+  class Asset::Image
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "image.jpg"))
+    }}
+  end
+  
+  class Asset::Flash
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "flash.swf"))
     }}
   end
   
@@ -212,11 +194,21 @@ module Videojuicer
       :licensed_at    => Time.now,
       :licensed_by    => "foo, bar",
       :licensed_under => "CC BY:NC:SA",
-      :published_at   => Time.now,      
-      :duration       => 180000, 
+      :published_at   => Time.now,
       :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "text.txt"))
     }}
   end
   
-  
+  class Asset::Video
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id           => rand(100) + 1,
+      :licensed_at       => Time.now,
+      :licensed_by       => "foo, bar",
+      :licensed_under    => "CC BY:NC:SA",
+      :published_at      => Time.now,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "video.mov"))
+    }}
+  end
+    
 end
