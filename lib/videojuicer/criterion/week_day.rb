@@ -10,6 +10,11 @@ module Videojuicer
       property :friday,             Boolean
       property :saturday,           Boolean
       property :sunday,             Boolean
+      property :exclude,            Boolean
+      
+      def matcher_keys
+        [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :exclude]
+      end
     end
   end
 end

@@ -36,7 +36,7 @@ module Videojuicer
         object_hash.map do |type_sym, criteria|
           @criteria[type_sym.to_sym] = 
           criteria.map do |criterion|
-            Videojuicer::Criterion.model_map[type_sym.to_sym].new(criterion)
+            Videojuicer::Criterion.model_map[type_sym.to_sym].new(criterion) #rescue raise("No criteria class found for #{type_sym} in #{Videojuicer::Criterion.model_map.inspect}")
           end
         end
       end

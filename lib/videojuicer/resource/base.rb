@@ -152,8 +152,12 @@ module Videojuicer
         # Fetches an object given an ID. Straight forward.
         def get(id)
           o = new(:id=>id)
-          o.reload
-          o
+          begin
+            o.reload 
+            o
+          rescue Videojuicer::Exceptions::NoResource
+            nil
+          end
         end
         
         def destroy(id)
