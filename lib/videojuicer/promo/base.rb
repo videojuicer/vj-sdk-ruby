@@ -38,6 +38,17 @@ module Videojuicer
       module InstanceMethods
         def save(*args); raise NoMethodError; end
         def destroy(*args); raise NoMethodError; end
+        def asset
+          Videojuicer::Asset.const_get(self.class.to_s.split("::").last).get(asset_id)
+        end
+        def matcher_keys
+          [:campaign_policy_id, :asset_id, :role, :href]
+        end
+        def matcher_attributes
+          matcher_keys.inject({}) do |memo, attr|
+            memo.update(attr => self.send(attr))
+          end
+        end
       end
             
     end

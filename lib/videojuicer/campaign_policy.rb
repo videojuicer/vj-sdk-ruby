@@ -92,7 +92,7 @@ module Videojuicer
         DEF
       end
 
-      def add_promos(*promos)
+      def add_promo(*promos)
         responses = promos.map do |promo|
           proxy_for(config).post("#{path_for_dependents}#{promo.class.base_path}", {:promo => promo.attributes})
         end
@@ -100,7 +100,7 @@ module Videojuicer
         responses
       end
       
-      def remove_promos(*promos)
+      def remove_promo(*promos)
         responses = promos.map do |promo|
           proxy_for(config).delete("#{path_for_dependents}#{promo.class.base_path}", {:promo => promo.attributes})
         end
