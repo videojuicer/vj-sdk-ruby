@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.1.9"
+  s.version = "0.1.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["danski", "thejohnny", "knowtheory", "sixones"]
-  s.date = %q{2009-08-10}
+  s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
+  s.date = %q{2009-08-24}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "lib/videojuicer.rb",
      "lib/videojuicer/asset/audio.rb",
      "lib/videojuicer/asset/base.rb",
+     "lib/videojuicer/asset/flash.rb",
      "lib/videojuicer/asset/image.rb",
      "lib/videojuicer/asset/text.rb",
      "lib/videojuicer/asset/video.rb",
@@ -56,6 +57,7 @@ Gem::Specification.new do |s|
      "lib/videojuicer/shared/exceptions.rb",
      "lib/videojuicer/user.rb",
      "spec/assets/audio_spec.rb",
+     "spec/assets/flash_spec.rb",
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
@@ -70,9 +72,11 @@ Gem::Specification.new do |s|
      "spec/criterion/week_day_spec.rb",
      "spec/files/audio.mp3",
      "spec/files/empty_file",
+     "spec/files/flash.swf",
      "spec/files/image.jpg",
      "spec/files/text.txt",
      "spec/files/video.mov",
+     "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
      "spec/promos/audio_spec.rb",
@@ -100,6 +104,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Videojuicer core-sdk}
   s.test_files = [
     "spec/assets/audio_spec.rb",
+     "spec/assets/flash_spec.rb",
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
@@ -112,6 +117,7 @@ Gem::Specification.new do |s|
      "spec/criterion/request_spec.rb",
      "spec/criterion/time_spec.rb",
      "spec/criterion/week_day_spec.rb",
+     "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
      "spec/promos/audio_spec.rb",
