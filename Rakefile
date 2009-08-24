@@ -9,7 +9,7 @@ begin
     gem.summary = "Videojuicer core-sdk"
     gem.email = "dan@videojuicer.com"
     gem.homepage = "http://github.com/danski/vj-sdk"
-    gem.authors = ["danski", "thejohnny", "knowtheory", "sixones"]
+    gem.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
     
     # Declare dependencies
     gem.add_dependency "json", ">= 1.0"
