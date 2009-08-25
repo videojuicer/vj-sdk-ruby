@@ -34,6 +34,7 @@ module Videojuicer
         def save(*args); raise NoMethodError; end
         def destroy(*args); raise NoMethodError; end
         def ==(other); self.attributes == other.attributes; end
+        def eql?(other); self.attributes.eql?(other.attributes) end
         def matcher_attributes;  end
         
         def matcher_attributes

@@ -103,8 +103,8 @@ module Videojuicer
   class Criterion::Time
     include FixtureHelper
     set_attribute_proc {{
-      :from => (Time.now - 3600).strftime("%H%M"),
-      :until => (Time.now + 3600).strftime("%H%M")
+      :from => (Time.now - 3600).strftime("%H:%M"),
+      :until => (Time.now + 3600).strftime("%H:%M")
     }}
   end
   

@@ -1,4 +1,8 @@
-require 'mash'
+begin
+  require 'extlib/mash'
+rescue LoadError
+  require 'mash'
+end
 require 'yaml'
 class SDKConnectionHarness
   class << self
@@ -74,12 +78,12 @@ class SDKConnectionHarness
     
     def connect(overrides={})
       fixtures = Mash.new(YAML.load(load_fixtures)).merge(overrides)
-      configure_test_settings(overrides)
-      Videojuicer.enter_scope :seed_name => fixtures.seed.name, 
-                              :consumer_key=>fixtures["write-master"].consumer.consumer_key,
-                              :consumer_secret=>fixtures["write-master"].consumer.consumer_secret,
-                              :token=>fixtures["write-master"].authorized_token.oauth_token,
-                              :token_secret=>fixtures["write-master"].authorized_token.oauth_token_secret
+      configure_test_settings(fixtures)
+      Videojuicer.enter_scope :seed_name => fixtures[:seed][:name], 
+                              :consumer_key=>fixtures["write-master"][:consumer][:consumer_key],
+                              :consumer_secret=>fixtures["write-master"][:consumer][:consumer_secret],
+                              :token=>fixtures["write-master"][:authorized_token][:oauth_token],
+                              :token_secret=>fixtures["write-master"][:authorized_token][:oauth_token_secret]
     end
     
     def configure_test_settings(overrides={})
