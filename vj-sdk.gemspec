@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.1.10"
+  s.version = "0.1.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
-  s.date = %q{2009-08-24}
+  s.date = %q{2009-08-25}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -76,6 +76,7 @@ Gem::Specification.new do |s|
      "spec/files/image.jpg",
      "spec/files/text.txt",
      "spec/files/video.mov",
+     "spec/helpers/be_equal_to.rb",
      "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
@@ -117,6 +118,7 @@ Gem::Specification.new do |s|
      "spec/criterion/request_spec.rb",
      "spec/criterion/time_spec.rb",
      "spec/criterion/week_day_spec.rb",
+     "spec/helpers/be_equal_to.rb",
      "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
