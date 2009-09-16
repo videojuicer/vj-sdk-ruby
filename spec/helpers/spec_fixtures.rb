@@ -96,7 +96,8 @@ module Videojuicer
   class Criterion::Request
     include FixtureHelper
     set_attribute_proc {{
-      :referrer => "http://www.google.com"
+      :referrer => "http://www.google.com",
+      :exclude => false
     }}
   end
   
@@ -111,7 +112,8 @@ module Videojuicer
   class Criterion::WeekDay
     include FixtureHelper
     set_attribute_proc {{
-      :monday => true
+      :monday => true,
+      :exclude => false
     }}
   end
   
