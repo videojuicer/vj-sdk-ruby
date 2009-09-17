@@ -212,13 +212,13 @@ module Videojuicer
       
       # Calculates and returns the signature secret to be used for this proxy object.
       def signature_secret
-        [consumer_secret, token_secret].collect {|e| CGI.escape(e.to_s)}.join("&")
+        [consumer_secret, token_secret].collect {|e| CGI.rfc3986_escape(e.to_s)}.join("&")
       end
       
       # Returns the unencrypted signature base string for this proxy object and the 
       # given request properties.
       def signature_base_string(method, path, params)
-        s = [method.to_s.upcase, "#{protocol}://#{host}#{path}", normalize_params(params)].collect {|e| CGI.escape(e)}.join("&")
+        s = [method.to_s.upcase, "#{protocol}://#{host}#{path}", normalize_params(params)].collect {|e| CGI.rfc3986_escape(e)}.join("&")
       end
       
       # Returns a string representing a normalised parameter hash. Supports nesting for
@@ -226,7 +226,7 @@ module Videojuicer
       # the key 'bar inside {:foo=>{:bar=>"baz"}} will be named foo[bar] in the signature
       # and in the eventual request object.
       def normalize_params(params, *hash_path)
-        flatten_params(params).sort {|a,b| a.to_s <=> b.to_s}.collect {|k, v| "#{CGI.escape(k)}=#{CGI.escape(v.to_s)}" }.join("&")
+        flatten_params(params).sort {|a,b| a.to_s <=> b.to_s}.collect {|k, v| "#{CGI.rfc3986_escape(k)}=#{CGI.rfc3986_escape(v.to_s)}" }.join("&")
       end
       
       def flatten_params(params, *hash_path)

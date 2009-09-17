@@ -33,7 +33,7 @@ describe Videojuicer::OAuth::RequestProxy do
       @proxy.normalize_params(:a=>"1", :b=>"2", :c=>{:a=>"AAA", :b=>"BBB", :c=>"CCC"}, :d=>{:e=>"foo"}).should == "a=1&b=2&c%5Ba%5D=AAA&c%5Bb%5D=BBB&c%5Bc%5D=CCC&d%5Be%5D=foo"
     end    
     it "escapes the signature base string elements and adjoins them with an ampersand" do
-      @proxy.signature_base_string(:get, "/test", :foo=>"bar", :bar=>"baz").should == "GET&#{CGI.escape "http://localhost/test"}&#{CGI.escape "bar=baz&foo=bar"}"
+      @proxy.signature_base_string(:get, "/test", :foo=>"bar", :bar=>"baz").should == "GET&#{CGI.rfc3986_escape "http://localhost/test"}&#{CGI.rfc3986_escape "bar=baz&foo=bar"}"
     end
         
     describe "with no token supplied" do

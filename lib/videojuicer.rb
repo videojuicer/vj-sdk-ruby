@@ -11,6 +11,7 @@ require 'net/http'
 require 'core_ext/hash'
 require 'core_ext/string'
 require 'core_ext/object'
+require 'core_ext/cgi'
 # Core mixins
 require 'videojuicer/shared/exceptions'
 require 'videojuicer/shared/configurable'
