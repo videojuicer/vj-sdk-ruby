@@ -210,5 +210,18 @@ module Videojuicer
       :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "video.mov"))
     }}
   end
+  
+  class Preset
+    include FixtureHelper
+    set_attribute_proc {{
+      :name         => /\w{10}/.gen,
+      :derived_type => "Video",
+      :file_format  => "mp4",
+      :audio_format => "libfaac",
+      :video_format => "mpeg4",
+      :width        => 640,
+      :height       => 480
+    }}
+  end
     
 end
