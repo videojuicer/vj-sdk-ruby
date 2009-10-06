@@ -1,5 +1,5 @@
 begin
-  require 'extlib/mash'
+  require 'extlib'
 rescue LoadError
   require 'mash'
 end
