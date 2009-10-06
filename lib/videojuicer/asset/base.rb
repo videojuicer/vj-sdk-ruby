@@ -8,6 +8,7 @@ module Videojuicer
         base.send(:include, Videojuicer::Asset::Base::InstanceMethods)
         
         # - heritage
+        base.property :derived_internally,  Videojuicer::Resource::Types::Boolean, :writer => :private
         base.property :original_asset_id,   Integer,  :writer => :private
         base.property :original_asset_type, String,   :writer => :private
         base.property :preset_id,           Integer,  :writer => :private
@@ -56,6 +57,15 @@ module Videojuicer
           attrs = super
           attrs.delete(:file) unless new_record?
           attrs
+        end
+        
+        def set_derived(from_asset, preset)
+          params = {
+            :original_asset_type => from_asset.class.to_s.split("::").last,
+            :original_asset_id => from_asset.id,
+            :preset_id => preset.id
+          }
+          proxy_for(config).post(resource_path(:set_derived), params)
         end
       end
       
