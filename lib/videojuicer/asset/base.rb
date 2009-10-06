@@ -49,6 +49,11 @@ module Videojuicer
       end
       
       module InstanceMethods
+        def derive(preset)
+          response = proxy_for(config).post(resource_path, :preset_id => preset.id)
+          self.class.new(JSON.parse(response.body))
+        end
+        
         def file
           raise "use the value of #{self.class}#url to download a copy of the asset"
         end
@@ -65,7 +70,8 @@ module Videojuicer
             :original_asset_id => from_asset.id,
             :preset_id => preset.id
           }
-          proxy_for(config).post(resource_path(:set_derived), params)
+          response = proxy_for(config).post(resource_path(:set_derived), params)
+          self.attributes = JSON.parse(response.body)
         end
       end
       

@@ -4,6 +4,7 @@ describe Videojuicer::Asset::Audio do
   
   before(:all) do
     @klass = Videojuicer::Asset::Audio
+    @preset_params = {:derived_type => "Audio", :file_format => "mp3"}
     configure_test_settings
   end
   
@@ -20,5 +21,5 @@ describe Videojuicer::Asset::Audio do
     it_should_behave_like "a RESTFUL resource model"
   end
   
-  
+  it_should_behave_like "an asset"
 end

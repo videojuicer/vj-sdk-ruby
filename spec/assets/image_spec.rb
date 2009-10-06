@@ -4,6 +4,7 @@ describe Videojuicer::Asset::Image do
   
   before(:all) do
     @klass = Videojuicer::Asset::Image
+    @preset_params = {:derived_type => "Image", :file_format => "png"}
     configure_test_settings
   end
   
@@ -20,5 +21,5 @@ describe Videojuicer::Asset::Image do
     it_should_behave_like "a RESTFUL resource model"
   end
   
-  
+  it_should_behave_like "an asset"
 end

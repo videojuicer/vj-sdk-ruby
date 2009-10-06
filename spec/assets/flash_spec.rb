@@ -20,5 +20,5 @@ describe Videojuicer::Asset::Flash do
     it_should_behave_like "a RESTFUL resource model"
   end
   
-  
+  it_should_behave_like "an asset"
 end
