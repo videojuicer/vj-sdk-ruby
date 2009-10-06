@@ -63,3 +63,7 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+desc "provide a console like merb -i or script/console"
+task :console do
+  exec "irb -r irb/completion -r lib/videojuicer.rb -r lib/sdk_connection_harness.rb"
+end
