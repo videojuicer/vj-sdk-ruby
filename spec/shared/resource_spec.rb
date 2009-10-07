@@ -85,9 +85,6 @@ shared_examples_for "a RESTFUL resource model" do
       it "should return a collection object" do
         @list.should be_kind_of(Videojuicer::Resource::Collection)
       end
-      it "should add the pagination options to the collection object" do
-        @list.limit.should be_kind_of(Numeric)
-      end
       
       describe "with pagination settings" do
         before(:all) do

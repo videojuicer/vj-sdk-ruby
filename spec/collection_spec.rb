@@ -22,4 +22,10 @@ describe Videojuicer::Resource::Collection do
     @collection.page_number.should == 2
   end
   
+  it "pagination copes with a nil limit" do
+    collection = Videojuicer::Resource::Collection.new(@objects[0..9], 155, 17, nil)
+    collection.page_count.should == 1
+    collection.page_number.should == 1
+  end
+  
 end

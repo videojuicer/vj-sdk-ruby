@@ -22,10 +22,12 @@ module Videojuicer
       end
       
       def page_count
+        return 1 if limit.nil?
         (total.to_f/limit.to_f).ceil
       end
       
       def page_number
+        return 1 if limit.nil?
         (offset.to_f/limit.to_f).ceil
       end
       
