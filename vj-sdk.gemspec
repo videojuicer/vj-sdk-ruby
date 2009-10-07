@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.1.14"
+  s.version = "0.1.15"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
-  s.date = %q{2009-10-02}
+  s.date = %q{2009-10-07}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
      "lib/videojuicer/oauth/proxy_factory.rb",
      "lib/videojuicer/oauth/request_proxy.rb",
      "lib/videojuicer/presentation.rb",
+     "lib/videojuicer/preset.rb",
      "lib/videojuicer/promo/base.rb",
      "lib/videojuicer/resource/base.rb",
      "lib/videojuicer/resource/collection.rb",
@@ -84,6 +85,7 @@ Gem::Specification.new do |s|
      "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
+     "spec/preset_spec.rb",
      "spec/promos/audio_spec.rb",
      "spec/promos/image_spec.rb",
      "spec/promos/text_spec.rb",
@@ -91,6 +93,7 @@ Gem::Specification.new do |s|
      "spec/property_registry_spec.rb",
      "spec/request_proxy_spec.rb",
      "spec/session_spec.rb",
+     "spec/shared/asset_spec.rb",
      "spec/shared/configurable_spec.rb",
      "spec/shared/dependent_spec.rb",
      "spec/shared/embeddable_spec.rb",
@@ -126,6 +129,7 @@ Gem::Specification.new do |s|
      "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
      "spec/presentation_spec.rb",
+     "spec/preset_spec.rb",
      "spec/promos/audio_spec.rb",
      "spec/promos/image_spec.rb",
      "spec/promos/text_spec.rb",
@@ -133,6 +137,7 @@ Gem::Specification.new do |s|
      "spec/property_registry_spec.rb",
      "spec/request_proxy_spec.rb",
      "spec/session_spec.rb",
+     "spec/shared/asset_spec.rb",
      "spec/shared/configurable_spec.rb",
      "spec/shared/dependent_spec.rb",
      "spec/shared/embeddable_spec.rb",
