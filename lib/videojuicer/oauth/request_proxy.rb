@@ -18,6 +18,10 @@ module Videojuicer
 
     class RequestProxy
       
+      # Requests to the following ports will not include the port in the signature base string.
+      # See OAuth spec 1.0a section 9.1.2 for details.
+      EXCLUDED_BASE_STRING_PORTS = [80, 443].freeze
+      
       include Videojuicer::Exceptions
       include Videojuicer::Configurable
             
@@ -218,7 +222,17 @@ module Videojuicer
       # Returns the unencrypted signature base string for this proxy object and the 
       # given request properties.
       def signature_base_string(method, path, params)
-        s = [method.to_s.upcase, "#{protocol}://#{host}#{path}", normalize_params(params)].collect {|e| CGI.rfc3986_escape(e)}.join("&")
+        s = [method.to_s.upcase, "#{protocol}://#{signature_base_string_host}#{path}", normalize_params(params)].collect {|e| CGI.rfc3986_escape(e)}.join("&")
+      end
+      
+      def signature_base_string_host
+        if EXCLUDED_BASE_STRING_PORTS.include?(port.to_i)
+          # Natural port. Ignore the port
+          host
+        else
+          # Weird port. Expect a signature.
+          "#{host}:#{port}"
+        end
       end
       
       # Returns a string representing a normalised parameter hash. Supports nesting for
