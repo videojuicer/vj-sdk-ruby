@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
-  s.date = %q{2009-10-15}
+  s.date = %q{2009-10-30}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -154,12 +154,15 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<json>, [">= 1.0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0.3.2"])
+      s.add_runtime_dependency(%q<mash>, [">= 0.0.3"])
     else
       s.add_dependency(%q<json>, [">= 1.0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
+      s.add_dependency(%q<mash>, [">= 0.0.3"])
     end
   else
     s.add_dependency(%q<json>, [">= 1.0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
+    s.add_dependency(%q<mash>, [">= 0.0.3"])
   end
 end
