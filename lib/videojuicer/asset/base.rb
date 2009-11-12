@@ -31,6 +31,7 @@ module Videojuicer
         
         # - access control / workflow
         base.property :url,                 String,   :writer => :private
+        base.property :http_url,            String,   :writer => :private
         base.property :state,               String,   :writer => :private
         base.property :state_changed_at,    DateTime, :writer => :private
         base.property :state_changed_url,   String
