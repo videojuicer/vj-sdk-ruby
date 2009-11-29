@@ -199,6 +199,19 @@ module Videojuicer
     }}
   end
   
+  class Asset::Document
+    include FixtureHelper
+    set_attribute_proc {{
+      :user_id        => rand(100) + 1,
+      :licensed_at    => Time.now,
+      :licensed_by    => "foo, bar",
+      :licensed_under => "CC BY:NC:SA",
+      :published_at   => Time.now,
+      :file => File.open(File.join(File.dirname(__FILE__), "..", "files", "document.js"))
+    }}
+  end
+  
+  
   class Asset::Video
     include FixtureHelper
     set_attribute_proc {{
