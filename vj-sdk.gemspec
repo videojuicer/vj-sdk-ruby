@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.2.1"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
-  s.date = %q{2009-10-30}
+  s.date = %q{2010-02-26}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
      "lib/videojuicer.rb",
      "lib/videojuicer/asset/audio.rb",
      "lib/videojuicer/asset/base.rb",
+     "lib/videojuicer/asset/document.rb",
      "lib/videojuicer/asset/flash.rb",
      "lib/videojuicer/asset/image.rb",
      "lib/videojuicer/asset/text.rb",
@@ -62,6 +63,7 @@ Gem::Specification.new do |s|
      "lib/videojuicer/shared/exceptions.rb",
      "lib/videojuicer/user.rb",
      "spec/assets/audio_spec.rb",
+     "spec/assets/document_spec.rb",
      "spec/assets/flash_spec.rb",
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
@@ -76,6 +78,7 @@ Gem::Specification.new do |s|
      "spec/criterion/time_spec.rb",
      "spec/criterion/week_day_spec.rb",
      "spec/files/audio.mp3",
+     "spec/files/document.js",
      "spec/files/empty_file",
      "spec/files/flash.swf",
      "spec/files/image.jpg",
@@ -112,6 +115,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Videojuicer core-sdk}
   s.test_files = [
     "spec/assets/audio_spec.rb",
+     "spec/assets/document_spec.rb",
      "spec/assets/flash_spec.rb",
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
@@ -136,6 +140,7 @@ Gem::Specification.new do |s|
      "spec/promos/video_spec.rb",
      "spec/property_registry_spec.rb",
      "spec/request_proxy_spec.rb",
+     "spec/seed_spec.rb",
      "spec/session_spec.rb",
      "spec/shared/asset_spec.rb",
      "spec/shared/configurable_spec.rb",

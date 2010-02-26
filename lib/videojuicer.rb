@@ -29,6 +29,7 @@ require 'videojuicer/resource/property_registry'
 require 'videojuicer/resource/base'
 require 'videojuicer/session'
 # Frontend models
+require 'videojuicer/seed'
 require 'videojuicer/user'
 require 'videojuicer/campaign'
 require 'videojuicer/campaign_policy'
