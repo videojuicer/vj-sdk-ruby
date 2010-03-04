@@ -76,6 +76,28 @@ describe Videojuicer::Resource::PropertyRegistry do
       @example_registry.attr_set :string, "987654321"
       @example_registry.attr_get(:string).should == "987654321"
     end
+    
+    it "registers an attribute as being dirty when the attribute is set" do
+      @r = ::FooAttributeRegistry.new
+      @r.attr_set :string, "987654321"
+      @r.attr_dirty?(:string).should be_true
+      @r.attr_dirty?(:integer).should be_false
+    end
+    
+    it "clears the dirty attributes when clean_dirty_attributes! is called" do
+      @r = ::FooAttributeRegistry.new
+      @r.attr_set :string, "987654321"
+      @r.attr_dirty?(:string).should be_true
+      @r.clean_dirty_attributes!
+      @r.attr_dirty?(:string).should be_false
+    end
+    
+    it "provides the dirty attributes for submission as a hash" do
+      @r = ::FooAttributeRegistry.new
+      @r.integer = 0
+      @r.dirty_attribute_keys.should == [:string_with_default, :integer]
+      @r.dirty_attributes.should == {:string_with_default=>"this is the default", :integer=>0}
+    end
   
     it "converts attributes to a date when a string is passed into a datetime object" do
       @date_registry.date = "2009-07-01 13:14:15"
@@ -92,6 +114,8 @@ describe Videojuicer::Resource::PropertyRegistry do
       @example_private_prop_registry.returnable_attributes.should_not include(:id)
     end
     it "does not include the private attributes in the returnable attributes" do
+      @example_private_prop_registry.public_attr = "foo" # dirty the attributes
+      @example_private_prop_registry.private_attr = "bar"
       @example_private_prop_registry.returnable_attributes.should_not include(:private_attr)
       @example_private_prop_registry.returnable_attributes.should include(:public_attr)
     end

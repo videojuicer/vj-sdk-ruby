@@ -33,7 +33,10 @@ shared_examples_for "a RESTFUL resource model" do
           end
           it "gets an ID" do
             @successful.id.should be_kind_of(Integer)
-          end 
+          end
+          it "resets the dirty attributes" do
+            @successful.dirty_attributes.should be_empty
+          end
         end
         describe "unsuccessfully" do
           before(:all) do 
@@ -58,6 +61,9 @@ shared_examples_for "a RESTFUL resource model" do
           it "does not get an ID" do
             @fail.id.should be_nil
           end
+          it "does not reset the dirty attributes" do
+            @fail.dirty_attributes.should_not be_empty
+          end
         end
       end
     end
@@ -75,11 +81,21 @@ shared_examples_for "a RESTFUL resource model" do
         attrs = attrs.reject {|k,v| !v}
         attrs.should_not be_empty
       end
+      
+      it "has no dirty attributes" do
+        @record.dirty_attributes.should be_empty
+      end
     end
     
     describe "listing records" do
       before(:all) do
         @list = @klass.all
+      end
+      
+      it "returns items with no dirty attributes" do
+        @list.each do |i|
+          i.dirty_attributes.should be_empty
+        end
       end
       
       it "should return a collection object" do
@@ -116,6 +132,16 @@ shared_examples_for "a RESTFUL resource model" do
       
       it "reloads from the remote API successfully" do
         @record.reload.should be_true
+      end
+      
+      it "resets the dirty attributes when reloaded" do
+        r = @klass.gen
+        r = @klass.get(r.id)
+        dattr = @klass.attributes.select {|a,props| props[:class] == String || props[:class] == Integer }.map {|a| a.first }.first
+        r.send("#{dattr}=", 1)
+        r.attr_dirty?(dattr).should be_true
+        r.reload
+        r.attr_dirty?(dattr).should be_false
       end
       
       it "saves successfully" do
