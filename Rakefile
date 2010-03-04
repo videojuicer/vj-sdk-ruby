@@ -8,7 +8,7 @@ begin
     gem.name = "vj-sdk"
     gem.summary = "Videojuicer core-sdk"
     gem.email = "dan@videojuicer.com"
-    gem.homepage = "http://github.com/danski/vj-sdk"
+    gem.homepage = "http://github.com/videojuicer/vj-sdk"
     gem.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
     
     # Declare dependencies

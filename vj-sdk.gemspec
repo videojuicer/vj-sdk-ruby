@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.4.0"
+  s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
@@ -108,7 +108,7 @@ Gem::Specification.new do |s|
      "tasks/vj-core.rb",
      "vj-sdk.gemspec"
   ]
-  s.homepage = %q{http://github.com/danski/vj-sdk}
+  s.homepage = %q{http://github.com/videojuicer/vj-sdk}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
