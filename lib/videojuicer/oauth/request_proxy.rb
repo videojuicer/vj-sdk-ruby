@@ -110,6 +110,9 @@ module Videojuicer
         when 200..399
           # Successful or redirected response
           response
+        when 409
+          # Not ready but still successful
+          response
         when 415
           # Validation error
           response
