@@ -86,7 +86,11 @@ module Videojuicer
         # ==== Returns
         # Array[String, String]:: The query and the content type.
         def to_multipart
-          query = @multipart_params.collect { |param| "--" + BOUNDARY + "\r\n" + param.to_multipart }.join("") + "--" + BOUNDARY + "--"
+          # Split into FileParam and Param objects and leave FileParams to the end of the chain
+          file_params = @multipart_params.select {|p| p.is_a?(FileParam) }
+          regular_params = @multipart_params.select {|p| p.is_a?(Param) }
+          all_params = regular_params+file_params
+          query = all_params.collect { |param| "--" + BOUNDARY + "\r\n" + param.to_multipart }.join("") + "--" + BOUNDARY + "--"
           return query, CONTENT_TYPE
         end
       end 
