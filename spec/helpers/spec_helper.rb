@@ -41,9 +41,13 @@ module SpecHelper
   end
   
   def fixtures
-    fixture_path = File.join(File.dirname(__FILE__), "..", "..", "core-fixtures.yml")
+    fixture_path = File.join(core_path, "sdk_fixtures.yml")
     fixture_src = File.open(fixture_path).read
     @core_fixtures ||= Mash.new(YAML.load(fixture_src))
+  end
+  
+  def core_path
+    File.join(File.dirname(__FILE__), "..", "..", "..", "vj-core")
   end
   
 end

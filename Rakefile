@@ -1,6 +1,10 @@
 require 'rubygems'
-require 'merb-core'
-require 'rake'
+require 'bundler'
+require 'net/http'
+
+# BUNDLER TRANSFORM!
+require 'lib/bundler_runtime_patch' # Andre's OMG MEGA HAX to allow DataMapper to require successfully
+Bundler.require :default, :vj_core_dependencies
 
 begin
   require 'jeweler'
@@ -28,10 +32,7 @@ end
 
 namespace :spec do
   task :sdk do
-    require 'tasks/vj-core'
-    Rake::Task["videojuicer:core:setup"].invoke
     Rake::Task["spec"].execute
-    Rake::Task["videojuicer:core:cleanup"].invoke
   end
 end
 task :default => :"spec:sdk"

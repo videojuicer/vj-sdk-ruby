@@ -3,3 +3,4 @@ core-fixtures.yml
 pkg/*
 .DS_Store
 *.tmproj
+.bundle
