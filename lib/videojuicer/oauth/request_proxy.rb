@@ -141,7 +141,7 @@ module Videojuicer
         begin
           e = JSON.parse(response.body)
           e = e["error"]
-          raise exception_klass, "#{e["message"]} \n #{(e["backtrace"] || []).join("\n")}"
+          raise exception_klass, "#{e["message"]} || 'an error has occurred, vj-core did not provide sufficient data to handle it properly' \n #{(e["backtrace"] || []).join("\n")}"
         rescue JSON::ParserError
           raise exception_klass, "#{exception_klass.to_s} : Response code was #{response.code} for request: #{request.path}"
         end
