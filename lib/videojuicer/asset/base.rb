@@ -22,6 +22,7 @@ module Videojuicer
         base.property :file,                File
         base.property :file_name,           String
         base.property :file_size,           Integer,  :writer => :private # bytes
+        base.property :source_uri,          String
         
         # - common metadata
         base.property :licensed_at,         Date
@@ -32,9 +33,13 @@ module Videojuicer
         # - access control / workflow
         base.property :url,                 String,   :writer => :private
         base.property :http_url,            String,   :writer => :private
+        
+        base.property :ingest_key,          String,   :writer => :private
         base.property :state,               String,   :writer => :private
         base.property :state_changed_at,    DateTime, :writer => :private
         base.property :state_changed_url,   String
+        base.property :state_location,      String,   :writer => :private
+        base.property :state_message,       String,   :writer => :private
         base.property :created_at,          DateTime
         base.property :updated_at,          DateTime
       end
