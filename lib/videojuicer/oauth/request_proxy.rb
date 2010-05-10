@@ -110,6 +110,9 @@ module Videojuicer
         when 200..399
           # Successful or redirected response
           response
+        when 409
+          # Not ready but still successful
+          response
         when 415
           # Validation error
           response
@@ -191,7 +194,7 @@ module Videojuicer
       # with the proxy configuration to produce a set of parameters that will be accepted
       # by the OAuth provider.
       def authify_params(method, path, params)
-        params = {
+        defaults = {
           :oauth_consumer_key=>consumer_key,
           :oauth_token=>token,
           :api_version=>api_version,
@@ -200,8 +203,9 @@ module Videojuicer
           :oauth_signature_method=>"HMAC-SHA1",
           :seed_name=>seed_name,
           :user_id=>user_id
-        }.merge(params)
-        params.delete_if {|k,v| (!v) or (v.to_s.empty?) }
+        }
+        defaults.delete_if {|k,v| (!v) or (v.to_s.empty?) }
+        params = defaults.merge(params)
         params[:oauth_signature] = signature(method, path, params)
         return params
       end

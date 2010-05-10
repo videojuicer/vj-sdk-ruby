@@ -31,10 +31,9 @@ module Videojuicer
         v = "@attributes"
         subclass.instance_variable_set(v, instance_variable_get(v))
       end
-
       
       def initialize(attrs={})
-        self.attributes = default_attributes
+        set_default_attributes
         self.attributes = attrs
       end
       
@@ -50,12 +49,61 @@ module Videojuicer
         end
       end
       
+      # Sets the attributes to their default values, marking only those values with defaults as being dirty.
+      def set_default_attributes
+        self.attributes = default_attributes
+        self.attributes.each do |key, value|
+          # Scrub the attributes if there's no value
+          attr_clean!(key) unless value
+        end
+      end
+      
       def default_attributes
         d = {}
         self.class.attributes.each do |key, props|
-          d[key] = props[:default] ||  nil
+          d[key] = props[:default] || nil
         end
         return d
+      end
+      
+      # Returns the hash of currently-dirty attributes complete with values
+      def dirty_attributes
+        o = {}
+        @dirty_attribute_keys ||= []
+        @dirty_attribute_keys.each do |key|
+          o[key] = attr_get(key)
+        end
+        o
+      end
+      
+      # Clears the array of dirty attribute keys
+      def clean_dirty_attributes!
+        @dirty_attribute_keys = []
+      end
+      
+      # Returns an array of keys for attributes that are currently dirty
+      def dirty_attribute_keys
+        @dirty_attribute_keys ||= []
+        @dirty_attribute_keys
+      end
+      
+      # Returns true if the specified attribute is currently dirty
+      def attr_dirty?(key)
+        @dirty_attribute_keys ||= []
+        @dirty_attribute_keys.include?(key.to_sym)
+      end
+      
+      # Mark the specified attribute as dirty.
+      def attr_dirty!(key)
+        @dirty_attribute_keys ||= []
+        @dirty_attribute_keys << key.to_sym
+        @dirty_attribute_keys.uniq!
+      end
+      
+      # Mark the specified attribute as no longer being dirty.
+      def attr_clean!(key)
+        @dirty_attribute_keys ||= []
+        @dirty_attribute_keys.delete_if {|k| k == key.to_sym }
       end
       
       def attr_get(key)
@@ -65,6 +113,7 @@ module Videojuicer
       
       def attr_set(key, value)
         key = key.to_sym
+        attr_dirty!(key)
         attributes[key] = coerce_value(key, value)
       end
       
@@ -103,7 +152,7 @@ module Videojuicer
       # Returns a hash of the attributes for this object, minus the
       # private attributes that should not be included in the response.
       def returnable_attributes
-        attrs = attributes.dup
+        attrs = dirty_attributes.dup
         self.class.attributes.select {|name, props| props[:writer] != :public}.each do |name, props|
           attrs.delete name
         end

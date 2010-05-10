@@ -48,7 +48,7 @@ module Videojuicer
                     end
                     
         # Parse and handle response
-        return validate_response(response)
+        return validate_committed_response(response)
       end
       
       # Attempts to validate this object with the remote service. Returns TRUE on success,
@@ -73,6 +73,13 @@ module Videojuicer
       def errors=(arg); @errors = Videojuicer::Resource::Errors.new(arg); end
       def errors; @errors ||= Videojuicer::Resource::Errors.new({}); end
       def errors_on(key); errors.on(key); end
+      
+      # Takes a *change-making* response from the API and cleans the dirty attributes if it was successful.
+      def validate_committed_response(response)
+        result = validate_response(response)
+        clean_dirty_attributes! if result
+        return result
+      end
       
       # Takes a response from the API and performs the appropriate actions.
       def validate_response(response)
@@ -104,7 +111,7 @@ module Videojuicer
       def reload
         raise NoResource, "Cannot load remote attributes for new records" if new_record?
         response = proxy_for(config).get(resource_path(nil, :nested=>false))
-        return validate_response(response)
+        return validate_committed_response(response)
       end
       
       # Attempts to delete this record. Will raise an exception if the record is new
@@ -134,6 +141,7 @@ module Videojuicer
           # Instantiate objects
           items = items.collect do |attrs|
             o = new; o.attributes = attrs
+            o.clean_dirty_attributes!
             o
           end
           return (op.is_a?(Hash))? Videojuicer::Resource::Collection.new(items, op["count"], op["offset"], op["limit"]) : items

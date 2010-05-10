@@ -26,6 +26,7 @@ module Videojuicer
     property :updated_at,         DateTime
 
     property :image_asset_id,     Integer # FIXME make me a relationship helper
+    property :image_asset_url,    String, :writer=>:private
 
     property :tag_list,           String
    
