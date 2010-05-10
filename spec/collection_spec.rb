@@ -22,6 +22,11 @@ describe Videojuicer::Resource::Collection do
     @collection.page_number.should == 2
   end
   
+  it "reports page 1 when tested with a zero offset" do
+    c = Videojuicer::Resource::Collection.new(@objects[0..9], 155, 0, 10)
+    c.page_number.should == 1
+  end
+  
   it "pagination copes with a nil limit" do
     collection = Videojuicer::Resource::Collection.new(@objects[0..9], 155, 17, nil)
     collection.page_count.should == 1
