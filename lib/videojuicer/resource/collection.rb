@@ -28,7 +28,7 @@ module Videojuicer
       
       def page_number
         return 1 if limit.nil? or offset.nil? or offset < 1
-        (offset.to_f/limit.to_f).ceil
+        ((offset+1).to_f/limit.to_f).ceil
       end
       
     end 
