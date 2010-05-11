@@ -27,6 +27,11 @@ describe Videojuicer::Resource::Collection do
     c.page_number.should == 1
   end
   
+  it "reports page 1 when there are zero items" do
+    c = Videojuicer::Resource::Collection.new(@objects[0..9], 0, 0, 10)
+    c.page_number.should == 1
+  end
+  
   it "pagination copes with a nil limit" do
     collection = Videojuicer::Resource::Collection.new(@objects[0..9], 155, 17, nil)
     collection.page_count.should == 1

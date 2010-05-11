@@ -22,7 +22,7 @@ module Videojuicer
       end
       
       def page_count
-        return 1 if limit.nil?
+        return 1 if limit.nil? or total.nil? or total < 1
         (total.to_f/limit.to_f).ceil
       end
       
