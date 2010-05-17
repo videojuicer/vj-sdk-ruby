@@ -16,7 +16,11 @@ module Bundler
     
       # NEW METHOD
       ordered_deps = []
-      spec_names = specs_for(*groups).map { |s| s.name }
+      begin # this is done because of an api change between 0.9.10 and 0.9.15
+        spec_names = specs_for(*groups).map { |s| s.name }
+      rescue
+        spec_names = specs_for(groups).map { |s| s.name }
+      end
       @definition.dependencies.each do |dep|
         ordered_deps << dep if spec_names.include?(dep.name) && !ordered_deps.include?(dep)
       end

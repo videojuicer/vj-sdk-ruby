@@ -61,18 +61,20 @@ module Videojuicer
     }}
   end
   
-  class Campaign
+  class Insert
     include FixtureHelper
     set_attribute_proc {{
-      :name => /\w+/.gen
+      :campaign_id => (Campaign.first.id rescue Campaign.gen.id),
+      :asset_type => "com.videojuicer.core.asset.Audio",
+      :asset_id   => (Asset::Audio.first.id rescue Asset::Audio.gen.id)
     }}
   end
   
-  class Campaign::CampaignPolicy
+  class Campaign
     include FixtureHelper
     set_attribute_proc {{
-	    :campaign_id => Campaign.gen.id,
-	    :presentation_id => (Presentation.first.id rescue Presentation.gen.id)
+      :name => /\w+/.gen,
+      :target_type => "com.videojuicer.core.Presentation"
     }}
   end
   
