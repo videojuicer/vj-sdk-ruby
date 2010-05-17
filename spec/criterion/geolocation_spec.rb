@@ -17,7 +17,7 @@ describe Videojuicer::Criterion::Geolocation do
       @plural_name = "criteria/geolocation"
     end
     
-    it_should_behave_like "a dependent non-resource object"
+    it_should_behave_like "a RESTFUL resource model"
   end
 
 end

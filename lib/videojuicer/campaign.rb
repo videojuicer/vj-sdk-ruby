@@ -7,6 +7,7 @@ module Videojuicer
     property :user_id,      Integer
     property :target_type,  String
     property :target_id,    Integer
+    property :disclosure,   String
     property :created_at,   DateTime
     property :updated_at,   DateTime
 
@@ -14,6 +15,6 @@ module Videojuicer
     
     attr_accessor :criteria
     attr_accessor :targets
-    has 
+    attr_accessor :inserts
   end
 end

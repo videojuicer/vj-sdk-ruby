@@ -20,7 +20,7 @@ module Videojuicer
         def singular_name
           "criterion"
         end
-        
+
         def base_path(options={})
           "/criteria/#{self.to_s.split("::").last.snake_case}"
         end
@@ -31,12 +31,6 @@ module Videojuicer
       end
       
       module InstanceMethods
-        def save(*args); raise NoMethodError; end
-        def destroy(*args); raise NoMethodError; end
-        def ==(other); self.attributes == other.attributes; end
-        def eql?(other); self.attributes.eql?(other.attributes) end
-        def matcher_attributes;  end
-        
         def matcher_attributes
           result = {}
           self.matcher_keys.each do |key|
