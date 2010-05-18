@@ -119,42 +119,6 @@ module Videojuicer
     }}
   end
   
-  class Promo::Image
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "Thumbnail",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
-    }}
-  end
-  
-  class Promo::Audio
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "Voice Over",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
-    }}
-  end
-  
-  class Promo::Video
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "preroll",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
-    }}
-  end
-  
-  class Promo::Text
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "Description",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
-    }}
-  end
-  
   class Asset::Audio
     include FixtureHelper
     set_attribute_proc {{
