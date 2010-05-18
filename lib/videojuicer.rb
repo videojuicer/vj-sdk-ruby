@@ -46,7 +46,6 @@ require 'videojuicer/criterion/geolocation'
 require 'videojuicer/criterion/request'
 require 'videojuicer/criterion/time'
 require 'videojuicer/criterion/week_day'
-require 'videojuicer/promo/base'
 require 'videojuicer/preset'
 
 module Videojuicer
