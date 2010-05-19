@@ -4,13 +4,13 @@ describe Videojuicer::Resource::Collection do
 
   before(:all) do
     @objects = [:foo]*100
-    @collection = Videojuicer::Resource::Collection.new(@objects[0..9], 155, 17, 10)
+    @collection = Videojuicer::Resource::Collection.new(@objects[0..9], 155, 10, 10)
   end
   
   it "is instantiated correctly" do    
     @collection.should be_kind_of(Videojuicer::Resource::Collection)
     @collection.total.should == 155
-    @collection.offset.should == 17
+    @collection.offset.should == 10
     @collection.limit.should == 10
   end
   
@@ -24,6 +24,11 @@ describe Videojuicer::Resource::Collection do
   
   it "reports page 1 when tested with a zero offset" do
     c = Videojuicer::Resource::Collection.new(@objects[0..9], 155, 0, 10)
+    c.page_number.should == 1
+  end
+  
+  it "reports page 1 when there are zero items" do
+    c = Videojuicer::Resource::Collection.new(@objects[0..9], 0, 0, 10)
     c.page_number.should == 1
   end
   
