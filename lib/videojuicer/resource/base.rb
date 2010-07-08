@@ -131,6 +131,8 @@ module Videojuicer
         # > "id.lt" => "9" #=> Returns only records with ID less than 9
         # > "id.gte" => "9" #=> Returns only records with ID greater than or equal to 9
         # > "id.lte" => "9" #=> Returns only records with ID less than or equal to than 9
+        # Range operations are also supported e.g.
+        # > :id => '1,2,3'
         def all(options={})
           # Get a proxy
           options = (options.empty?)? {} : {parameter_name=>options} # FIXME this is a hacky workaround for singleton scope.
