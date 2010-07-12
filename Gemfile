@@ -2,7 +2,7 @@ source :gemcutter
 
 # http://github.com/carlhuda/bundler/issues/#issue/107
 # - do not change unless lib/bundler_runtime_patch tested / defunct
-gem "bundler", "0.9.10"
+gem "bundler", "0.9.26"
 
 def gems(names, version)
   names.each { |n| gem(n, version) }
