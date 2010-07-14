@@ -4,7 +4,6 @@ module Videojuicer
     include Videojuicer::Resource::Embeddable
     include Videojuicer::Exceptions
     
-    property :slug,               String
     property :title,              String
     property :author,             String
     property :author_url,         String
