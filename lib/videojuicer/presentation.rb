@@ -14,7 +14,7 @@ module Videojuicer
     property :callback_url,       String
 
     property :state,              String,   :default=>"ready" # see the STATES constant for values
-    property :disclosure,         String,   :default=>"public" # see DISCLOSURES constant for values
+    property :disclosure,         String,   :default=>"public" # can be 'public' or 'private'
     property :publish_from,       DateTime
     property :publish_until,      DateTime
 
