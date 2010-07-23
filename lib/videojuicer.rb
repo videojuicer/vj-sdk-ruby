@@ -6,6 +6,7 @@ require 'cgi'
 require 'json'
 require 'hmac-sha1'
 require 'net/http'
+require 'liquid'
 
 # Core ext
 require 'core_ext/hash'
@@ -15,6 +16,7 @@ require 'core_ext/cgi'
 # Core mixins
 require 'videojuicer/shared/exceptions'
 require 'videojuicer/shared/configurable'
+require 'videojuicer/shared/liquid_helper'
 # Authentication and authorisation
 require 'videojuicer/oauth/request_proxy'
 require 'videojuicer/oauth/proxy_factory'

@@ -21,5 +21,22 @@ describe Videojuicer::Presentation do
     it_should_behave_like "an embeddable"
   end
   
+  it "should fetch asset ids" do
+    presentation = @klass.gen
+    presentation.document_content = "{% video %}{% id 1 %}{% endvideo %}" 
+#    $stdout.puts presentation.asset_ids.inspect
+    presentation.asset_ids.should_not == nil
+    presentation.asset_ids[:video].first.should == '1'
+  end
+  
+  it "should fetch longer asset ids" do
+      presentation = @klass.gen
+      presentation.document_content = "{% video %}{% id 8003 %}{% endvideo %}" 
+    $stdout.puts presentation.asset_ids.inspect
+      presentation.asset_ids.should_not == nil
+      presentation.asset_ids[:video].first.should == '8003'
+  end
+  
+  
   
 end

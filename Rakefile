@@ -19,6 +19,7 @@ begin
     gem.add_dependency "json", ">= 1.0"
     gem.add_dependency "ruby-hmac", ">= 0.3.2"
     gem.add_dependency "mash", ">= 0.0.3"
+    gem.add_dependency "liquid", "2.0.0"
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"

@@ -33,6 +33,22 @@ module Videojuicer
       proxy = proxy_for(config)
       "#{proxy.host_stub}/presentations/#{id}.html?seed_name=#{seed_name}".gsub(":80/","/")
     end
+    
+    def asset_ids
+      Videojuicer::SDKLiquidHelper::Filters::AssetBlock.reset!
+      %w(video flash image document audio).each do |type|
+        Liquid::Template.register_tag type, Videojuicer::SDKLiquidHelper::Filters::AssetBlock
+      end
+      @template = Liquid::Template.parse(document_content)
+      @template.render
+      return Videojuicer::SDKLiquidHelper::Filters::AssetBlock.asset_ids
+    end
+    
+    %w(video flash image document audio).each do |type|
+        define_method "#{type}_asset_ids" do
+            asset_ids[type.to_sym]
+        end
+    end
    
   end 
 end
