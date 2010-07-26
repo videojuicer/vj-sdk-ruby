@@ -16,7 +16,7 @@ module Videojuicer
         
         def initialize tag_name, args, tokens
           @@asset_ids[tag_name] ||= []
-          @@asset_ids[tag_name] << tokens.to_s.gsub(/\{% id ([0-9]+){1,20} %\}.*/, "\\1")
+          @@asset_ids[tag_name] << tokens.to_s.gsub(/\{% id ([0-9]+){1,10} %\}.*/, "\\1").strip
           super
         end
         
