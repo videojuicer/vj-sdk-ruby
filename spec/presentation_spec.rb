@@ -25,6 +25,7 @@ describe Videojuicer::Presentation do
     
     before :each do
       @presentation = @klass.gen
+      Videojuicer::Asset::Video.create :file_name => 'foo.mp4'
     end
     
     it "should fetch asset ids" do
@@ -34,7 +35,7 @@ describe Videojuicer::Presentation do
     end
   
     it "should fetch longer asset ids" do
-        @presentation.document_content = "{% video %}{% id 8003 %}{% endvideo %}" 
+        @presentation.document_content = "{% video %}{% id 8003 %}{% endvideo %}"
         @presentation.asset_ids.should_not == nil
         @presentation.asset_ids[:video].first.should == '8003'
     end
@@ -51,6 +52,13 @@ describe Videojuicer::Presentation do
       @presentation.asset_ids.should_not == nil
       @presentation.asset_ids[:video].first.should == '200'
       @presentation.asset_ids[:image].first.should == '200'
+    end
+    
+    it "should fetch assets too" do
+      @presentation.document_content = "{% video %}{% id 1 %}{% endvideo %}"
+      @presentation.asset_ids
+      @presentation.video_assets.first.should_not == nil
+      @presentation.video_assets.first.id.should == 1
     end
     
   end

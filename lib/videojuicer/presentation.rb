@@ -29,6 +29,9 @@ module Videojuicer
 
     property :tag_list,           String
    
+    
+    @@asset_types = %w(video flash image document audio)
+    
     def permalink
       proxy = proxy_for(config)
       "#{proxy.host_stub}/presentations/#{id}.html?seed_name=#{seed_name}".gsub(":80/","/")
@@ -36,7 +39,7 @@ module Videojuicer
     
     def asset_ids
       Videojuicer::SDKLiquidHelper::Filters::AssetBlock.reset!
-      %w(video flash image document audio).each do |type|
+      @@asset_types.each do |type|
         Liquid::Template.register_tag type, Videojuicer::SDKLiquidHelper::Filters::AssetBlock
       end
       @template = Liquid::Template.parse(document_content)
@@ -44,11 +47,16 @@ module Videojuicer
       return Videojuicer::SDKLiquidHelper::Filters::AssetBlock.asset_ids
     end
     
-    %w(video flash image document audio).each do |type|
+    @@asset_types.each do |type|
+        sym_type = type.to_sym
         define_method "#{type}_asset_ids" do
-            asset_ids[type.to_sym]
+            asset_ids[sym_type]
+        end
+        define_method "#{type}_assets" do
+          @assets ||= {}
+          @assets[sym_type] ||= Videojuicer::Asset.const_get(type.capitalize.to_sym).all :id => asset_ids[sym_type].join(',')
         end
     end
-   
+    
   end 
 end
