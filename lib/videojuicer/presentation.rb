@@ -29,7 +29,7 @@ module Videojuicer
 
     property :tag_list,           String
    
-    
+    attr_accessor :image_asset
     @@asset_types = %w(video flash image document audio)
     
     def permalink
@@ -45,6 +45,11 @@ module Videojuicer
       @template = Liquid::Template.parse(document_content)
       @template.render
       return Videojuicer::SDKLiquidHelper::Filters::AssetBlock.asset_ids
+    end
+    
+    #get the thumbnail image associated with the presentation
+    def image_asset
+      @image_asset ||= Videojuicer::Asset::Image.get(image_asset_id)
     end
     
     @@asset_types.each do |type|

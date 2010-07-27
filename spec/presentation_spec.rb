@@ -26,6 +26,7 @@ describe Videojuicer::Presentation do
     before :each do
       @presentation = @klass.gen
       Videojuicer::Asset::Video.create :file_name => 'foo.mp4'
+      Videojuicer::Asset::Image.create :file_name => 'foo.png'
     end
     
     it "should fetch asset ids" do
@@ -59,6 +60,12 @@ describe Videojuicer::Presentation do
       @presentation.asset_ids
       @presentation.video_assets.first.should_not == nil
       @presentation.video_assets.first.id.should == 1
+    end
+    
+    it "should return the image asset" do
+      @presentation.image_asset_id = 1
+      @presentation.image_asset.should_not == nil
+      @presentation.image_asset.class.should == Videojuicer::Asset::Image
     end
     
   end
