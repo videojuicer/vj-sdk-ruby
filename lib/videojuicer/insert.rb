@@ -14,6 +14,7 @@ module Videojuicer
     property :click_target, String
     property :asset_type,   String
     property :asset_id,     Integer
+    property :duration,     Integer    
     property :created_at,   DateTime
     property :updated_at,   DateTime
     

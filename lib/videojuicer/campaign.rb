@@ -10,7 +10,7 @@ module Videojuicer
     property :disclosure,   String
     property :created_at,   DateTime
     property :updated_at,   DateTime
-
+    
     belongs_to :user, :class=>Videojuicer::User
     
     attr_accessor :criteria

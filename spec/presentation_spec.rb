@@ -25,8 +25,8 @@ describe Videojuicer::Presentation do
     
     before :each do
       @presentation = @klass.gen
-      Videojuicer::Asset::Video.create :file_name => 'foo.mp4'
-      Videojuicer::Asset::Image.create :file_name => 'foo.png'
+      5.of { Videojuicer::Asset::Video.create :file_name => 'foo.mp4' }
+      5.of { Videojuicer::Asset::Image.create :file_name => 'foo.png' }
     end
     
     it "should fetch asset ids" do
@@ -55,7 +55,7 @@ describe Videojuicer::Presentation do
       @presentation.asset_ids[:image].first.should == '200'
     end
     
-    it "should fetch assets too" do
+    it "should also fetch assets" do
       @presentation.document_content = "{% video %}{% id 1 %}{% endvideo %}"
       @presentation.asset_ids
       @presentation.video_assets.first.should_not == nil
@@ -63,9 +63,16 @@ describe Videojuicer::Presentation do
     end
     
     it "should return the image asset" do
-      @presentation.image_asset_id = 1
+      @presentation.image_asset_id = Videojuicer::Asset::Image.first.id
       @presentation.image_asset.should_not == nil
       @presentation.image_asset.class.should == Videojuicer::Asset::Image
+    end
+    
+    it "should also take a block and pass the image_asset to that block" do
+      @presentation.image_asset_id = Videojuicer::Asset::Image.first.id
+      @presentation.image_asset do |image|
+        image.id.should == 1
+      end
     end
     
   end

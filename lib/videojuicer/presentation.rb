@@ -50,8 +50,11 @@ module Videojuicer
     #get the thumbnail image associated with the presentation
     def image_asset
       @image_asset ||= Videojuicer::Asset::Image.get(image_asset_id)
+      return @image_asset unless block_given?
+      yield @image_asset if block_given?
     end
     
+    #video_asset_ids and video_assets methods
     @@asset_types.each do |type|
         sym_type = type.to_sym
         define_method "#{type}_asset_ids" do
