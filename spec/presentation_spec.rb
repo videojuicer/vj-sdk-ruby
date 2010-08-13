@@ -56,10 +56,11 @@ describe Videojuicer::Presentation do
     end
     
     it "should also fetch assets" do
-      @presentation.document_content = "{% video %}{% id 1 %}{% endvideo %}"
+      id = Videojuicer::Asset::Video.first.id
+      @presentation.document_content = "{% video %}{% id #{id} %}{% endvideo %}"
       @presentation.asset_ids
       @presentation.video_assets.first.should_not == nil
-      @presentation.video_assets.first.id.should == 1
+      @presentation.video_assets.first.id.should == id
     end
     
     it "should return the image asset" do
@@ -69,9 +70,10 @@ describe Videojuicer::Presentation do
     end
     
     it "should also take a block and pass the image_asset to that block" do
-      @presentation.image_asset_id = Videojuicer::Asset::Image.first.id
+      id = Videojuicer::Asset::Image.first.id
+      @presentation.image_asset_id = id
       @presentation.image_asset do |image|
-        image.id.should == 1
+        image.id.should == id
       end
     end
     

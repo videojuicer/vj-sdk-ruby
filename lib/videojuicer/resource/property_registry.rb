@@ -45,7 +45,8 @@ module Videojuicer
       def attributes=(arg)
         raise ArgumentError, "Attributes must be set as a Hash" unless arg.is_a?(Hash)
         arg.each do |key, value|
-          self.send("#{key}=", value)
+          #set any attributes, ignoring all those that are invalid  
+          self.send("#{key}=", value) rescue invalid_attributes[key] = value
         end
       end
       
@@ -158,6 +159,10 @@ module Videojuicer
         end
         attrs.delete(:id)
         attrs
+      end
+      
+      def invalid_attributes
+        @invalid_attributes ||= {}
       end
       
       module SingletonMethods

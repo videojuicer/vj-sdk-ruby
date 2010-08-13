@@ -74,7 +74,7 @@ module Videojuicer
     include FixtureHelper
     set_attribute_proc {{
       :name => /\w+/.gen,
-      :target_type => "com.videojuicer.core.Presentation"
+      :insert_domain => "com.videojuicer.asset"
     }}
   end
   
