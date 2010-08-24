@@ -63,6 +63,12 @@ describe Videojuicer::Presentation do
       @presentation.video_assets.first.id.should == id
     end
     
+    it "should should return nil when there are not assets of that type" do
+      @presentation.document_content = "<img src=\"/my-image.png\"/>"
+      @presentation.asset_ids
+      @presentation.video_assets.should == nil
+    end
+    
     it "should return the image asset" do
       @presentation.image_asset_id = Videojuicer::Asset::Image.first.id
       @presentation.image_asset.should_not == nil

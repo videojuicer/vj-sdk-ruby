@@ -123,6 +123,7 @@ module Videojuicer
       def coerce_value(key, value)
         return value unless value
         klass = self.class.attributes[key][:class]
+        
         if value.is_a?(String) and value.any?
           # In-built types
           if klass.kind_of?(Videojuicer::Resource::Types::Base)
