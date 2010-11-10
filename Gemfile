@@ -12,7 +12,7 @@ end
 gem "merb-core", "1.1.0.pre"
 gem "jeweler", ">= 1.4.0"
 gem "rake", ">= 0.8.7"
-gem "rspec", ">= 1.3.0"
+gem "rspec", "1.3.0"
 gem "mash"
 gem "randexp"
 gem "ruby-hmac"

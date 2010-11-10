@@ -64,9 +64,11 @@ module Videojuicer
   class Insert
     include FixtureHelper
     set_attribute_proc {{
-      :campaign_id => (Campaign.first.id rescue Campaign.gen.id),
-      :asset_type => "com.videojuicer.core.asset.Audio",
-      :asset_id   => (Asset::Audio.first.id rescue Asset::Audio.gen.id)
+      :campaign_id  => (Campaign.first.id rescue Campaign.gen.id),
+      :asset_type   => "com.videojuicer.core.asset.Audio",
+      :asset_id     => (Asset::Audio.first.id rescue Asset::Audio.gen.id),
+      :role         => 'overlay',
+      :user_id      => (User.first.id rescue User.gen.id)
     }}
   end
   
