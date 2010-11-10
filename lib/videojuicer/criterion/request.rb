@@ -6,9 +6,9 @@ module Videojuicer
       
       belongs_to :campaign, :class=>Videojuicer::Campaign
       
-      property :campaign_id,         Integer
-      property :referrer,           String, :nullable => false
-      property :exclude,            Boolean
+      property :campaign_id, Integer
+      property :referrer,    String, :nullable => false
+      property :exclude,     Boolean
       
       def self.singular_name
         "criterion"
