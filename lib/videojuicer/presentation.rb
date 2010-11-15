@@ -63,7 +63,7 @@ module Videojuicer
         end
         define_method "#{type}_assets" do
           @assets ||= {}
-          @assets[sym_type] ||= Videojuicer::Asset.const_get(type.capitalize.to_sym).all :id => asset_ids[sym_type].join(',') rescue nil
+          @assets[sym_type] ||= Videojuicer::Asset.const_get(type.capitalize.to_sym).all :id => asset_ids[sym_type].join(',') rescue []
         end
     end
     
