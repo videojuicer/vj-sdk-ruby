@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.6.7"
+  s.version = "0.6.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
-  s.date = %q{2010-11-15}
+  s.date = %q{2010-11-24}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
      "lib/videojuicer/asset/image.rb",
      "lib/videojuicer/asset/text.rb",
      "lib/videojuicer/asset/video.rb",
+     "lib/videojuicer/assets.rb",
      "lib/videojuicer/campaign.rb",
      "lib/videojuicer/criterion/date_range.rb",
      "lib/videojuicer/criterion/geolocation.rb",
@@ -68,6 +69,7 @@ Gem::Specification.new do |s|
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
+     "spec/assets_spec.rb",
      "spec/belongs_to_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
@@ -117,6 +119,7 @@ Gem::Specification.new do |s|
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
+     "spec/assets_spec.rb",
      "spec/belongs_to_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",

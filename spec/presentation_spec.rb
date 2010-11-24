@@ -92,13 +92,16 @@ describe Videojuicer::Presentation do
       end
       
       it "should know it has the default document_content" do
-        p @presentation.document_content
         @presentation.has_default_content?.should == true
       end
       
       it "should know it doesn't have the default document_content" do
         @presentation.document_content = "{% image %}{% id 1 %}{% endimage %}"
-        p @presentation.document_content
+        @presentation.has_default_content?.should == false
+      end
+      
+      it "should return false if there is any markup in the document_content" do
+        @presentation.document_content = "{% image %}{% id 1 %}{% endimage %} <br/>"
         @presentation.has_default_content?.should == false
       end
       
