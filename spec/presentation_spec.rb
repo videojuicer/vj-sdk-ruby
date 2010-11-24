@@ -63,10 +63,11 @@ describe Videojuicer::Presentation do
       @presentation.video_assets.first.id.should == id
     end
     
-    it "should should return nil when there are not assets of that type" do
+    it "should should return an empty array when there are no assets of that type" do
       @presentation.document_content = "<img src=\"/my-image.png\"/>"
       @presentation.asset_ids
-      @presentation.video_assets.should == nil
+      @presentation.video_assets.should == []
+      @presentation.video_assets.length.should == 0
     end
     
     it "should return the image asset" do

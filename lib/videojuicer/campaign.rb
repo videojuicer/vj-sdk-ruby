@@ -10,7 +10,7 @@ module Videojuicer
     property :disclosure,       String
     property :created_at,       DateTime
     property :updated_at,       DateTime
-    property :tag_list          String
+    property :tag_list,         String
     
     belongs_to :user, :class=>Videojuicer::User
     
