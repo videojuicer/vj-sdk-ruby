@@ -67,5 +67,21 @@ module Videojuicer
         end
     end
     
+    def has_default_content?
+      asset_ids
+      return false if video_assets.length > 1
+      
+      types = @@asset_types.dup
+      types.delete "video"
+      
+      types.inject(true) do |memo, type|
+        unless send("#{type}_asset_ids").nil?
+          return false
+        else
+          true
+        end
+      end
+    end
+    
   end 
 end

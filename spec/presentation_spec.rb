@@ -84,6 +84,26 @@ describe Videojuicer::Presentation do
       end
     end
     
+    describe "default document_content detection" do
+      
+      before :each do
+        @presentation = Videojuicer::Presentation.gen
+        @presentation.document_content = "{% video %}{% id 8003 %}{% endvideo %}"
+      end
+      
+      it "should know it has the default document_content" do
+        p @presentation.document_content
+        @presentation.has_default_content?.should == true
+      end
+      
+      it "should know it doesn't have the default document_content" do
+        @presentation.document_content = "{% image %}{% id 1 %}{% endimage %}"
+        p @presentation.document_content
+        @presentation.has_default_content?.should == false
+      end
+      
+    end
+    
   end
   
   
