@@ -2,9 +2,8 @@ require File.join(File.dirname(__FILE__), "helpers",  "spec_helper")
 
 describe Videojuicer::Assets do
   
-  before :each do
+  before :all do
     @klass = Videojuicer::Assets
-    @preset_params = {:derived_type => "Audio", :file_format => "mp3"}
     configure_test_settings
   end
   
@@ -15,9 +14,17 @@ describe Videojuicer::Assets do
   describe "listing assets of all types" do
     
     it "should list assets" do
-      @assets = Videojuicer::Assets.all
-      p @assets
-      @assets.class.should == Array
+      @assets = @klass.all
+      @assets.should_not == nil
+      @assets.class.should == Videojuicer::Resource::Collection
+    end
+  end
+  
+  describe "searching" do
+    it "should search" do
+      @assets = @klass.all({"friendly_name.like" => "test"})
+      @assets.should_not == nil
+      @assets.class.should == Videojuicer::Resource::Collection
     end
   end
   

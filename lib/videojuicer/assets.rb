@@ -22,10 +22,6 @@ module Videojuicer
       self.class.new(JSON.parse(response.body))
     end
     
-    def file
-      raise "use the value of #{self.class}#url to download a copy of the asset"
-    end
-    
     def returnable_attributes
       attrs = super
       attrs.delete(:file) unless new_record?
