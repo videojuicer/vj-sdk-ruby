@@ -4,10 +4,12 @@ module Videojuicer
     include Videojuicer::Resource
     include Videojuicer::Exceptions
     
-    property :name,       String
-    property :type,       String
-    property :created_at, DateTime
-    property :updated_at, DateTime
+    property :name,          String
+    property :friendly_name, String
+    property :type,          String
+    property :http_url,      String
+    property :created_at,    DateTime
+    property :updated_at,    DateTime
     
     def self.singular_name
       "asset"
