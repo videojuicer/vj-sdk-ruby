@@ -1,13 +1,13 @@
-require File.join(File.dirname(__FILE__), "helpers",  "spec_helper")
+require File.join(File.dirname(__FILE__), "..", "helpers",  "spec_helper")
 
-describe Videojuicer::Assets do
+describe Videojuicer::Asset::All do
   
   before :all do
     configure_test_settings
     5.of do
       Videojuicer::Asset::Video.gen :friendly_name => "test"
     end
-    @klass = Videojuicer::Assets
+    @klass = Videojuicer::Asset::All
   end
   
   describe "instantiation" do
