@@ -22,9 +22,15 @@ describe Videojuicer::Asset::All do
       @assets.class.should == Videojuicer::Resource::Collection
     end
     
-    it "should paginate" do
-      @assets = @klass.all :page => 1, :limit => 5
+    it "should limit results" do
+      @assets = @klass.all :limit => 5
       @assets.length.should == 5
+      @assets.first.id.should == 1
+    end
+    
+    it "should paginate" do
+      @assets = @klass.all :page => 2
+      @assets.page_number.should == 2
     end
     
   end

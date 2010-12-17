@@ -11,7 +11,7 @@ module Videojuicer
       property :http_url,      String
       property :created_at,    DateTime
       property :updated_at,    DateTime
-    
+      
       def self.singular_name
         "asset"
       end

@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.6.9"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
-  s.date = %q{2010-11-24}
+  s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
+  s.date = %q{2010-12-14}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/core_ext/object.rb",
      "lib/core_ext/string.rb",
      "lib/videojuicer.rb",
+     "lib/videojuicer/asset/all.rb",
      "lib/videojuicer/asset/audio.rb",
      "lib/videojuicer/asset/base.rb",
      "lib/videojuicer/asset/document.rb",
@@ -35,12 +36,10 @@ Gem::Specification.new do |s|
      "lib/videojuicer/asset/image.rb",
      "lib/videojuicer/asset/text.rb",
      "lib/videojuicer/asset/video.rb",
-     "lib/videojuicer/assets.rb",
      "lib/videojuicer/campaign.rb",
      "lib/videojuicer/criterion/date_range.rb",
      "lib/videojuicer/criterion/geolocation.rb",
      "lib/videojuicer/criterion/request.rb",
-     "lib/videojuicer/criterion/time.rb",
      "lib/videojuicer/criterion/week_day.rb",
      "lib/videojuicer/insert.rb",
      "lib/videojuicer/oauth/multipart_helper.rb",
@@ -63,20 +62,19 @@ Gem::Specification.new do |s|
      "lib/videojuicer/shared/exceptions.rb",
      "lib/videojuicer/shared/liquid_helper.rb",
      "lib/videojuicer/user.rb",
+     "spec/assets/all.rb",
      "spec/assets/audio_spec.rb",
      "spec/assets/document_spec.rb",
      "spec/assets/flash_spec.rb",
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
-     "spec/assets_spec.rb",
      "spec/belongs_to_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
      "spec/criterion/date_range_spec.rb",
      "spec/criterion/geolocation_spec.rb",
      "spec/criterion/request_spec.rb",
-     "spec/criterion/time_spec.rb",
      "spec/criterion/week_day_spec.rb",
      "spec/files/audio.mp3",
      "spec/files/document.js",
@@ -113,20 +111,19 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Videojuicer core-sdk}
   s.test_files = [
-    "spec/assets/audio_spec.rb",
+    "spec/assets/all.rb",
+     "spec/assets/audio_spec.rb",
      "spec/assets/document_spec.rb",
      "spec/assets/flash_spec.rb",
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
-     "spec/assets_spec.rb",
      "spec/belongs_to_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
      "spec/criterion/date_range_spec.rb",
      "spec/criterion/geolocation_spec.rb",
      "spec/criterion/request_spec.rb",
-     "spec/criterion/time_spec.rb",
      "spec/criterion/week_day_spec.rb",
      "spec/has_spec.rb",
      "spec/helpers/be_equal_to.rb",
