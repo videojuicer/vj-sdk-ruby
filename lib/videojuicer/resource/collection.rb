@@ -21,6 +21,11 @@ module Videojuicer
         self.limit = limit
       end
       
+      def self.limit_from_page_number page, limit
+        return 0 if page == 1
+        (page - 1) * limit
+      end
+      
       def page_count
         return 1 if limit.nil? or total.nil? or total < 1
         (total.to_f/limit.to_f).ceil

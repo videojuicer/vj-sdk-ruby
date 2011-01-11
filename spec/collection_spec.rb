@@ -38,4 +38,15 @@ describe Videojuicer::Resource::Collection do
     collection.page_number.should == 1
   end
   
+  it "provides a correct offset for a page number and limit when the page is 1" do
+    offset = Videojuicer::Resource::Collection.limit_from_page_number 1, 20
+    offset.should == 0
+  end
+  
+  it "should provide a correct offset" do
+    offset = Videojuicer::Resource::Collection.limit_from_page_number 2, 20
+    offset.should == 20
+  end
+  
+  
 end

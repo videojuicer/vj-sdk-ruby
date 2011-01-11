@@ -27,7 +27,7 @@ describe Videojuicer::Asset do
     end
     
     it "should paginate" do
-      @assets = @klass.all(:offset => 19, :limit => 10)
+      @assets = @klass.all(:limit => 10, :page => 2)
       @assets.page_count.should > 2
       @assets.page_number.should == 2
       @assets.length.should == 10
