@@ -48,5 +48,10 @@ describe Videojuicer::Resource::Collection do
     offset.should == 20
   end
   
+  it "should be able to take a string as a page and limit argument" do
+    offset = Videojuicer::Resource::Collection.limit_from_page_number "2", "20"
+    offset.should == 20
+  end
+  
   
 end

@@ -22,9 +22,9 @@ module Videojuicer
       end
       
       def self.limit_from_page_number page, limit
-        page = page.to_i!
+        page = page.to_i
         return 0 if page == 1
-        (page - 1) * limit
+        (page - 1) * limit.to_i
       end
       
       def page_count
