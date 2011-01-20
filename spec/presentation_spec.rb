@@ -105,6 +105,11 @@ describe Videojuicer::Presentation do
         @presentation.has_default_content?.should == false
       end
       
+      it "should return false if there are any other smil tags in the document" do
+        @presentation.document_content = "{% video %}{% id 323 %}{% delivery progressive-only %}{% endvideo %}"
+        @presentation.has_default_content?.should == false
+      end
+      
     end
     
   end

@@ -25,6 +25,17 @@ module Videojuicer
         def unknown_tag tag_name, args, tokens; nil; end;
         
       end#end class
+      
+      class SmilVideoFragment < ::Liquid::Block
+        
+      end
+      
+      class IdFragment < ::Liquid::Tag
+      end
+      
+      class DeliveryFragment < ::Liquid::Tag
+      end
+      
     end
   end
 end

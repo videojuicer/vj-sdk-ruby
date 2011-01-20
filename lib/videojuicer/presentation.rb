@@ -76,13 +76,19 @@ module Videojuicer
       types = @@asset_types.dup
       types.delete "video"
       
-      types.inject(true) do |memo, type|
+      result = types.inject(true) do |memo, type|
         unless send("#{type}_asset_ids").nil?
           return false
         else
           true
         end
       end
+      return result unless result
+      
+      #OMG MEGA HAX until I can schedule some time to fix it properly
+      return false if document_content.include? "delivery"
+      
+      true
     end
     
   end 
