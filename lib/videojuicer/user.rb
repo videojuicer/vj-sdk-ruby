@@ -10,6 +10,7 @@ module Videojuicer
     property :password_confirmation, String
     property :created_at, DateTime
     property :updated_at, DateTime
+    property :roles, Array, :writer => :readonly
     
     # Authenticates the given login and password and returns
     # a user if the details are correct. Requires a Master token.

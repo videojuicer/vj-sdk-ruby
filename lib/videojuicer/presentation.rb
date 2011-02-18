@@ -4,13 +4,13 @@ module Videojuicer
     include Videojuicer::Resource::Embeddable
     include Videojuicer::Exceptions
     
-    property :slug,               String
     property :title,              String
     property :author,             String
     property :author_url,         String
     property :abstract,           String
     property :user_id,            Integer,  :writer=>:private
       belongs_to :user, :class=>Videojuicer::User
+    property :updater_id,         Integer
     property :callback_url,       String
 
     property :state,              String,   :default=>"ready" # see the STATES constant for values
@@ -30,10 +30,66 @@ module Videojuicer
 
     property :tag_list,           String
    
+    attr_accessor :image_asset
+    @@asset_types = %w(video flash image document audio)
+    
     def permalink
       proxy = proxy_for(config)
       "#{proxy.host_stub}/presentations/#{id}.html?seed_name=#{seed_name}".gsub(":80/","/")
     end
-   
+    
+    def asset_ids
+      Videojuicer::SDKLiquidHelper::Filters::AssetBlock.reset!
+      @@asset_types.each do |type|
+        Liquid::Template.register_tag type, Videojuicer::SDKLiquidHelper::Filters::AssetBlock
+      end
+      @template = Liquid::Template.parse(document_content)
+      @template.render
+      return Videojuicer::SDKLiquidHelper::Filters::AssetBlock.asset_ids
+    end
+    
+    #get the thumbnail image associated with the presentation
+    def image_asset
+      @image_asset ||= Videojuicer::Asset::Image.get(image_asset_id)
+      return @image_asset unless block_given?
+      yield @image_asset if block_given?
+    end
+    
+    #video_asset_ids and video_assets methods
+    @@asset_types.each do |type|
+        sym_type = type.to_sym
+        define_method "#{type}_asset_ids" do
+            asset_ids[sym_type]
+        end
+        define_method "#{type}_assets" do
+          @assets ||= {}
+          @assets[sym_type] ||= Videojuicer::Asset.const_get(type.capitalize.to_sym).all :id => asset_ids[sym_type].join(',') rescue []
+        end
+    end
+    
+    def has_default_content?
+      return false if document_content.include? "<"
+      
+      asset_ids
+      return false if video_assets.length > 1
+      
+      types = @@asset_types.dup
+      types.delete "video"
+      
+      result = types.inject(true) do |memo, type|
+        unless send("#{type}_asset_ids").nil?
+          return false
+        else
+          true
+        end
+      end
+      return result unless result
+      
+      #OMG MEGA HAX until I can schedule some time to fix it properly
+      return false if document_content.include? "delivery"
+      
+      true
+    end
+    
   end 
 end

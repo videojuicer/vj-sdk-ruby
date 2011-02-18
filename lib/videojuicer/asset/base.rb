@@ -21,6 +21,7 @@ module Videojuicer
         # - generic file handling
         base.property :file,                File
         base.property :file_name,           String
+        base.property :friendly_name,       String
         base.property :file_size,           Integer,  :writer => :private # bytes
         base.property :source_uri,          String
         
@@ -33,6 +34,7 @@ module Videojuicer
         # - access control / workflow
         base.property :url,                 String,   :writer => :private
         base.property :http_url,            String,   :writer => :private
+        base.property :smil_fragment,       String,   :writer => :private
         
         base.property :ingest_key,          String,   :writer => :private
         base.property :state,               String,   :writer => :private

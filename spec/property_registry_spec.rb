@@ -37,11 +37,20 @@ describe Videojuicer::Resource::PropertyRegistry do
         
         property :date, DateTime
       end
+      
+      class ::InvalidAttributeRegistry
+        
+        include Videojuicer::Resource::PropertyRegistry
+        
+        property :foo, String
+      end
+      
     end
     before(:each) do
       @example_registry = ::FooAttributeRegistry.new
       @example_private_prop_registry = ::PrivatePropertyRegistry.new
       @date_registry = ::DateRegistry.new
+      
     end
   
     it "registers an attribute with a type at the class scope" do
@@ -150,5 +159,15 @@ describe Videojuicer::Resource::PropertyRegistry do
       created.name.should == "name set"
       created.email.should == "gooooo"
     end
+    
+    it "allows you to set arbitrary attributes" do
+      lambda { ::InvalidAttributeRegistry.new({:bar => 'bar'}) }.should_not raise_error(NoMethodError)
+    end
+    
+    it "should store invalid attributes in a separate hash" do
+      invalid = ::InvalidAttributeRegistry.new({:bar => 'bar'})
+      invalid.invalid_attributes.should_not == {}
+    end
+    
   end
 end

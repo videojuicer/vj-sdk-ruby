@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.5.4"
+  s.version = "0.7.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
-  s.date = %q{2010-05-11}
+  s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
+  s.date = %q{2011-01-20}
   s.email = %q{dan@videojuicer.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/core_ext/object.rb",
      "lib/core_ext/string.rb",
      "lib/videojuicer.rb",
+     "lib/videojuicer/asset.rb",
      "lib/videojuicer/asset/audio.rb",
      "lib/videojuicer/asset/base.rb",
      "lib/videojuicer/asset/document.rb",
@@ -36,19 +37,16 @@ Gem::Specification.new do |s|
      "lib/videojuicer/asset/text.rb",
      "lib/videojuicer/asset/video.rb",
      "lib/videojuicer/campaign.rb",
-     "lib/videojuicer/campaign_policy.rb",
-     "lib/videojuicer/criterion/base.rb",
      "lib/videojuicer/criterion/date_range.rb",
      "lib/videojuicer/criterion/geolocation.rb",
      "lib/videojuicer/criterion/request.rb",
-     "lib/videojuicer/criterion/time.rb",
      "lib/videojuicer/criterion/week_day.rb",
+     "lib/videojuicer/insert.rb",
      "lib/videojuicer/oauth/multipart_helper.rb",
      "lib/videojuicer/oauth/proxy_factory.rb",
      "lib/videojuicer/oauth/request_proxy.rb",
      "lib/videojuicer/presentation.rb",
      "lib/videojuicer/preset.rb",
-     "lib/videojuicer/promo/base.rb",
      "lib/videojuicer/resource/base.rb",
      "lib/videojuicer/resource/collection.rb",
      "lib/videojuicer/resource/embeddable.rb",
@@ -56,12 +54,15 @@ Gem::Specification.new do |s|
      "lib/videojuicer/resource/inferrable.rb",
      "lib/videojuicer/resource/property_registry.rb",
      "lib/videojuicer/resource/relationships/belongs_to.rb",
+     "lib/videojuicer/resource/relationships/has.rb",
      "lib/videojuicer/resource/types.rb",
      "lib/videojuicer/seed.rb",
      "lib/videojuicer/session.rb",
      "lib/videojuicer/shared/configurable.rb",
      "lib/videojuicer/shared/exceptions.rb",
+     "lib/videojuicer/shared/liquid_helper.rb",
      "lib/videojuicer/user.rb",
+     "spec/asset_spec.rb",
      "spec/assets/audio_spec.rb",
      "spec/assets/document_spec.rb",
      "spec/assets/flash_spec.rb",
@@ -69,13 +70,11 @@ Gem::Specification.new do |s|
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
      "spec/belongs_to_spec.rb",
-     "spec/campaign_policy_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
      "spec/criterion/date_range_spec.rb",
      "spec/criterion/geolocation_spec.rb",
      "spec/criterion/request_spec.rb",
-     "spec/criterion/time_spec.rb",
      "spec/criterion/week_day_spec.rb",
      "spec/files/audio.mp3",
      "spec/files/document.js",
@@ -84,15 +83,13 @@ Gem::Specification.new do |s|
      "spec/files/image.jpg",
      "spec/files/text.txt",
      "spec/files/video.mov",
+     "spec/has_spec.rb",
      "spec/helpers/be_equal_to.rb",
      "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
+     "spec/insert_spec.rb",
      "spec/presentation_spec.rb",
      "spec/preset_spec.rb",
-     "spec/promos/audio_spec.rb",
-     "spec/promos/image_spec.rb",
-     "spec/promos/text_spec.rb",
-     "spec/promos/video_spec.rb",
      "spec/property_registry_spec.rb",
      "spec/request_proxy_spec.rb",
      "spec/seed_spec.rb",
@@ -111,33 +108,30 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/videojuicer/vj-sdk}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Videojuicer core-sdk}
   s.test_files = [
-    "spec/assets/audio_spec.rb",
+    "spec/asset_spec.rb",
+     "spec/assets/audio_spec.rb",
      "spec/assets/document_spec.rb",
      "spec/assets/flash_spec.rb",
      "spec/assets/image_spec.rb",
      "spec/assets/text_spec.rb",
      "spec/assets/video_spec.rb",
      "spec/belongs_to_spec.rb",
-     "spec/campaign_policy_spec.rb",
      "spec/campaign_spec.rb",
      "spec/collection_spec.rb",
      "spec/criterion/date_range_spec.rb",
      "spec/criterion/geolocation_spec.rb",
      "spec/criterion/request_spec.rb",
-     "spec/criterion/time_spec.rb",
      "spec/criterion/week_day_spec.rb",
+     "spec/has_spec.rb",
      "spec/helpers/be_equal_to.rb",
      "spec/helpers/spec_fixtures.rb",
      "spec/helpers/spec_helper.rb",
+     "spec/insert_spec.rb",
      "spec/presentation_spec.rb",
      "spec/preset_spec.rb",
-     "spec/promos/audio_spec.rb",
-     "spec/promos/image_spec.rb",
-     "spec/promos/text_spec.rb",
-     "spec/promos/video_spec.rb",
      "spec/property_registry_spec.rb",
      "spec/request_proxy_spec.rb",
      "spec/seed_spec.rb",
@@ -156,19 +150,22 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<json>, [">= 1.0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_runtime_dependency(%q<mash>, [">= 0.0.3"])
+      s.add_runtime_dependency(%q<liquid>, ["= 2.0.0"])
     else
       s.add_dependency(%q<json>, [">= 1.0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_dependency(%q<mash>, [">= 0.0.3"])
+      s.add_dependency(%q<liquid>, ["= 2.0.0"])
     end
   else
     s.add_dependency(%q<json>, [">= 1.0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
     s.add_dependency(%q<mash>, [">= 0.0.3"])
+    s.add_dependency(%q<liquid>, ["= 2.0.0"])
   end
 end
 

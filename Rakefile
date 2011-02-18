@@ -13,12 +13,13 @@ begin
     gem.summary = "Videojuicer core-sdk"
     gem.email = "dan@videojuicer.com"
     gem.homepage = "http://github.com/videojuicer/vj-sdk"
-    gem.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab"]
+    gem.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
     
     # Declare dependencies
     gem.add_dependency "json", ">= 1.0"
     gem.add_dependency "ruby-hmac", ">= 0.3.2"
     gem.add_dependency "mash", ">= 0.0.3"
+    gem.add_dependency "liquid", "2.0.0"
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"

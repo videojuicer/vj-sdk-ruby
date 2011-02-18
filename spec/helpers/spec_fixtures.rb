@@ -61,24 +61,29 @@ module Videojuicer
     }}
   end
   
-  class Campaign
+  class Insert
     include FixtureHelper
     set_attribute_proc {{
-      :name => /\w+/.gen
+      :campaign_id  => (Campaign.first.id rescue Campaign.gen.id),
+      :asset_type   => "com.videojuicer.core.asset.Audio",
+      :asset_id     => (Asset::Audio.first.id rescue Asset::Audio.gen.id),
+      :role         => 'overlay',
+      :user_id      => (User.first.id rescue User.gen.id)
     }}
   end
   
-  class Campaign::CampaignPolicy
+  class Campaign
     include FixtureHelper
     set_attribute_proc {{
-	    :campaign_id => Campaign.gen.id,
-	    :presentation_id => (Presentation.first.id rescue Presentation.gen.id)
+      :name => /\w+/.gen,
+      :insert_domain => "com.videojuicer.asset"
     }}
   end
   
   class Criterion::DateRange
     include FixtureHelper
     set_attribute_proc {{
+      :campaign_id => 1,
       :until => DateTime.send(:today) + 1,
       :from => DateTime.send(:today) - 1
     }}
@@ -87,6 +92,7 @@ module Videojuicer
   class Criterion::Geolocation
     include FixtureHelper
     set_attribute_proc {{
+      :campaign_id => 1,
       :city => "Columbus", 
       :region => "OH",
       :country => "United States"
@@ -96,6 +102,7 @@ module Videojuicer
   class Criterion::Request
     include FixtureHelper
     set_attribute_proc {{
+      :campaign_id => 1,
       :referrer => "http://www.google.com",
       :exclude => false
     }}
@@ -104,6 +111,7 @@ module Videojuicer
   class Criterion::Time
     include FixtureHelper
     set_attribute_proc {{
+      :campaign_id => 1,
       :from => (Time.now - 3600).strftime("%H:%M"),
       :until => (Time.now + 3600).strftime("%H:%M")
     }}
@@ -112,44 +120,9 @@ module Videojuicer
   class Criterion::WeekDay
     include FixtureHelper
     set_attribute_proc {{
+      :campaign_id => 1,
       :monday => true,
       :exclude => false
-    }}
-  end
-  
-  class Promo::Image
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "Thumbnail",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
-    }}
-  end
-  
-  class Promo::Audio
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "Voice Over",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
-    }}
-  end
-  
-  class Promo::Video
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "preroll",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
-    }}
-  end
-  
-  class Promo::Text
-    include FixtureHelper
-    set_attribute_proc {{
-      :role => "Description",
-      :href => "http://www.videojuicer.com",
-      :asset_id => 1
     }}
   end
   

@@ -119,6 +119,7 @@ shared_examples_for "a RESTFUL resource model" do
     describe "an existing record" do
       before(:all) do
         @record = @klass.gen
+        @record.valid?.should be_true
         @record.save.should be_true
       end
       
