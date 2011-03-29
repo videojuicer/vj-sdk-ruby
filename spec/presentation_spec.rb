@@ -19,6 +19,7 @@ describe Videojuicer::Presentation do
     
     it_should_behave_like "a RESTFUL resource model"
     it_should_behave_like "an embeddable"
+    it_should_behave_like "a taggable"
   end
   
   describe "fetching asset ids" do

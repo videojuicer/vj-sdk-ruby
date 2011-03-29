@@ -2,6 +2,7 @@ module Videojuicer
   class Presentation
     include Videojuicer::Resource
     include Videojuicer::Resource::Embeddable
+    include Videojuicer::Resource::Taggable
     include Videojuicer::Exceptions
     
     property :title,              String
