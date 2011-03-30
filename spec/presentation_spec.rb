@@ -111,6 +111,11 @@ describe Videojuicer::Presentation do
         @presentation.has_default_content?.should == false
       end
       
+      it "should return false if the document_content is nil" do
+        @presentation.document_content = nil
+        @presentation.has_default_content?.should == false
+      end
+      
     end
     
   end

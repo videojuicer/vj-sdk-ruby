@@ -69,7 +69,7 @@ module Videojuicer
     end
     
     def has_default_content?
-      return false if document_content.include? "<"
+      return false if document_content.nil? or document_content.include? "<"
       
       asset_ids
       return false if video_assets.length > 1
