@@ -160,6 +160,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_runtime_dependency(%q<liquid>, ["= 2.0.0"])
       s.add_runtime_dependency(%q<json>, ["= 1.4.6"])
+      s.add_runtime_dependency(%q<multipart-post>, ["~> 1.1.0"])
     else
       s.add_dependency(%q<merb-core>, ["= 1.1.0.pre"])
       s.add_dependency(%q<jeweler>, [">= 1.4.0"])
@@ -170,6 +171,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_dependency(%q<liquid>, ["= 2.0.0"])
       s.add_dependency(%q<json>, ["= 1.4.6"])
+      s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
     end
   else
     s.add_dependency(%q<merb-core>, ["= 1.1.0.pre"])
@@ -181,6 +183,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
     s.add_dependency(%q<liquid>, ["= 2.0.0"])
     s.add_dependency(%q<json>, ["= 1.4.6"])
+    s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
   end
 end
 
