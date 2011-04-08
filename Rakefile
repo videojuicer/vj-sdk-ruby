@@ -3,7 +3,7 @@ require 'bundler'
 require 'net/http'
 
 # BUNDLER TRANSFORM!
-require 'lib/bundler_runtime_patch' # Andre's OMG MEGA HAX to allow DataMapper to require successfully
+require File.expand_path('../lib/bundler_runtime_patch', __FILE__) # Andre's OMG MEGA HAX to allow DataMapper to require successfully
 Bundler.require :default, :vj_core_dependencies
 
 begin
