@@ -21,8 +21,18 @@ module Videojuicer
         self.limit = limit
       end
       
-      #I was unsure of where to put this, please suggest other alternatives.
-      def self.limit_from_page_number page, limit
+      # Provides an offset when given a page number
+      #
+      #
+      # @param [Integer] page
+      # @param [Integer] limit
+      #
+      #
+      # @return [Integer]
+      #
+      #
+      # @api public
+      def self.offset_from_page_number page, limit
         page = page.to_i
         return 0 if page == 1
         (page - 1) * limit.to_i
