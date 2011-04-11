@@ -1,100 +1,126 @@
-# Cribbed almost entirely from Merb's multipart request helper.
-# Thanks, Yehuda!
-
 module Videojuicer
   module OAuth
-    module Multipart
-  
-      require 'rubygems'
-      gem "mime-types"
-      require 'mime/types'
+    class Multipart
+      include Enumerable
 
-      class Param
-        attr_accessor :key, :value
-
-        # ==== Parameters
-        # key<~to_s>:: The parameter key.
-        # value<~to_s>:: The parameter value.
-        def initialize(key, value)
-          @key   = key
-          @value = value
-        end
-
-        # ==== Returns
-        # String:: The parameter in a form suitable for a multipart request.
-        def to_multipart
-          return %(Content-Disposition: form-data; name="#{key}"\r\n\r\n#{value}\r\n)
-        end
+      # Initialize a Multipart object
+      #
+      # @param [#each] params
+      #
+      # @return [undefined]
+      #
+      # @api private
+      def initialize(params = {})
+        @params = []
+        process_params(params)
       end
 
-      class FileParam
-        attr_accessor :key, :filename, :content
-
-        # ==== Parameters
-        # key<~to_s>:: The parameter key.
-        # filename<~to_s>:: Name of the file for this parameter.
-        # content<~to_s>:: Content of the file for this parameter.
-        def initialize(key, filename, content)
-          @key      = key
-          @filename = filename
-          @content  = content
-        end
-
-        # ==== Returns
-        # String::
-        #   The file parameter in a form suitable for a multipart request.
-        def to_multipart
-          return %(Content-Disposition: form-data; name="#{key}"; filename="#{filename}"\r\n) + "Content-Type: #{MIME::Types.type_for(@filename).first}\r\n\r\n" + content + "\r\n"
-        end
+      # Iterate over each parameter pair
+      #
+      # @example
+      #   multipart = Multipart.new(params)
+      #   multipart.each { |key, value| ... }
+      #
+      # @yield [key, value]
+      #
+      # @yieldparam [#to_s] key
+      #   the parameter key
+      # @yieldparam [Object] value
+      #   the parameter value
+      #
+      # @return [self]
+      #
+      # @api public
+      def each(&block)
+        @params.each(&block)
+        self
       end
 
-      class Post
-        BOUNDARY = '----------0xKhTmLbOuNdArY'
-        CONTENT_TYPE = "multipart/form-data, boundary=" + BOUNDARY
+    private
 
-        # ==== Parameters
-        # params<Hash>:: Optional params for the controller.
-        def initialize(params = {})
-          @multipart_params = []
-          push_params(params)
-        end
+      # Recursively build a list of parameters from a nested Hash
+      #
+      # @param [#each] params
+      #   the pair of parameter keys
+      # @param [#to_s] prefix
+      #   optional prefix to each parameter key
+      #
+      # @return [undefined]
+      #
+      # @api private
+      def process_params(params, prefix = nil)
+        params.each do |key, value|
+          param_key = prefix ? "#{prefix}[#{key}]" : key.to_s
 
-        # Saves the params in an array of multipart params as Param and
-        # FileParam objects.
-        #
-        # ==== Parameters
-        # params<Hash>:: The params to add to the multipart params.
-        # prefix<~to_s>:: An optional prefix for the request string keys.
-        def push_params(params, prefix = nil)
-          params.sort_by {|k| k.to_s}.each do |key, value|
-            param_key = prefix.nil? ? key : "#{prefix}[#{key}]"
-            if value.respond_to?(:read)
-              @multipart_params << FileParam.new(param_key, value.path, value.read)
-              value.rewind
-            else
-              if value.is_a?(Hash) || value.is_a?(Mash)
-                value.keys.each do |k|
-                  push_params(value, param_key)
-                end
-              else
-                @multipart_params << Param.new(param_key, value)
-              end
+          if value.respond_to?(:path)
+            append_file(param_key, value)
+          else
+            case value
+              when Hash  then append_hash(param_key, value)
+              when Array then append_array(param_key, value)
+              else            append_object(param_key, value)
             end
           end
         end
+      end
 
-        # ==== Returns
-        # Array[String, String]:: The query and the content type.
-        def to_multipart
-          # Split into FileParam and Param objects and leave FileParams to the end of the chain
-          file_params = @multipart_params.select {|p| p.is_a?(FileParam) }
-          regular_params = @multipart_params.select {|p| p.is_a?(Param) }
-          all_params = regular_params+file_params
-          query = all_params.collect { |param| "--" + BOUNDARY + "\r\n" + param.to_multipart }.join("") + "--" + BOUNDARY + "--"
-          return query, CONTENT_TYPE
+      # Append the nested hash parameters
+      #
+      # @param [#to_s] prefix
+      #
+      # @param [Hash] hash
+      #
+      # @return [undefined]
+      #
+      # @api private
+      def append_hash(prefix, hash)
+        process_params(hash, prefix)
+      end
+
+      # Append the nested array parameters
+      #
+      # @param [#to_s] prefix
+      #
+      # @param [Array] array
+      #
+      # @return [undefined]
+      #
+      # @api private
+      def append_array(prefix, array)
+        array.each_with_index do |value, index|
+          @params << [ "#{prefix}[#{index}]", value ]
         end
-      end 
-    
-    end
-  end
-end
+      end
+
+      # Append the file parameter
+      #
+      # @param [#to_s] key
+      #
+      # @param [#read] file
+      #
+      # @return [undefined]
+      #
+      # @api private
+      def append_file(key, file)
+        filename     = file.path
+        content_type = MIME::Types.type_for(filename).first
+
+        @params << [ key, UploadIO.new(file, content_type, filename) ]
+      end
+
+      # Append the parameter
+      #
+      # @param [#to_s] key
+      #
+      # @param [Object] object
+      #
+      # @return [undefined]
+      #
+      # @api private
+      def append_object(key, object)
+        @params << [ key, object ]
+      end
+
+    end # module Multipart
+  end # module OAuth
+end # module Videojuicer

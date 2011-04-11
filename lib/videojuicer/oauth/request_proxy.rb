@@ -53,49 +53,57 @@ module Videojuicer
       def make_request(method, host, port, path, params={})
         # Strip the files from the parameters to determine what, from the whole bundle, needs signing
         signature_params, multipart_params = split_by_signature_eligibility(params)
-        
+
+        query_string = nil
+
         if multipart_params.any?
           # Sign the params and include the as multipart
           multipart_params = flatten_params(
             authify_params(method, path, signature_params).deep_merge(multipart_params)
           )
-          query_string = ""
         else
           # Use the query string
           query_string = authified_query_string(method, path, signature_params)
         end
-        
-        # Generate the HTTP Request and handle the response
-        url = "#{host_stub(protocol, host, port)}#{path}"
-        request = request_class_for_method(method).new("#{path}?#{query_string}")        
-        # Generate the multipart body and headers
-        if multipart_params.any?          
-          post_body, content_type = Multipart::Post.new(multipart_params).to_multipart
-          request.content_length = post_body.length
-          request.content_type = content_type
-          request.body = post_body
+
+        uri = Addressable::URI.new(
+          :scheme => protocol,
+          :host   => host,
+          :port   => port,
+          :path   => path,
+          :query  => query_string
+        )
+
+        klass = request_class_for_method(method)
+
+        if multipart_params.any?
+          request = klass::Multipart.new(
+            uri.request_uri,
+            Videojuicer::OAuth::Multipart.new(multipart_params)
+          )
         else
-          # Send a content-length on POST and PUT to avoid an HTTP 411 response
+          request = klass.new(uri.request_uri)
+
           case method
           when :post, :put
-            request = request_class_for_method(method).new("#{path}")
-            request.content_type = "application/x-www-form-urlencoded"
-            request.body = query_string
+            # Send a content-length on POST and PUT to avoid an HTTP 411 response
+            query_string           = uri.query.to_s
+            request                = klass.new(uri.path)
+            request.content_type   = 'application/x-www-form-urlencoded'
             request.content_length = query_string.length
+            request.body           = query_string
           end
         end
-        
-        
-        begin
-          #response = HTTPClient.send(method, url, multipart_params)
-          response = Net::HTTP.start(host, port) {|http| http.request(request) }
-        rescue EOFError => e
-          raise "EOF error when accessing #{url.inspect}"
-        rescue Errno::ECONNREFUSED => e
-          raise "Could not connect to #{url.inspect}"
+
+        response = Net::HTTP.start(uri.host, uri.port) do |http|
+          http.request(request)
         end
-        
-        return handle_response(response, request)
+
+        handle_response(response, request)
+      rescue EOFError => e
+        raise "EOF error when accessing #{uri.inspect}"
+      rescue Errno::ECONNREFUSED => e
+        raise "Could not connect to #{uri.inspect}"
       end
       
       def host_stub(_protocol=protocol, _host=host, _port=port)
