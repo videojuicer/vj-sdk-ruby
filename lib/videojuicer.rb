@@ -5,7 +5,9 @@ require 'rubygems'
 require 'cgi'
 require 'json'
 require 'hmac-sha1'
+require 'mime/types'
 require 'net/http'
+require 'net/http/post/multipart'
 require 'liquid'
 
 # Core ext
