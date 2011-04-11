@@ -9,6 +9,7 @@ def gems(names, version)
 end
 
 # DataObjects, DataMapper and Merb
+gem "addressable"
 gem "jeweler", ">= 1.4.0"
 gem "rake", ">= 0.8.7"
 gem "mash", ">= 0.0.3"

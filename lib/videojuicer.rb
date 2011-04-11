@@ -2,6 +2,7 @@ $:.unshift File.dirname(__FILE__)     # For use/testing when no gem is installed
 
 # Gem and stdlib dependencies
 require 'rubygems'
+require 'addressable/uri'
 require 'cgi'
 require 'json'
 require 'hmac-sha1'
