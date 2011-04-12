@@ -20,6 +20,7 @@ require File.join(File.dirname(__FILE__), "..", "shared", "resource_spec")
 require File.join(File.dirname(__FILE__), "..", "shared", "embeddable_spec")
 require File.join(File.dirname(__FILE__), "..", "shared", "dependent_spec")
 require File.join(File.dirname(__FILE__), "..", "shared", "asset_spec")
+require File.join(File.dirname(__FILE__), "..", "shared", "taggable_spec")
 
 # Load the fixture helper
 require File.join(File.dirname(__FILE__), "spec_fixtures")
