@@ -120,7 +120,16 @@ module Videojuicer
         proxy_for(config).delete(resource_path)
       end
       
-      def to_json
+      # Converts model attributes and errors (if any) to a json string
+      #
+      # @param [Array] args
+      #
+      # @return [String]
+      #
+      #
+      # @api public
+      def to_json *args
+        p args
         JSON.generate({
           :attributes => @attributes,
           :errors     => errors
