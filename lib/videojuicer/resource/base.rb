@@ -129,7 +129,6 @@ module Videojuicer
       #
       # @api public
       def to_json *args
-        p args
         JSON.generate({
           :attributes => @attributes,
           :errors     => errors
