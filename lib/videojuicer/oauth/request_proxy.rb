@@ -22,6 +22,9 @@ module Videojuicer
       # See OAuth spec 1.0a section 9.1.2 for details.
       EXCLUDED_BASE_STRING_PORTS = [80, 443].freeze
       
+      # allow Net::HTTP requests to take up to 5 minutes
+      TIMEOUT = 60 * 5
+      
       include Videojuicer::Exceptions
       include Videojuicer::Configurable
             
@@ -96,6 +99,7 @@ module Videojuicer
         end
 
         response = Net::HTTP.start(uri.host, uri.port) do |http|
+          http.read_timeout = TIMEOUT
           http.request(request)
         end
 
