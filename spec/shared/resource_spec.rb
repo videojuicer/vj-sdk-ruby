@@ -163,5 +163,19 @@ shared_examples_for "a RESTFUL resource model" do
         lambda {@record.reload}.should raise_error(Videojuicer::Exceptions::NoResource)
       end
     end
+    
+    describe "klass#to_json" do
+      
+      before :each do
+        @record = @klass.new
+      end
+      
+      it "should provide a valid json string" do
+        @record.to_json.class.should == String
+        tmp = JSON.parse @record.to_json
+        tmp['attributes'].should_not be_nil
+        tmp['errors'].length.should == 0
+      end
+    end
   
 end

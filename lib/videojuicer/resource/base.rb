@@ -120,6 +120,13 @@ module Videojuicer
         proxy_for(config).delete(resource_path)
       end
       
+      def to_json
+        JSON.generate({
+          :attributes => @attributes,
+          :errors     => errors
+        })
+      end
+      
       module ClassMethods
         
         # Finds all objects matching the criteria. Also allows filterable methods.
