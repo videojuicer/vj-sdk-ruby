@@ -19,7 +19,7 @@ describe Videojuicer::Campaign do
     end
     
     it_should_behave_like "a RESTFUL resource model"
+    it_should_behave_like "a taggable"
   end
-  
   
 end

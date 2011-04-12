@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vj-sdk}
-  s.version = "0.7.4"
+  s.version = "0.7.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
@@ -54,6 +54,7 @@ Gem::Specification.new do |s|
     "lib/videojuicer/resource/property_registry.rb",
     "lib/videojuicer/resource/relationships/belongs_to.rb",
     "lib/videojuicer/resource/relationships/has.rb",
+    "lib/videojuicer/resource/taggable.rb",
     "lib/videojuicer/resource/types.rb",
     "lib/videojuicer/seed.rb",
     "lib/videojuicer/session.rb",
@@ -87,6 +88,7 @@ Gem::Specification.new do |s|
     "spec/helpers/spec_fixtures.rb",
     "spec/helpers/spec_helper.rb",
     "spec/insert_spec.rb",
+    "spec/multipart_spec.rb",
     "spec/presentation_spec.rb",
     "spec/preset_spec.rb",
     "spec/property_registry_spec.rb",
@@ -99,6 +101,7 @@ Gem::Specification.new do |s|
     "spec/shared/embeddable_spec.rb",
     "spec/shared/model_spec.rb",
     "spec/shared/resource_spec.rb",
+    "spec/shared/taggable_spec.rb",
     "spec/spec.opts",
     "spec/user_spec.rb",
     "spec/videojuicer_spec.rb",
@@ -128,6 +131,7 @@ Gem::Specification.new do |s|
     "spec/helpers/spec_fixtures.rb",
     "spec/helpers/spec_helper.rb",
     "spec/insert_spec.rb",
+    "spec/multipart_spec.rb",
     "spec/presentation_spec.rb",
     "spec/preset_spec.rb",
     "spec/property_registry_spec.rb",
@@ -140,6 +144,7 @@ Gem::Specification.new do |s|
     "spec/shared/embeddable_spec.rb",
     "spec/shared/model_spec.rb",
     "spec/shared/resource_spec.rb",
+    "spec/shared/taggable_spec.rb",
     "spec/user_spec.rb",
     "spec/videojuicer_spec.rb"
   ]
@@ -148,48 +153,42 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<merb-core>, ["= 1.1.0.pre"])
+      s.add_runtime_dependency(%q<addressable>, [">= 0"])
       s.add_runtime_dependency(%q<jeweler>, [">= 1.4.0"])
       s.add_runtime_dependency(%q<rake>, [">= 0.8.7"])
-      s.add_runtime_dependency(%q<rspec>, ["= 1.3.0"])
-      s.add_runtime_dependency(%q<mash>, [">= 0"])
+      s.add_runtime_dependency(%q<mash>, [">= 0.0.3"])
       s.add_runtime_dependency(%q<randexp>, [">= 0"])
-      s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
+      s.add_runtime_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_runtime_dependency(%q<liquid>, ["= 2.0.0"])
       s.add_runtime_dependency(%q<json>, ["= 1.4.6"])
-      s.add_runtime_dependency(%q<json>, [">= 1.0"])
-      s.add_runtime_dependency(%q<ruby-hmac>, [">= 0.3.2"])
-      s.add_runtime_dependency(%q<mash>, [">= 0.0.3"])
-      s.add_runtime_dependency(%q<liquid>, ["= 2.0.0"])
+      s.add_runtime_dependency(%q<multipart-post>, ["~> 1.1.0"])
+      s.add_runtime_dependency(%q<mime-types>, ["~> 1.16"])
+      s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
     else
-      s.add_dependency(%q<merb-core>, ["= 1.1.0.pre"])
+      s.add_dependency(%q<addressable>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 1.4.0"])
       s.add_dependency(%q<rake>, [">= 0.8.7"])
-      s.add_dependency(%q<rspec>, ["= 1.3.0"])
-      s.add_dependency(%q<mash>, [">= 0"])
+      s.add_dependency(%q<mash>, [">= 0.0.3"])
       s.add_dependency(%q<randexp>, [">= 0"])
-      s.add_dependency(%q<ruby-hmac>, [">= 0"])
+      s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_dependency(%q<liquid>, ["= 2.0.0"])
       s.add_dependency(%q<json>, ["= 1.4.6"])
-      s.add_dependency(%q<json>, [">= 1.0"])
-      s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
-      s.add_dependency(%q<mash>, [">= 0.0.3"])
-      s.add_dependency(%q<liquid>, ["= 2.0.0"])
+      s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
+      s.add_dependency(%q<mime-types>, ["~> 1.16"])
+      s.add_dependency(%q<rspec>, ["~> 1.3.0"])
     end
   else
-    s.add_dependency(%q<merb-core>, ["= 1.1.0.pre"])
+    s.add_dependency(%q<addressable>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 1.4.0"])
     s.add_dependency(%q<rake>, [">= 0.8.7"])
-    s.add_dependency(%q<rspec>, ["= 1.3.0"])
-    s.add_dependency(%q<mash>, [">= 0"])
+    s.add_dependency(%q<mash>, [">= 0.0.3"])
     s.add_dependency(%q<randexp>, [">= 0"])
-    s.add_dependency(%q<ruby-hmac>, [">= 0"])
+    s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
     s.add_dependency(%q<liquid>, ["= 2.0.0"])
     s.add_dependency(%q<json>, ["= 1.4.6"])
-    s.add_dependency(%q<json>, [">= 1.0"])
-    s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
-    s.add_dependency(%q<mash>, [">= 0.0.3"])
-    s.add_dependency(%q<liquid>, ["= 2.0.0"])
+    s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
+    s.add_dependency(%q<mime-types>, ["~> 1.16"])
+    s.add_dependency(%q<rspec>, ["~> 1.3.0"])
   end
 end
 

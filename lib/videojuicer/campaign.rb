@@ -1,6 +1,7 @@
 module Videojuicer
   class Campaign
     include Videojuicer::Resource
+    include Videojuicer::Resource::Taggable
     include Videojuicer::Exceptions
     
     property :name,             String

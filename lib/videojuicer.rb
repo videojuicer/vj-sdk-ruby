@@ -2,10 +2,13 @@ $:.unshift File.dirname(__FILE__)     # For use/testing when no gem is installed
 
 # Gem and stdlib dependencies
 require 'rubygems'
+require 'addressable/uri'
 require 'cgi'
 require 'json'
 require 'hmac-sha1'
+require 'mime/types'
 require 'net/http'
+require 'net/http/post/multipart'
 require 'liquid'
 
 # Core ext
@@ -22,6 +25,7 @@ require 'videojuicer/oauth/request_proxy'
 require 'videojuicer/oauth/proxy_factory'
 # Resource handling
 require 'videojuicer/resource/embeddable'
+require 'videojuicer/resource/taggable'
 require 'videojuicer/resource/types'
 require 'videojuicer/resource/relationships/belongs_to'
 require 'videojuicer/resource/relationships/has'

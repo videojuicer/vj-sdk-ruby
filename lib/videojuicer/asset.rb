@@ -4,7 +4,7 @@ module Videojuicer
       proxy = Videojuicer::OAuth::RequestProxy.new(Videojuicer.current_scope)
       
       if options[:page]
-        options[:offset] = Videojuicer::Resource::Collection.limit_from_page_number options.delete(:page), options[:limit]
+        options[:offset] = Videojuicer::Resource::Collection.offset_from_page_number options.delete(:page), options[:limit]
       end
       
       response = proxy.get("/assets", "asset" => options)

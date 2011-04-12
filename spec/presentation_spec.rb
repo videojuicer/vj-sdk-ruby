@@ -19,6 +19,7 @@ describe Videojuicer::Presentation do
     
     it_should_behave_like "a RESTFUL resource model"
     it_should_behave_like "an embeddable"
+    it_should_behave_like "a taggable"
   end
   
   describe "fetching asset ids" do
@@ -107,6 +108,11 @@ describe Videojuicer::Presentation do
       
       it "should return false if there are any other smil tags in the document" do
         @presentation.document_content = "{% video %}{% id 323 %}{% delivery progressive-only %}{% endvideo %}"
+        @presentation.has_default_content?.should == false
+      end
+      
+      it "should return false if the document_content is nil" do
+        @presentation.document_content = nil
         @presentation.has_default_content?.should == false
       end
       
