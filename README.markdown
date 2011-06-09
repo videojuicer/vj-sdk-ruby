@@ -103,3 +103,12 @@ You may also do one-off setup of the SDK as follows:
 								:token_secret=>@access_token["oauth_token_secret"]
 							)
 	Videojuicer::User.all #=> [<Videojuicer::User ................. >]
+	
+	
+To deploy new versions
+----------------------
+
+rake version:bump:(patch|minor|major)
+rake gemspec
+rake build
+gem push pkg/new_gem_file.gem
