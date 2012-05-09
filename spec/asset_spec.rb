@@ -6,12 +6,18 @@ describe Videojuicer::Asset do
     
     @klass = Videojuicer::Asset
     @assets = @klass.types.map do |t|
-      4.of { t.gen } << t.gen(:friendly_name => "to_filter")
+      
+      t.all.each { |a| a.destroy }
+      
+      10.of { t.gen } << t.gen(:friendly_name => "to_filter")
     end.flatten
   end
   
   after :all do
-    @assets.each { |a| a.destroy }
+    begin
+      @assets.each { |a| a.destroy }
+    rescue
+    end
   end
   
   describe "listing assets of all types" do

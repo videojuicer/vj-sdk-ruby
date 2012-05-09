@@ -2,6 +2,9 @@ require 'rubygems'
 require 'spec'
 require 'yaml'
 
+
+Bundler.require :development
+
 unless defined?(Mash)
   # Don't require Mash twice. It causes cranial trauma.
   require 'mash'
