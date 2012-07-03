@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'spec'
+#require 'spec'
 require 'yaml'
 
 
@@ -56,6 +56,6 @@ module SpecHelper
   
 end
 
-Spec::Runner.configure do |config|
-    config.include(SpecHelper)
-end
+#Spec::Runner.configure do |config|
+#    config.include(SpecHelper)
+#end

@@ -4,12 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{vj-sdk}
-  s.version = "0.7.9"
+  s.name = "vj-sdk"
+  s.version = "0.7.10"
+
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
-  s.date = %q{2011-04-12}
-  s.email = %q{dan@videojuicer.com}
+  s.date = "2012-05-09"
+  s.email = "dan@videojuicer.com"
   s.extra_rdoc_files = [
     "LICENSE",
     "README.markdown"
@@ -106,85 +107,48 @@ Gem::Specification.new do |s|
     "spec/videojuicer_spec.rb",
     "vj-sdk.gemspec"
   ]
-  s.homepage = %q{http://github.com/videojuicer/vj-sdk}
+  s.homepage = "http://github.com/videojuicer/vj-sdk"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.7.2}
-  s.summary = %q{Videojuicer core-sdk}
-  s.test_files = [
-    "spec/asset_spec.rb",
-    "spec/assets/audio_spec.rb",
-    "spec/assets/document_spec.rb",
-    "spec/assets/flash_spec.rb",
-    "spec/assets/image_spec.rb",
-    "spec/assets/text_spec.rb",
-    "spec/assets/video_spec.rb",
-    "spec/belongs_to_spec.rb",
-    "spec/campaign_spec.rb",
-    "spec/collection_spec.rb",
-    "spec/criterion/date_range_spec.rb",
-    "spec/criterion/geolocation_spec.rb",
-    "spec/criterion/request_spec.rb",
-    "spec/criterion/week_day_spec.rb",
-    "spec/has_spec.rb",
-    "spec/helpers/be_equal_to.rb",
-    "spec/helpers/spec_fixtures.rb",
-    "spec/helpers/spec_helper.rb",
-    "spec/insert_spec.rb",
-    "spec/multipart_spec.rb",
-    "spec/presentation_spec.rb",
-    "spec/preset_spec.rb",
-    "spec/property_registry_spec.rb",
-    "spec/request_proxy_spec.rb",
-    "spec/seed_spec.rb",
-    "spec/session_spec.rb",
-    "spec/shared/asset_spec.rb",
-    "spec/shared/configurable_spec.rb",
-    "spec/shared/dependent_spec.rb",
-    "spec/shared/embeddable_spec.rb",
-    "spec/shared/model_spec.rb",
-    "spec/shared/resource_spec.rb",
-    "spec/shared/taggable_spec.rb",
-    "spec/user_spec.rb",
-    "spec/videojuicer_spec.rb"
-  ]
+  s.rubygems_version = "1.8.24"
+  s.summary = "Videojuicer core-sdk"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<addressable>, [">= 0"])
-      s.add_runtime_dependency(%q<jeweler>, [">= 1.4.0"])
+      s.add_runtime_dependency(%q<jeweler>, ["~> 1.8.3"])
       s.add_runtime_dependency(%q<rake>, [">= 0.8.7"])
       s.add_runtime_dependency(%q<mash>, [">= 0.0.3"])
       s.add_runtime_dependency(%q<randexp>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_runtime_dependency(%q<liquid>, ["= 2.0.0"])
-      s.add_runtime_dependency(%q<json>, ["= 1.4.6"])
+      s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_runtime_dependency(%q<mime-types>, ["~> 1.16"])
       s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
     else
       s.add_dependency(%q<addressable>, [">= 0"])
-      s.add_dependency(%q<jeweler>, [">= 1.4.0"])
+      s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
       s.add_dependency(%q<rake>, [">= 0.8.7"])
       s.add_dependency(%q<mash>, [">= 0.0.3"])
       s.add_dependency(%q<randexp>, [">= 0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
       s.add_dependency(%q<liquid>, ["= 2.0.0"])
-      s.add_dependency(%q<json>, ["= 1.4.6"])
+      s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_dependency(%q<mime-types>, ["~> 1.16"])
       s.add_dependency(%q<rspec>, ["~> 1.3.0"])
     end
   else
     s.add_dependency(%q<addressable>, [">= 0"])
-    s.add_dependency(%q<jeweler>, [">= 1.4.0"])
+    s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
     s.add_dependency(%q<rake>, [">= 0.8.7"])
     s.add_dependency(%q<mash>, [">= 0.0.3"])
     s.add_dependency(%q<randexp>, [">= 0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
     s.add_dependency(%q<liquid>, ["= 2.0.0"])
-    s.add_dependency(%q<json>, ["= 1.4.6"])
+    s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
     s.add_dependency(%q<mime-types>, ["~> 1.16"])
     s.add_dependency(%q<rspec>, ["~> 1.3.0"])

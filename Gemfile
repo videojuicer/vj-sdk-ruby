@@ -10,7 +10,7 @@ end
 
 # DataObjects, DataMapper and Merb
 gem "addressable"
-gem "jeweler", ">= 1.4.0"
+gem "jeweler", "~> 1.8.3"
 gem "rake", ">= 0.8.7"
 gem "mash", ">= 0.0.3"
 gem "randexp"
