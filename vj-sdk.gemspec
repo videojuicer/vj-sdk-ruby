@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "vj-sdk"
-  s.version = "0.7.10"
+  s.version = "0.7.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
-  s.date = "2012-05-09"
+  s.date = "2012-09-12"
   s.email = "dan@videojuicer.com"
   s.extra_rdoc_files = [
     "LICENSE",
@@ -109,7 +109,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/videojuicer/vj-sdk"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.11"
   s.summary = "Videojuicer core-sdk"
 
   if s.respond_to? :specification_version then
@@ -126,7 +126,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_runtime_dependency(%q<mime-types>, ["~> 1.16"])
-      s.add_development_dependency(%q<rspec>, ["~> 1.3.0"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.0.0"])
     else
       s.add_dependency(%q<addressable>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
@@ -138,7 +138,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_dependency(%q<mime-types>, ["~> 1.16"])
-      s.add_dependency(%q<rspec>, ["~> 1.3.0"])
+      s.add_dependency(%q<rspec>, ["~> 2.0.0"])
     end
   else
     s.add_dependency(%q<addressable>, [">= 0"])
@@ -151,7 +151,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
     s.add_dependency(%q<mime-types>, ["~> 1.16"])
-    s.add_dependency(%q<rspec>, ["~> 1.3.0"])
+    s.add_dependency(%q<rspec>, ["~> 2.0.0"])
   end
 end
 
