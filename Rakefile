@@ -2,10 +2,6 @@ require 'rubygems'
 require 'bundler'
 require 'net/http'
 
-# BUNDLER TRANSFORM!
-require File.expand_path('../lib/bundler_runtime_patch', __FILE__) # Andre's OMG MEGA HAX to allow DataMapper to require successfully
-Bundler.require :default, :vj_core_dependencies
-
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
