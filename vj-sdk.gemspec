@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
     "README.markdown"
   ]
   s.files = [
+    ".rspec",
     "Gemfile",
     "LICENSE",
     "README.markdown",
@@ -105,6 +106,7 @@ Gem::Specification.new do |s|
     "spec/user_spec.rb",
     "spec/videojuicer_spec.rb",
     "vj-sdk-0.7.11.gem",
+    "vj-sdk-0.7.13.gem",
     "vj-sdk.gemspec"
   ]
   s.homepage = "http://github.com/videojuicer/vj-sdk"
