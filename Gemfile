@@ -1,4 +1,4 @@
-source :gemcutter
+source "http://rubygems.org"
 
 # http://github.com/carlhuda/bundler/issues/#issue/107
 # - do not change unless lib/bundler_runtime_patch tested / defunct
