@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "vj-sdk"
-  s.version = "0.7.13"
+  s.version = "0.7.14"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
@@ -102,7 +102,6 @@ Gem::Specification.new do |s|
     "spec/shared/model_spec.rb",
     "spec/shared/resource_spec.rb",
     "spec/shared/taggable_spec.rb",
-    "spec/spec.opts",
     "spec/user_spec.rb",
     "spec/videojuicer_spec.rb",
     "vj-sdk-0.7.11.gem",
@@ -123,7 +122,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<mash>, [">= 0.0.3"])
       s.add_runtime_dependency(%q<randexp>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0.3.2"])
-      s.add_runtime_dependency(%q<liquid>, ["= 2.0.0"])
+      s.add_runtime_dependency(%q<liquid>, [">= 2.4.0"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_runtime_dependency(%q<mime-types>, ["~> 1.16"])
@@ -135,7 +134,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<mash>, [">= 0.0.3"])
       s.add_dependency(%q<randexp>, [">= 0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
-      s.add_dependency(%q<liquid>, ["= 2.0.0"])
+      s.add_dependency(%q<liquid>, [">= 2.4.0"])
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_dependency(%q<mime-types>, ["~> 1.16"])
@@ -148,7 +147,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<mash>, [">= 0.0.3"])
     s.add_dependency(%q<randexp>, [">= 0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0.3.2"])
-    s.add_dependency(%q<liquid>, ["= 2.0.0"])
+    s.add_dependency(%q<liquid>, [">= 2.4.0"])
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
     s.add_dependency(%q<mime-types>, ["~> 1.16"])
