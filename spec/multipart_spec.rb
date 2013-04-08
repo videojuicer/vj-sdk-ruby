@@ -1,4 +1,4 @@
-require 'helpers/spec_helper'
+require "helpers/spec_helper"
 
 describe Videojuicer::OAuth::Multipart do
   describe '.new' do

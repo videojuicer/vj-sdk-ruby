@@ -16,14 +16,15 @@ rescue LoadError
   raise "The Randexp gem is required in order to run the test suites, but it is not required to use the SDK in production environments. To run the tests, please `sudo gem install randexp`"
 end
 
-require File.join(File.dirname(__FILE__), "..", "..", "lib", "videojuicer")
-require File.join(File.dirname(__FILE__), "..", "shared", "configurable_spec")
-require File.join(File.dirname(__FILE__), "..", "shared", "model_spec")
-require File.join(File.dirname(__FILE__), "..", "shared", "resource_spec")
-require File.join(File.dirname(__FILE__), "..", "shared", "embeddable_spec")
-require File.join(File.dirname(__FILE__), "..", "shared", "dependent_spec")
-require File.join(File.dirname(__FILE__), "..", "shared", "asset_spec")
-require File.join(File.dirname(__FILE__), "..", "shared", "taggable_spec")
+require "lib/videojuicer"
+
+require "shared/configurable"
+require "shared/model"
+require "shared/resource"
+require "shared/embeddable"
+require "shared/dependent"
+require "shared/asset"
+require "shared/taggable"
 
 # Load the fixture helper
 require File.join(File.dirname(__FILE__), "spec_fixtures")
@@ -56,6 +57,6 @@ module SpecHelper
   
 end
 
-#Spec::Runner.configure do |config|
-#    config.include(SpecHelper)
-#end
+RSpec.configure do |config|
+    config.include(SpecHelper)
+end

@@ -83,7 +83,7 @@ module Videojuicer
       
       # Takes a response from the API and performs the appropriate actions.
       def validate_response(response)
-        body = response.body
+        body = (response.is_a?(Hash) ? response : response.body)
         attribs = (body.is_a?(Hash))? body : JSON.parse(body) rescue raise(JSON::ParserError, "Could not parse #{body}: \n\n #{body}")
         attribs.each do |prop, value|
           next if (prop == "id") and (value.to_i < 1)

@@ -13,5 +13,5 @@ gem "multipart-post", "~> 1.1.0"
 gem "mime-types", "~> 1.16"
 
 group :development do
-  gem "rspec", "~> 2.0.0"
+  gem "rspec", "= 2.0.0"
 end

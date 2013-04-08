@@ -2,6 +2,8 @@ require 'rubygems'
 require 'bundler'
 require 'net/http'
 
+require 'spec/helpers/spec_helper'
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
@@ -16,9 +18,8 @@ rescue LoadError
 end
 
 require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new do |t|
-  t.pattern = "./spec/**/*_spec.rb" # don't need this, it's default.
-  # Put spec opts in a file named .rspec in root
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = "./spec/**/*_spec.rb"
 end
 
 namespace :spec do
@@ -41,7 +42,7 @@ rescue LoadError
   end
 end
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   if File.exist?('VERSION.yml')
     config = YAML.load(File.read('VERSION.yml'))

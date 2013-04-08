@@ -39,6 +39,5 @@ module Videojuicer
     def remove_role(*symbols)
       symbols.each {|r| proxy_for(config).post(resource_path(:remove_role), :role=>r) }
     end
-    
   end
 end

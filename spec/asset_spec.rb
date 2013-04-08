@@ -1,6 +1,7 @@
-require File.join(File.dirname(__FILE__), "helpers",  "spec_helper")
+require "helpers/spec_helper"
 
 describe Videojuicer::Asset do
+
   before :all do
     configure_test_settings
     
