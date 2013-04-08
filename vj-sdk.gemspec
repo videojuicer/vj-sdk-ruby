@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "vj-sdk"
-  s.version = "0.7.14"
+  s.version = "0.8.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["danski", "thejohnny", "knowtheory", "sixones", "btab", "lamp"]
-  s.date = "2012-09-12"
+  s.date = "2013-04-08"
   s.email = "dan@videojuicer.com"
   s.extra_rdoc_files = [
     "LICENSE",
@@ -96,13 +96,13 @@ Gem::Specification.new do |s|
     "spec/request_proxy_spec.rb",
     "spec/seed_spec.rb",
     "spec/session_spec.rb",
-    "spec/shared/asset_spec.rb",
-    "spec/shared/configurable_spec.rb",
-    "spec/shared/dependent_spec.rb",
-    "spec/shared/embeddable_spec.rb",
-    "spec/shared/model_spec.rb",
-    "spec/shared/resource_spec.rb",
-    "spec/shared/taggable_spec.rb",
+    "spec/shared/asset.rb",
+    "spec/shared/configurable.rb",
+    "spec/shared/dependent.rb",
+    "spec/shared/embeddable.rb",
+    "spec/shared/model.rb",
+    "spec/shared/resource.rb",
+    "spec/shared/taggable.rb",
     "spec/user_spec.rb",
     "spec/videojuicer_spec.rb",
     "vj-sdk-0.7.11.gem",
@@ -111,7 +111,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/videojuicer/vj-sdk"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
+  s.rubygems_version = "1.8.15"
   s.summary = "Videojuicer core-sdk"
 
   if s.respond_to? :specification_version then
@@ -128,7 +128,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_runtime_dependency(%q<mime-types>, ["~> 1.16"])
-      s.add_development_dependency(%q<rspec>, ["~> 2.0.0"])
+      s.add_development_dependency(%q<rspec>, ["= 2.0.0"])
     else
       s.add_dependency(%q<addressable>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
@@ -140,7 +140,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
       s.add_dependency(%q<mime-types>, ["~> 1.16"])
-      s.add_dependency(%q<rspec>, ["~> 2.0.0"])
+      s.add_dependency(%q<rspec>, ["= 2.0.0"])
     end
   else
     s.add_dependency(%q<addressable>, [">= 0"])
@@ -153,7 +153,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<multipart-post>, ["~> 1.1.0"])
     s.add_dependency(%q<mime-types>, ["~> 1.16"])
-    s.add_dependency(%q<rspec>, ["~> 2.0.0"])
+    s.add_dependency(%q<rspec>, ["= 2.0.0"])
   end
 end
 
